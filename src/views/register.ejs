@@ -1,0 +1,39 @@
+<%- include('partials/_head') %>
+<%- include('partials/_navbar') %>
+
+<main class="cadastro-container">
+  <div class="cadastro-card">
+    <a class="fechar-popup" href="/" aria-label="Fechar e voltar">✕</a>
+
+    <div class="topo-cadastro">
+      <div class="logo-cadastro">
+        <a href="/" aria-label="Página inicial">
+          <img src="/assets/logo.png" alt="Receita Tech" />
+        </a>
+      </div>
+
+      <div class="titulos-cadastro">
+        <h1>Receita Tech</h1>
+        <h2>Cadastro de Usuário</h2>
+      </div>
+    </div>
+
+    <form id="form-cadastro" novalidate>
+      <label for="nome">NOME</label>
+      <input type="text" id="nome" name="nome" placeholder="Nome do usuário" required />
+
+      <label for="email">E-MAIL</label>
+      <input type="email" id="email" name="email" placeholder="E-mail do usuário" required />
+
+      <label for="senha">SENHA</label>
+      <input type="password" id="senha" name="senha" placeholder="Defina a senha" required minlength="6" />
+
+      <button type="submit" class="btn-cadastrar">Cadastrar</button>
+      <p class="login-link">Já tem conta? <a href="/login">Entrar</a></p>
+    </form>
+  </div>
+</main>
+
+<%- include('partials/_footer') %>
+
+

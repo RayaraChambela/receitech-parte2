@@ -1,0 +1,169 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #FFE3CD;
+    font-family: 'Montserrat', sans-serif;
+    color: #5B5B5B;
+    padding: 1rem;
+}
+
+#container {
+    background-color: #FEF6F0;
+    width: 520px;
+    max-width: 100%;
+    height: auto;
+    padding: 2rem;
+    box-sizing: border-box;
+    border-radius: 20px;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.logo-titulo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    justify-content: center;
+}
+
+.logo-titulo img {
+    width: 60px;
+    height: auto;
+}
+
+.logo-titulo h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #5B5B5B;
+    margin: 0;
+}
+
+h2 {
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+    margin: 0.5rem 0 1.5rem;
+    color: #5B5B5B;
+}
+
+#form-centralizar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+
+label {
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+    color: #5B5B5B;
+}
+
+.form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    width: 100%;
+    padding: 0.5rem 0.8rem;
+    border-radius: 8px;
+    border: 1px solid #e6e6e6;
+    background-color: #fff;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    color: #5B5B5B;
+}
+
+input::placeholder {
+    color: #BBBBBB;
+}
+
+
+button {
+    background-color: #FEC89A;
+    color: #5B5B5B;
+    font-weight: 600;
+    width: 160px;
+    height: 45px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.2s ease;
+}
+
+button:hover {
+    background-color: #fdb77e;
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.875rem;
+}
+
+.login-link a {
+    color: #4b4bff;
+    text-decoration: none;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+#container {
+    position: relative;
+}
+
+.fechar-popup {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 1.5rem;
+    color: var(--text-color);
+    cursor: pointer;
+    z-index: 10;
+}
+
+#mensagem-erro {
+    color: red;
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.875rem;
+}
+
+
+/* Responsividade */
+@media (max-width: 600px) {
+    #container {
+        width: 100%;
+        padding: 1.5rem;
+    }
+
+    .logo-titulo {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .logo-titulo img {
+        width: 50px;
+    }
+
+    .logo-titulo h1 {
+        font-size: 1.3rem;
+    }
+
+    button {
+        width: 100%;
+    }
+}

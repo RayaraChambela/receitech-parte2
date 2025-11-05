@@ -1,0 +1,231 @@
+:root {
+  --bg-color: #FFE3CD;
+  --navbar-color: #FEC89A;
+  --search-bg: #FEF6F0;
+  --text-color: #5B5B5B;
+  --placeholder: #BBBBBB;
+  --lighter-grey: #e6e6e6;
+
+  --font-title: 2rem;
+  --font-subtitle: 1.5rem;
+  --font-regular: 1rem;
+  --font-navbar: 0.95rem;
+  --font-placeholder: 0.875rem;
+  --font-small: 0.75rem;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+html, body {
+  height: 100vh;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+
+p {
+  color: var(--text-color);
+}
+
+main {
+  flex: 1;
+}
+
+.voltar-container {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  z-index: 5;
+}
+
+.voltar {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.voltar img {
+  width: 25px;
+}
+
+/* =========================
+   RECEITAS EM GRID
+========================= */
+.receitas-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.receita-card {
+  position: relative;
+  width: 300px;
+  height: 380px;
+  overflow: hidden;
+  border-radius: 0;
+  flex-shrink: 0;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.receita-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.receita-imagem {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.receita-info {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 3rem 1rem 2rem 1rem;
+  text-align: center;
+  color: white;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.818), transparent);
+}
+
+.receita-info h3 {
+  margin-top: 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.tempo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  font-size: var(--font-small);
+}
+
+.tempo img {
+  width: 16px;
+  height: 16px;
+}
+
+/* =========================
+   CATEGORIAS
+========================= */
+.categorias-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  padding: 2rem 2rem 2.5rem 2rem;
+}
+
+.categoria {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+}
+
+.categoria img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border: none;
+  outline: none;
+}
+
+.btn-categoria {
+  background: none;
+  border: none;
+  outline: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.btn-categoria:hover {
+  transform: scale(1.1);
+}
+
+.btn-categoria img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-categoria:focus {
+  outline: none;
+}
+
+/* =========================
+   RESPONSIVIDADE
+========================= */
+@media (max-width: 1330px) {
+  .receitas-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 300px);
+    justify-content: center;
+    column-gap: 1.5rem;
+    justify-items: center;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 658px) {
+  .receitas-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 140px); /* Largura fixa dos cards */
+    justify-content: center; /* Centraliza o grid */
+    column-gap: 0.5rem; /* Espaço entre os dois cards */
+    row-gap: 1rem;
+    padding: 1rem 0;
+  }
+
+  .receita-card {
+    width: 140px;
+    height: 180px;
+  }
+
+  .receita-info {
+    padding: 2rem 0.5rem 1rem 0.5rem;
+  }
+
+  .receita-info h3 {
+    font-size: 0.75rem;
+  }
+
+  .tempo {
+    font-size: 0.65rem;
+  }
+
+  .tempo img {
+    width: 14px;
+    height: 14px;
+  }
+
+  .categoria img, .btn-categoria img {
+    width: 60px;
+    height: 60px;
+  }
+}

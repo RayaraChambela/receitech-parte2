@@ -1,0 +1,44 @@
+<%- include('partials/_head') %>
+<%- include('partials/_navbar') %>
+
+<main id="container">
+  <a class="fechar-popup" href="/" aria-label="Fechar e voltar">✕</a>
+
+  <div class="logo-titulo">
+    <a href="/" aria-label="Página inicial">
+      <img src="/assets/logo.png" alt="Receita Tech">
+    </a>
+    <div id="titulo">
+      <h1>Receita Tech</h1>
+    </div>
+  </div>
+
+  <div id="form-centralizar">
+    <form id="form-login" novalidate>
+      <h2>Acesse sua conta</h2>
+
+      <div class="form">
+        <label for="login">LOGIN (e-mail ou nome)</label>
+        <input type="text" id="login" placeholder="Digite seu e-mail ou nome" required>
+      </div>
+
+      <div class="form">
+        <label for="senha">SENHA</label>
+        <input type="password" id="senha" placeholder="Sua senha" required>
+      </div>
+
+      <div class="botao-container">
+        <button type="submit">Login</button>
+      </div>
+    </form>
+  </div>
+
+  <p id="mensagem-erro"></p>
+</main>
+
+<%- include('partials/_footer') %>
+
+
+<link rel="stylesheet" href="/css/login.css">
+
+<script src="/js/login.js" defer></script>

@@ -1,0 +1,41 @@
+<nav class="navbar">
+  <div class="container">
+    <a href="/" class="logo-link" aria-label="Página inicial">
+      <img class="logo" src="/assets/logo.svg" alt="Web Receitas">
+    </a>
+
+    <div class="search-container">
+      <input
+        id="campo-pesquisa"
+        type="search"
+        placeholder="Busque por receitas, ingredientes..."
+        aria-label="Buscar receitas"
+        autocomplete="off"
+      />
+
+      <div class="categorias-dropdown">
+        <button
+          id="dropdownMenu2"
+          class="dropdown-toggle"
+          type="button"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          Categorias
+        </button>
+
+      
+        <div id="categorias-menu" class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
+       
+         
+        </div>
+      </div>
+    </div>
+
+    <div class="user-wrapper">
+      <a class="user-icon" href="/login" title="Perfil / Login" aria-label="Perfil / Login">
+        <img src="/assets/user-placeholder.png" alt="Usuário">
+      </a>
+    </div>
+  </div>
+</nav>
