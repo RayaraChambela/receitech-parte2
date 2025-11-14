@@ -3,10 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title><%= pageTitle || 'Receita Tech' %></title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet"/>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Usa sempre "title" vindo do app.js -->
+    <title><%= title || 'Receita Tech' %></title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    >
 
     <link rel="stylesheet" href="/css/home.css" />
     <link rel="stylesheet" href="/css/navbar.css">
@@ -15,34 +23,68 @@
   <body>
     <header class="navbar">
       <div class="container">
-        <a href="/"><img src="/assets/logo-branca.png" alt="Logo Receita Tech" class="logo" /></a>
+        <a href="/">
+          <img src="/assets/logo-branca.png" alt="Logo Receita Tech" class="logo" />
+        </a>
+
         <div class="user-wrapper">
           <div class="user-icon">
-            <a href="#" id="user-link"><img src="/assets/icon-perfil.png" alt="Usuário" class="perfil-navbar" /></a>
+            <!-- JS decide se vai pra /login ou /perfil -->
+            <a href="#" id="user-link">
+              <img src="/assets/icon-perfil.png" alt="Usuário" class="perfil-navbar" />
+            </a>
           </div>
         </div>
+
         <div class="search-container">
           <div class="dropdown categorias-dropdown">
-            <button class="dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+            <button
+              class="dropdown-toggle"
+              type="button"
+              id="dropdownMenu2"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
               Categorias
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
               <% (categorias || []).forEach(function(c){ %>
-                <li><button class="dropdown-item" type="button" data-categoria="<%= c %>"><%= c %></button></li>
+                <li>
+                  <button
+                    class="dropdown-item"
+                    type="button"
+                    data-categoria="<%= c %>"
+                  >
+                    <%= c %>
+                  </button>
+                </li>
               <% }); %>
             </ul>
           </div>
-          <input type="text" id="campo-pesquisa" placeholder="Pesquise a sua receita..." />
+
+          <input
+            type="text"
+            id="campo-pesquisa"
+            placeholder="Pesquise a sua receita..."
+          />
         </div>
       </div>
     </header>
 
     <main>
-    
+      <!-- GRID DE RECEITAS -->
       <section class="receitas-grid">
         <% (receitas || []).forEach(function(r){ %>
-          <a class="receita-card" href="/receita/<%= r.id %>" data-categoria="<%= r.categoria || '' %>">
-            <img src="<%= r.imagem %>" alt="<%= r.titulo %>" class="receita-imagem" />
+          <a
+            class="receita-card"
+            href="/receita/<%= r.id %>"
+            data-categoria="<%= r.categoria || '' %>"
+          >
+            <img
+              src="<%= r.imagem %>"
+              alt="<%= r.titulo %>"
+              class="receita-imagem"
+            />
             <div class="receita-info">
               <h3><%= r.titulo %></h3>
               <div class="tempo">
@@ -54,10 +96,9 @@
         <% }); %>
       </section>
 
-      
+      <!-- CATEGORIAS EM BOLINHAS -->
       <section class="categorias-container">
-        <% 
-          // Mapeia imagem por categoria para evitar ternário dentro do atributo
+        <%
           var catImg = {
             'Sobremesas': 'categoria-sobremesa.png',
             'Almoço': 'categoria-almoco.png',
@@ -68,7 +109,10 @@
         <% (categorias || []).forEach(function(c){ %>
           <div class="categoria bolinha-categoria" data-categoria="<%= c %>">
             <button class="btn-categoria">
-              <img src="/assets/<%= catImg[c] || 'categoria-lanche.png' %>" alt="<%= c %>" />
+              <img
+                src="/assets/<%= catImg[c] || 'categoria-lanche.png' %>"
+                alt="<%= c %>"
+              />
               <p><%= c %></p>
             </button>
           </div>
@@ -80,7 +124,6 @@
       <p>&copy; 2025 Receita Tech. Todos os direitos reservados.</p>
     </footer>
 
-    
     <script src="/js/index.js"></script>
     <script src="/js/categorias.js"></script>
     <script src="/js/auth.js"></script>

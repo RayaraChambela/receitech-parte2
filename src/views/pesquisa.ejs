@@ -1,0 +1,18 @@
+<%- include('partials/_head') %>
+<%- include('partials/_navbar') %>
+
+<main style="position:relative;">
+  <div class="voltar-container">
+    <button class="voltar" onclick="window.history.back()" aria-label="Voltar">
+      <img src="/assets/setinha-cinza.svg" alt="Voltar" width="25" height="25">
+    </button>
+  </div>
+
+  <h2 id="titulo-pesquisa">Resultados da Pesquisa:</h2>
+  <div id="resultados" class="resultados-container"></div>
+</main>
+
+<%- include('partials/_footer') %>
+
+<link rel="stylesheet" href="/css/pesquisa.css">
+<script src="/js/resultados-pesquisa.js" defer></script>

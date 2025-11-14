@@ -1,63 +1,59 @@
-async function sha256(text) {
-  const enc = new TextEncoder().encode(text);
-  const buf = await crypto.subtle.digest('SHA-256', enc);
-  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
-}
+// public/js/cadastro.js
 
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('form-cadastro');
+  const msgErro = document.getElementById('mensagem-erro-cadastro');
+
   if (!form) return;
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const nome = document.getElementById('nome').value.trim();
-    const email = document.getElementById('email').value.trim().toLowerCase();
-    const senha = document.getElementById('senha').value;
+    const email = document.getElementById('email').value.trim();
+    const senha = document.getElementById('senha').value.trim();
+
+    msgErro.textContent = '';
 
     if (!nome || !email || !senha) {
-      alert('Preencha todos os campos');
+      msgErro.textContent = 'Preencha todos os campos.';
       return;
     }
+
     if (senha.length < 6) {
-      alert('A senha deve ter pelo menos 6 caracteres');
+      msgErro.textContent = 'A senha deve ter pelo menos 6 caracteres.';
       return;
     }
 
     try {
-      const passwordHash = await sha256(senha);
+      const res = await fetch('/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: nome,
+          email,
+          password: senha,
+        }),
+      });
 
-      const users = JSON.parse(localStorage.getItem('users') || '[]');
-      const exists = users.some(u => u.email === email);
-      if (exists) {
-        alert('Este e-mail já está cadastrado.');
+      const data = await res.json();
+
+      if (!res.ok) {
+        msgErro.textContent = data.error || 'Erro ao cadastrar usuário.';
         return;
       }
 
-      const novoUsuario = {
-        id: Date.now(),
-        nome,
-        email,
-        passwordHash,     
-        fotoPerfil: '/assets/user-placeholder.png'
-      };
+      // Salva token + usuário no localStorage
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('usuario', JSON.stringify(data.user));
 
-      users.push(novoUsuario);
-      localStorage.setItem('users', JSON.stringify(users));
-
-      const token = btoa(`${email}.${Date.now()}`);
-      localStorage.setItem('authToken', token);
-      localStorage.setItem('usuario', JSON.stringify({
-        id: novoUsuario.id,
-        nome: novoUsuario.nome,
-        email: novoUsuario.email,
-        fotoPerfil: novoUsuario.fotoPerfil
-      }));
-
+      // Vai direto pro perfil depois de cadastrar
       window.location.href = '/perfil';
     } catch (err) {
-      console.error(err);
-      alert('Ocorreu um erro ao cadastrar. Tente novamente.');
+      console.error('Erro no cadastro:', err);
+      msgErro.textContent = 'Erro ao conectar com o servidor.';
     }
   });
 });
