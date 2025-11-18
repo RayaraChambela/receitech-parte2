@@ -9,7 +9,7 @@ CREATE TABLE users (
   name         VARCHAR(100) NOT NULL,
   email        VARCHAR(150) NOT NULL UNIQUE,
   password_hash VARCHAR(255) NOT NULL, -- bcrypt
-  avatar_url   VARCHAR(255) NULL,
+  avatar_url   VARCHAR(255) NULL DEFAULT '/assets/icon-img-perfil.png',
   created_at   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;

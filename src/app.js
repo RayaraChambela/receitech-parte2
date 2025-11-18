@@ -7,6 +7,7 @@ const { Recipe, Category } = require('./db');
 const recipeRoutes = require('./routes/recipe.routes');
 const categoryRoutes = require('./routes/category.routes');
 const authRoutes = require('./routes/auth.routes');
+const usuarioRoutes = require('src/routes/usuarioRoutes');
 
 const app = express();
 
@@ -58,6 +59,7 @@ app.get('/perfil', (req, res) => {
 app.use('/auth', authRoutes);
 app.use('/receitas', recipeRoutes);
 app.use('/categorias', categoryRoutes);
+app.use('/usuario', usuarioRoutes);
 
 // 404 simples (pra não quebrar tentando renderizar view 404 inexistente)
 app.use((req, res) => {

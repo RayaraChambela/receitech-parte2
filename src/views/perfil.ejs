@@ -1,100 +1,127 @@
 <%- include('partials/_head') %>
-<%- include('partials/_navbar') %>
 
-<main class="perfil-container" style="position:relative;">
+<link rel="stylesheet" href="/css/perfil.css">
+<link rel="stylesheet" href="/css/navbar.css">
+<link rel="stylesheet" href="/css/footer.css">
+
+<body>
+  <!-- BOTÃO VOLTAR IGUAL AO PROJETO ANTIGO -->
   <div class="voltar-container">
-    <button class="voltar" onclick="window.history.back()" aria-label="Voltar">
+    <button class="voltar" onclick="window.history.back()">
       <img src="/assets/setinha-cinza.svg" alt="Voltar" width="25" height="25">
     </button>
   </div>
 
-  <div class="perfil-banner">
-    <img src="/assets/img-fundo-perfil.png" alt="banner" id="banner">
-  </div>
+  <!-- NAVBAR ANTIGA VIA PARTIAL -->
+  <%- include('partials/_navbar') %>
 
-  <div class="perfil-content">
-   
-    <div class="perfil-foto">
-      <img src="/assets/icon-img-perfil.png" alt="Foto de perfil" id="img-perfil">
-      <button class="camera-btn" id="btn-open-foto">
-        <img src="/assets/icon-camera.png" alt="Câmera" class="img-camera">
-      </button>
+  <!-- PERFIL -->
+  <main class="perfil-container">
+    <div class="perfil-banner">
+      <img src="/assets/img-fundo-perfil.png" alt="banner" id="banner">
     </div>
 
-  
-    <div class="popup-overlay" id="popup-foto">
-      <div class="popup">
-        <div id="navbar-popup">
-          <div class="centered-text">Editar Foto de Perfil</div>
-          <button class="btn-fechar" id="close-foto">
-            <img src="/assets/icon-sair.png" alt="Sair" class="img-btn-sair">
-          </button>
-        </div>
+    <div class="perfil-content">
+      <div class="perfil-foto">
+        <img src="/assets/icon-img-perfil.png" alt="Foto de perfil" id="img-perfil">
+        <button class="camera-btn" id="btn-open-foto">
+          <img src="/assets/icon-camera.png" alt="Câmera" class="img-camera">
+        </button>
+      </div>
 
-        <input type="file" id="imagem" class="input-arquivo" accept="image/*">
-        <label for="imagem" class="label-imagem">+ Inserir Imagem</label>
+      <!-- POPUP FOTO (igual antigo, só ajustando paths) -->
+      <div class="popup-overlay" id="popup-foto">
+        <div class="popup">
+          <div id="navbar-popup">
+            <div class="centered-text">Editar Foto de Perfil</div>
+            <button class="btn-fechar" id="close-foto">
+              <img src="/assets/icon-sair.png" alt="Sair" class="img-btn-sair">
+            </button>
+          </div>
 
-        <div id="excluir">
-          <img src="/assets/icon-excluir.png" alt="Excluir" id="img-btn-excluir">
-          <p id="remover-foto">Remover foto atual</p>
+          <label for="imagem" class="label-imagem">+ Inserir Imagem</label>
+          <input type="file" id="imagem" class="input-arquivo" accept="image/*">
+
+          <div class="preview-wrapper">
+            <img id="preview-foto" class="preview-foto" src="/assets/icon-img-perfil.png" alt="Pré-visualização da foto">
+          </div>
+
+          <div id="excluir">
+            <img src="/assets/icon-excluir.png" alt="Excluir" id="img-btn-excluir">
+            <p id="remover-foto">Remover foto atual</p>
+          </div>
+          <div>
+            <button id="salvar">Salvar Alterações</button>
+          </div>
         </div>
-        <div style="display:flex;justify-content:center;">
-          <button id="salvar">Salvar Alterações</button>
+      </div>
+
+      <div class="perfil-info">
+        <div class="perfil-nome-edit">
+          <h2 id="nome-usuario">Usuário</h2>
+          <a href="#"><img src="/assets/icon-edit-perfil.png" alt="Editar perfil" id="edit-perfil"></a>
+        </div>
+        <p id="email-usuario">email@gmail.com</p>
+      </div>
+
+      <!-- POPUP EDITAR PERFIL (mantido igual) -->
+      <div class="popup-overlay" id="popup-editar">
+        <div class="popup-editar">
+          <div class="popup-header">
+            <h3>Editar Perfil</h3>
+            <button class="fechar-popup" id="close-editar">
+              <img src="/assets/icon-sair.png" alt="" class="img-btn-sair">
+            </button>
+          </div>
+
+          <form id="form-editar-perfil" novalidate>
+            <label for="nome" class="label-perfil">NOME</label>
+            <input type="text" id="nome" placeholder="Digite o seu nome">
+
+            <label for="email" class="label-perfil">E-MAIL</label>
+            <input type="email" id="email" placeholder="Digite o seu e-mail">
+
+            <label for="senha" class="label-perfil">SENHA (deixe em branco para não mudar)</label>
+            <input type="password" id="senha" placeholder="Digite a sua nova senha (opcional)">
+
+            <button type="submit" class="btn-salvar">Salvar Alterações</button>
+          </form>
+
+          <p class="aviso">Quer excluir sua conta? <br>Essa ação não pode ser desfeita.</p>
+          <button class="btn-logout" id="btn-logout">Sair da conta</button>
+          <button class="btn-excluir" id="btn-excluir-conta">Excluir minha conta</button>
+        </div>
+      </div>
+
+      <!-- NOVO POST + FEED -->
+      <section class="perfil-posts">
+        <div class="post-box">
+          <div class="post-header">
+            <button class="novo-post-btn" id="btn-novo-post">
+              <img src="/assets/icon-novo-post.png" alt="Novo Post" id="novo-post"> Novo Post
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <div class="feed-receitas">
+        <div class="receita-post">
+          <img src="/assets/img-bolinho.png" class="receita-feed-img" alt="Receita 1">
+        </div>
+        <div class="receita-post">
+          <img src="/assets/img-cafe.png" class="receita-feed-img" alt="Receita 2">
+        </div>
+        <div class="receita-post">
+          <img src="/assets/img-bolo-milho.png" class="receita-feed-img" alt="Receita 3">
         </div>
       </div>
     </div>
+  </main>
 
-    <div class="perfil-info">
-      <div class="perfil-nome-edit">
-        <h2 id="nome-usuario">Usuário</h2>
-        <a href="#" id="edit-perfil-link"><img src="/assets/icon-edit-perfil.png" alt="Editar perfil" id="edit-perfil"></a>
-      </div>
-      <p id="email-usuario">email@gmail.com</p>
-    </div>
+  <%- include('partials/_footer') %>
 
-
-    <div class="popup-overlay" id="popup-editar">
-      <div class="popup-editar">
-        <div class="popup-header">
-          <h3>Editar Perfil</h3>
-          <button class="fechar-popup" id="close-editar"><img src="/assets/icon-sair.png" alt="" class="img-btn-sair"></button>
-        </div>
-
-        <form id="form-editar-perfil" novalidate>
-          <label for="nome" class="label-perfil">NOME</label>
-          <input type="text" id="nome" placeholder="Digite o seu nome">
-
-          <label for="email" class="label-perfil">E-MAIL</label>
-          <input type="email" id="email" placeholder="Digite o seu e-mail">
-
-          <label for="senha" class="label-perfil">SENHA (deixe em branco para não mudar)</label>
-          <input type="password" id="senha" placeholder="Digite a sua nova senha (opcional)">
-
-          <button type="submit" class="btn-salvar">Salvar Alterações</button>
-        </form>
-
-        <p class="aviso">Quer excluir sua conta? <br>Essa ação não pode ser desfeita.</p>
-        <button class="btn-excluir" id="btn-excluir-conta">Excluir minha conta</button>
-      </div>
-    </div>
-
-    
-    <section class="perfil-posts">
-      <div class="post-box">
-        <div class="post-header">
-          <button class="novo-post-btn" id="btn-novo-post">
-            <img src="/assets/icon-novo-post.png" alt="Novo Post" id="novo-post"> Novo Post
-          </button>
-        </div>
-      </div>
-    </section>
-
-   
-    <div class="feed-receitas"></div>
-  </div>
-</main>
-
-<%- include('partials/_footer') %>
-
-<link rel="stylesheet" href="/css/stylesPerfil.css">
-<script src="/js/perfil.js" defer></script>
+  <script src="/js/categorias.js"></script>
+  <script src="/js/navbar.js"></script>
+  <script src="/js/perfil.js" defer></script>
+</body>
+</html>
