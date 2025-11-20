@@ -4,56 +4,74 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('form-cadastro');
   const msgErro = document.getElementById('mensagem-erro-cadastro');
 
-  if (!form) return;
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+      const nome = document.getElementById('nome').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const senha = document.getElementById('senha').value.trim();
 
-    const nome = document.getElementById('nome').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const senha = document.getElementById('senha').value.trim();
+      msgErro.textContent = '';
 
-    msgErro.textContent = '';
-
-    if (!nome || !email || !senha) {
-      msgErro.textContent = 'Preencha todos os campos.';
-      return;
-    }
-
-    if (senha.length < 6) {
-      msgErro.textContent = 'A senha deve ter pelo menos 6 caracteres.';
-      return;
-    }
-
-    try {
-      const res = await fetch('/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: nome,
-          email,
-          password: senha,
-        }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        msgErro.textContent = data.error || 'Erro ao cadastrar usuário.';
+      if (!nome || !email || !senha) {
+        msgErro.textContent = 'Preencha todos os campos.';
         return;
       }
 
-      // Salva token + usuário no localStorage
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('usuario', JSON.stringify(data.user));
+      if (senha.length < 6) {
+        msgErro.textContent = 'A senha deve ter pelo menos 6 caracteres.';
+        return;
+      }
 
-      // Vai direto pro perfil depois de cadastrar
-      window.location.href = '/perfil';
-    } catch (err) {
-      console.error('Erro no cadastro:', err);
-      msgErro.textContent = 'Erro ao conectar com o servidor.';
-    }
+      try {
+        const res = await fetch('/auth/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: nome,
+            email,
+            password: senha,
+          }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          msgErro.textContent = data.error || 'Erro ao cadastrar usuário.';
+          return;
+        }
+
+        // Salva token + usuário no localStorage
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('usuario', JSON.stringify(data.user));
+
+        // Vai direto pro perfil depois de cadastrar
+        window.location.href = '/perfil';
+      } catch (err) {
+        console.error('Erro no cadastro:', err);
+        msgErro.textContent = 'Erro ao conectar com o servidor.';
+      }
+    });
+  }
+
+  // Toggle mostrar/ocultar senha
+  document.querySelectorAll(".toggle-senha").forEach((eye) => {
+    eye.addEventListener("click", () => {
+      const input = eye.previousElementSibling;
+
+      if (input.type === "password") {
+        input.type = "text";
+        eye.src = "/assets/eye.svg"; // agora mostra o olho ABERTO
+        eye.alt = "Ocultar senha";
+      } else {
+        input.type = "password";
+        eye.src = "/assets/eye-off.svg"; // agora volta pro olho FECHADO
+        eye.alt = "Mostrar senha";
+      }
+    });
   });
 });
+

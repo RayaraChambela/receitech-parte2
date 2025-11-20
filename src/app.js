@@ -4,25 +4,41 @@ const express = require('express');
 
 const { Recipe, Category } = require('./db');
 
+// Rotas
 const recipeRoutes = require('./routes/recipe.routes');
 const categoryRoutes = require('./routes/category.routes');
 const authRoutes = require('./routes/auth.routes');
-const usuarioRoutes = require('src/routes/usuarioRoutes');
+const usuarioRoutes = require('./routes/usuarioRoutes');
 
 const app = express();
 
-// View engine
+// =========================
+// VIEW ENGINE (EJS)
+// =========================
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Middlewares básicos
+// =========================
+// MIDDLEWARES GLOBAIS
+// =========================
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Arquivos estáticos
+// =========================
+// ARQUIVOS ESTÁTICOS
+// =========================
+
+// 1) /public (CSS, JS, imagens, assets)
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
-// Home
+// 2) /uploads (AVATARES DO USUÁRIO)
+//    Essa rota serve corretamente o diretório:
+//      /public/uploads
+app.use('/uploads', express.static(path.join(__dirname, '..', 'public', 'uploads')));
+
+// =========================
+// ROTAS DE PÁGINAS
+// =========================
 app.get('/', async (req, res) => {
   try {
     const receitas = await Recipe.findAll({ order: [['created_at', 'DESC']] });
@@ -39,29 +55,29 @@ app.get('/', async (req, res) => {
   }
 });
 
-// Login
 app.get('/login', (req, res) => {
   res.render('login', { title: 'Login' });
 });
 
-// Cadastro
 app.get('/register', (req, res) => {
   res.render('register', { title: 'Cadastro de Usuário' });
 });
 
-// Perfil
 app.get('/perfil', (req, res) => {
   res.render('perfil', { title: 'Meu Perfil' });
 });
 
-
-// Rotas de API
+// =========================
+// ROTAS API
+// =========================
 app.use('/auth', authRoutes);
 app.use('/receitas', recipeRoutes);
 app.use('/categorias', categoryRoutes);
 app.use('/usuario', usuarioRoutes);
 
-// 404 simples (pra não quebrar tentando renderizar view 404 inexistente)
+// =========================
+// 404
+// =========================
 app.use((req, res) => {
   res.status(404).send('Página não encontrada.');
 });

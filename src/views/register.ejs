@@ -52,14 +52,17 @@
         />
 
         <label for="senha">SENHA</label>
-        <input
-          type="password"
-          id="senha"
-          name="senha"
-          placeholder="Defina a senha"
-          required
-          minlength="6"
-        />
+        <div class="input-senha">
+          <input
+            type="password"
+            id="senha"
+            name="senha"
+            placeholder="Defina a senha"
+            required
+            minlength="6"
+          />
+          <img src="/assets/eye-off.svg" class="toggle-senha" alt="Mostrar senha">
+        </div>
 
         <button type="submit" class="btn-cadastrar">Cadastrar</button>
 
@@ -72,10 +75,6 @@
       </form>
     </div>
   </div>
-
-  <footer class="footer">
-    <p>&copy; 2025 Receita Tech. Todos os direitos reservados.</p>
-  </footer>
 
   <script src="/js/cadastro.js"></script>
 </body>

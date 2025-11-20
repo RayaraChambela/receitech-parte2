@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const token = localStorage.getItem('token');
   const usuarioStr = localStorage.getItem('usuario');
 
-  // se não estiver logado, volta pra HOME
+  // Se não estiver logado → volta pra home
   if (!token || !usuarioStr) {
     window.location.href = '/';
     return;
@@ -17,14 +17,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (nomeUsuarioEl) nomeUsuarioEl.textContent = usuario.name || 'Usuário';
   if (emailUsuarioEl) emailUsuarioEl.textContent = usuario.email || '';
-  if (usuario.fotoPerfil && imgPerfilEl) {
-    imgPerfilEl.src = usuario.fotoPerfil;
+
+  // Foto do usuário (prioriza avatar_url salvo no BD)
+  if (usuario.avatar_url && imgPerfilEl) {
+    imgPerfilEl.src = usuario.avatar_url;
+  } else if (imgPerfilEl) {
+    imgPerfilEl.src = '/assets/icon-img-perfil.png';
   }
 
   // ==============================
   // POPUP FOTO DE PERFIL
   // ==============================
-  const popupFoto = document.getElementById('popup-foto') || document.getElementById('popup');
+  const popupFoto = document.getElementById('popup-foto');
   const btnOpenFoto = document.getElementById('btn-open-foto');
   const btnCloseFoto = document.getElementById('close-foto');
   const inputImagem = document.getElementById('imagem');
@@ -33,7 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const previewFoto = document.getElementById('preview-foto');
 
   function abrirPopupFoto() {
-    if (popupFoto) popupFoto.style.display = 'flex';
+    if (!popupFoto) return;
+    popupFoto.style.display = 'flex';
     if (previewFoto && imgPerfilEl) {
       previewFoto.src = imgPerfilEl.src;
     }
@@ -44,84 +49,132 @@ document.addEventListener('DOMContentLoaded', () => {
     if (inputImagem) inputImagem.value = '';
   }
 
-  if (btnOpenFoto) {
-    btnOpenFoto.addEventListener('click', (e) => {
-      e.preventDefault();
-      abrirPopupFoto();
-    });
-  }
+  // Abrir popup da foto
+  btnOpenFoto?.addEventListener('click', (e) => {
+    e.preventDefault();
+    abrirPopupFoto();
+  });
 
-  if (btnCloseFoto) {
-    btnCloseFoto.addEventListener('click', (e) => {
-      e.preventDefault();
-      fecharPopupFoto();
-    });
-  }
+  // Fechar popup da foto
+  btnCloseFoto?.addEventListener('click', (e) => {
+    e.preventDefault();
+    fecharPopupFoto();
+  });
 
-  if (popupFoto) {
-    popupFoto.addEventListener('click', (e) => {
-      if (e.target === popupFoto) fecharPopupFoto();
-    });
-  }
+  popupFoto?.addEventListener('click', (e) => {
+    if (e.target === popupFoto) fecharPopupFoto();
+  });
 
-  if (inputImagem) {
-    inputImagem.addEventListener('change', () => {
-      const file = inputImagem.files[0];
-      if (!file || !previewFoto) return;
+  // Preview local antes de enviar
+  inputImagem?.addEventListener('change', () => {
+    const file = inputImagem.files[0];
+    if (!file || !previewFoto) return;
 
-      const reader = new FileReader();
-      reader.onload = function (ev) {
-        previewFoto.src = ev.target.result;
-      };
-      reader.readAsDataURL(file);
-    });
-  }
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      previewFoto.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
 
-  if (btnExcluirFoto) {
-    btnExcluirFoto.addEventListener('click', (e) => {
-      e.preventDefault();
-      if (imgPerfilEl) imgPerfilEl.src = '/assets/icon-img-perfil.png';
-      if (previewFoto) previewFoto.src = '/assets/icon-img-perfil.png';
+  // REMOVER FOTO DE PERFIL (envia DELETE pro backend com email)
+  btnExcluirFoto?.addEventListener('click', async (e) => {
+    e.preventDefault();
 
-      delete usuario.fotoPerfil;
-      localStorage.setItem('usuario', JSON.stringify(usuario));
+    const confirmar = window.confirm(
+      'Tem certeza que deseja remover sua foto de perfil?'
+    );
+    if (!confirmar) return;
 
-      const navbarIcon = document.querySelector('.user-icon img');
-      if (navbarIcon) navbarIcon.src = '/assets/user-placeholder.png';
-    });
-  }
+    try {
+      const res = await fetch('/usuario/avatar', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: usuario.email }),
+      });
 
-  if (btnSalvarFoto) {
-    btnSalvarFoto.addEventListener('click', (e) => {
-      e.preventDefault();
+      const data = await res.json().catch(() => ({}));
 
-      const file = inputImagem && inputImagem.files ? inputImagem.files[0] : null;
-      if (!file) {
-        fecharPopupFoto();
+      if (!res.ok) {
+        console.error('Erro ao remover avatar:', data);
+        alert(data.error || 'Erro ao remover foto de perfil.');
         return;
       }
 
-      const reader = new FileReader();
-      reader.onload = function (ev) {
-        const dataUrl = ev.target.result;
+      // atualiza objeto usuario vindo do backend (avatar_url = null)
+      usuario = data.user;
+      localStorage.setItem('usuario', JSON.stringify(usuario));
 
-        if (imgPerfilEl) imgPerfilEl.src = dataUrl;
-        if (previewFoto) previewFoto.src = dataUrl;
+      // volta para a imagem padrão em todos os lugares
+      if (imgPerfilEl) imgPerfilEl.src = '/assets/icon-img-perfil.png';
+      if (previewFoto) previewFoto.src = '/assets/icon-img-perfil.png';
 
-        usuario.fotoPerfil = dataUrl;
-        localStorage.setItem('usuario', JSON.stringify(usuario));
+      const navbarIcon = document.querySelector('.user-icon img');
+      if (navbarIcon) {
+        navbarIcon.src = '/assets/user-placeholder.png';
+      }
 
-        const navbarIcon = document.querySelector('.user-icon img');
-        if (navbarIcon) navbarIcon.src = dataUrl;
+      fecharPopupFoto();
+    } catch (err) {
+      console.error('Erro de conexão ao remover avatar:', err);
+      alert('Erro ao remover foto de perfil.');
+    }
+  });
 
-        fecharPopupFoto();
-      };
-      reader.readAsDataURL(file);
-    });
-  }
+  // SALVAR FOTO → envia para backend com FormData
+  btnSalvarFoto?.addEventListener('click', async (e) => {
+    e.preventDefault();
+
+    if (!inputImagem) {
+      fecharPopupFoto();
+      return;
+    }
+
+    const file = inputImagem.files[0];
+    if (!file) {
+      fecharPopupFoto();
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('avatar', file);
+    formData.append('email', usuario.email); // identifica o usuário no backend
+
+    try {
+      const res = await fetch('/usuario/avatar', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!res.ok) {
+        const texto = await res.text();
+        console.error('Erro ao atualizar avatar:', texto);
+        alert('Erro ao salvar foto de perfil.');
+        return;
+      }
+
+      const data = await res.json();
+      usuario = data.user;
+
+      localStorage.setItem('usuario', JSON.stringify(usuario));
+
+      if (imgPerfilEl) imgPerfilEl.src = usuario.avatar_url;
+      if (previewFoto) previewFoto.src = usuario.avatar_url;
+
+      const navbarIcon = document.querySelector('.user-icon img');
+      if (navbarIcon) navbarIcon.src = usuario.avatar_url;
+
+      fecharPopupFoto();
+    } catch (err) {
+      console.error(err);
+      alert('Erro ao salvar foto de perfil.');
+    }
+  });
 
   // ==============================
-  // POPUP EDITAR PERFIL (LÁPIS)
+  // POPUP EDITAR PERFIL
   // ==============================
   const popupEditar = document.getElementById('popup-editar');
   const btnOpenEditar =
@@ -138,9 +191,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function abrirPopupEditar() {
     if (!popupEditar) return;
     popupEditar.style.display = 'flex';
-
-    if (inputNome) inputNome.value = usuario.name || '';
-    if (inputEmail) inputEmail.value = usuario.email || '';
+    if (inputNome) inputNome.value = usuario.name;
+    if (inputEmail) inputEmail.value = usuario.email;
     if (inputSenha) inputSenha.value = '';
   }
 
@@ -148,112 +200,87 @@ document.addEventListener('DOMContentLoaded', () => {
     if (popupEditar) popupEditar.style.display = 'none';
   }
 
-  if (btnOpenEditar) {
-    btnOpenEditar.addEventListener('click', (e) => {
-      e.preventDefault();
-      abrirPopupEditar();
-    });
-  }
+  btnOpenEditar?.addEventListener('click', (e) => {
+    e.preventDefault();
+    abrirPopupEditar();
+  });
 
-  if (btnCloseEditar) {
-    btnCloseEditar.addEventListener('click', (e) => {
-      e.preventDefault();
-      fecharPopupEditar();
-    });
-  }
+  btnCloseEditar?.addEventListener('click', (e) => {
+    e.preventDefault();
+    fecharPopupEditar();
+  });
 
-  if (popupEditar) {
-    popupEditar.addEventListener('click', (e) => {
-      if (e.target === popupEditar) fecharPopupEditar();
-    });
-  }
+  popupEditar?.addEventListener('click', (e) => {
+    if (e.target === popupEditar) fecharPopupEditar();
+  });
 
-  if (formEditar) {
-    formEditar.addEventListener('submit', (e) => {
-      e.preventDefault();
+  // Editar perfil (ainda localStorage por enquanto)
+  formEditar?.addEventListener('submit', (e) => {
+    e.preventDefault();
 
-      const novoNome = inputNome ? inputNome.value.trim() : '';
-      const novoEmail = inputEmail ? inputEmail.value.trim() : '';
-      const novaSenha = inputSenha ? inputSenha.value.trim() : '';
+    const novoNome = inputNome ? inputNome.value.trim() : '';
+    const novoEmail = inputEmail ? inputEmail.value.trim() : '';
+    const novaSenha = inputSenha ? inputSenha.value.trim() : '';
 
-      if (novoNome) usuario.name = novoNome;
-      if (novoEmail) usuario.email = novoEmail;
-      if (novaSenha) {
-        // por enquanto só guardamos no localStorage;
-        // quando tiver API, manda pro backend aqui
-        usuario.password = novaSenha;
-      }
+    if (novoNome) usuario.name = novoNome;
+    if (novoEmail) usuario.email = novoEmail;
+    if (novaSenha) usuario.password = novaSenha;
 
-      localStorage.setItem('usuario', JSON.stringify(usuario));
+    localStorage.setItem('usuario', JSON.stringify(usuario));
 
-      if (nomeUsuarioEl) nomeUsuarioEl.textContent = usuario.name || 'Usuário';
-      if (emailUsuarioEl) emailUsuarioEl.textContent = usuario.email || '';
+    if (nomeUsuarioEl) nomeUsuarioEl.textContent = usuario.name;
+    if (emailUsuarioEl) emailUsuarioEl.textContent = usuario.email;
 
-      fecharPopupEditar();
-    });
-  }
+    fecharPopupEditar();
+  });
 
   // ==============================
   // EXCLUIR CONTA
   // ==============================
-  if (btnExcluirConta) {
-    btnExcluirConta.addEventListener('click', async (e) => {
-      e.preventDefault();
+  btnExcluirConta?.addEventListener('click', async (e) => {
+    e.preventDefault();
 
-      const confirmar = window.confirm(
-        'Tem certeza que deseja excluir sua conta? Essa ação não pode ser desfeita.'
-      );
-      if (!confirmar) return;
+    if (!confirm('Tem certeza que deseja excluir sua conta?')) return;
 
-      try {
-        const resposta = await fetch('/usuario/excluir', {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ email: usuario.email })
-        });
+    try {
+      const res = await fetch('/usuario/excluir', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: usuario.email }),
+      });
 
-        if (!resposta.ok) {
-          const data = await resposta.json().catch(() => ({}));
-          console.error('Erro ao excluir conta:', data);
-          alert('Erro ao excluir conta. Tente novamente.');
-          return;
-        }
-
-        // deu certo: limpa front e volta pra HOME
-        localStorage.removeItem('token');
-        localStorage.removeItem('usuario');
-
-        window.location.href = '/';
-      } catch (err) {
-        console.error(err);
-        alert('Erro de conexão ao excluir conta.');
-      }
-    });
-  }
-
-  // ==============================
-  // LOGOUT
-  // ==============================
-  if (btnLogout) {
-    btnLogout.addEventListener('click', async (e) => {
-      e.preventDefault();
-
-      try {
-        await fetch('/usuario/logout', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' }
-        });
-      } catch (err) {
-        console.error('Erro ao deslogar no servidor (vou limpar mesmo assim).', err);
+      if (!res.ok) {
+        alert('Erro ao excluir conta.');
+        return;
       }
 
       localStorage.removeItem('token');
       localStorage.removeItem('usuario');
 
-      // volta pra HOME
       window.location.href = '/';
-    });
-  }
+    } catch (err) {
+      console.error(err);
+      alert('Erro ao excluir conta.');
+    }
+  });
+
+  // ==============================
+  // LOGOUT
+  // ==============================
+  btnLogout?.addEventListener('click', async (e) => {
+    e.preventDefault();
+
+    try {
+      await fetch('/usuario/logout', {
+        method: 'POST',
+      });
+    } catch (err) {
+      console.error('Erro ao deslogar:', err);
+    }
+
+    localStorage.removeItem('token');
+    localStorage.removeItem('usuario');
+
+    window.location.href = '/';
+  });
 });
