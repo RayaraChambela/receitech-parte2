@@ -1,51 +1,124 @@
 <%- include('partials/_head') %>
-<%- include('partials/_navbar') %>
 
-<main class="container-receita" style="position:relative;">
+<link rel="stylesheet" href="/css/receita.css">
+<link rel="stylesheet" href="/css/navbar.css">
+<link rel="stylesheet" href="/css/footer.css">
+
+<body>
+  <!-- BOTÃO VOLTAR -->
   <div class="voltar-container">
     <button class="voltar" onclick="window.history.back()" aria-label="Voltar">
       <img src="/assets/setinha-cinza.svg" alt="Voltar" width="25" height="25">
     </button>
   </div>
 
-  <h1 id="nome-receita">Nome da Receita</h1>
+  <!-- NAVBAR -->
+  <%- include('partials/_navbar') %>
 
-  <div class="imagem-central">
-    <img id="imagem-receita" src="" alt="Imagem da Receita">
-  </div>
+  <main class="container-receita" style="position:relative;">
 
-  <div class="detalhes-receita">
-    <a href="/perfil" aria-label="Perfil">
-      <img id="avatar-autor" src="/assets/icon-perfil.svg" alt="Usuário">
-    </a>
-    <span id="autor-receita">Nome do Autor</span>
+    <h1 id="nome-receita"><%= recipe.title %></h1>
 
-    <img src="/assets/icon-tempo.svg" alt="Relógio">
-    <span id="tempo-preparo">—</span>
-  </div>
+    <div class="imagem-central">
+      <img
+        id="imagem-receita"
+        src="<%= recipe.cover_image || '/assets/imagem-padrao.png' %>"
+        alt="<%= recipe.title %>"
+      >
+    </div>
 
-  <section class="sobre">
-    <h2>Sobre a Receita</h2>
-    <p id="sobre-receita"></p>
-  </section>
+    <div class="detalhes-receita">
+      <a href="/perfil" aria-label="Perfil">
+        <img
+          id="avatar-autor"
+          src="/assets/icon-perfil.svg"
+          alt="Usuário"
+        >
+      </a>
 
-  <section class="ingredientes">
-    <h2>Ingredientes</h2>
-    <ul id="ingredientes"></ul>
-  </section>
+      <span id="autor-receita">
+        <%= recipe.author_name || 'Autor desconhecido' %>
+      </span>
 
-  <section class="preparo">
-    <h2>Modo de Preparo</h2>
-    <ol id="modo-preparo"></ol>
-  </section>
+      <img src="/assets/icon-tempo.svg" alt="Relógio">
+      <span id="tempo-preparo">
+        <%= recipe.prep_time_min || '—' %>
+      </span>
+    </div>
 
-  <section class="dica-chef">
-    <h2>Dica do Chef</h2>
-    <p id="dica-chef"></p>
-  </section>
-</main>
+    <% 
+      // ------- NORMALIZA INGREDIENTES -------
+      let ingredientes = [];
+      if (Array.isArray(recipe.ingredients)) {
+        ingredientes = recipe.ingredients;
+      } else if (typeof recipe.ingredients === 'string' && recipe.ingredients.trim()) {
+        try {
+          const parsed = JSON.parse(recipe.ingredients);
+          if (Array.isArray(parsed)) {
+            ingredientes = parsed;
+          } else {
+            ingredientes = [recipe.ingredients];
+          }
+        } catch (e) {
+          ingredientes = [recipe.ingredients];
+        }
+      }
 
-<%- include('partials/_footer') %>
+      // ------- NORMALIZA PASSOS -------
+      let passos = [];
+      if (Array.isArray(recipe.steps)) {
+        passos = recipe.steps;
+      } else if (typeof recipe.steps === 'string' && recipe.steps.trim()) {
+        try {
+          const parsedSteps = JSON.parse(recipe.steps);
+          if (Array.isArray(parsedSteps)) {
+            passos = parsedSteps;
+          } else {
+            passos = [recipe.steps];
+          }
+        } catch (e) {
+          passos = [recipe.steps];
+        }
+      }
+    %>
 
-<link rel="stylesheet" href="/css/receita.css">
-<script src="/js/receita.js" defer></script>
+    <section class="sobre">
+      <h2>Sobre a Receita</h2>
+      <p id="sobre-receita"><%= recipe.description || '' %></p>
+    </section>
+
+    <section class="ingredientes">
+      <h2>Ingredientes</h2>
+      <ul id="ingredientes">
+        <% if (ingredientes && ingredientes.length) { %>
+          <% ingredientes.forEach(function(ing) { %>
+            <li><%= ing %></li>
+          <% }) %>
+        <% } %>
+      </ul>
+    </section>
+
+    <section class="preparo">
+      <h2>Modo de Preparo</h2>
+      <ol id="modo-preparo">
+        <% if (passos && passos.length) { %>
+          <% passos.forEach(function(step) { %>
+            <li><%= step %></li>
+          <% }) %>
+        <% } %>
+      </ol>
+    </section>
+
+    <section class="dica-chef">
+      <h2>Dica do Chef</h2>
+      <p id="dica-chef"><%= recipe.tip || '' %></p>
+    </section>
+  </main>
+
+  <%- include('partials/_footer') %>
+
+  <script src="/js/categorias.js"></script>
+  <script src="/js/navbar.js"></script>
+  <script src="/js/receita.js" defer></script>
+</body>
+</html>

@@ -1,51 +1,159 @@
-:root{
-  --bg-color:#FFE3CD;--navbar-color:#FEC89A;--search-bg:#FEF6F0;--text-color:#5B5B5B;
-  --font-title:2rem;--font-regular:1rem;
+/* =========================
+   PÁGINA DE RECEITA
+========================= */
+
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
 
-body{margin:0;font-family:'Montserrat',sans-serif;background:var(--bg-color);color:var(--text-color)}
-.voltar-container{position:absolute;top:1.5rem;left:1.5rem;z-index:5}
-.voltar{background:none;border:none;cursor:pointer}
-.voltar img{width:25px}
-
-.container-receita{
-  max-width:1000px;margin:0 auto;padding:4rem 4rem 2rem;background:var(--search-bg);
-  box-shadow:0 0 20px rgba(0,0,0,.1);min-height:calc(100vh - 100px - 80px);
-  display:flex;flex-direction:column;justify-content:space-between
+/* Linha do "← Voltar", alinhada com o conteúdo */
+.voltar-container {
+  margin-top: 90px;           /* abaixo da navbar fixa */
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-h1#nome-receita{font-size:var(--font-title);text-align:left;margin-bottom:2rem;font-weight:700}
-.imagem-central{display:flex;justify-content:center;margin-bottom:1rem}
-.imagem-central img{
-  width:100%;max-width:400px;height:400px;border-radius:10px;object-fit:cover;box-shadow:0 0 20px rgba(0,0,0,.1)
+.voltar {
+  background: none;
+  border: none;
+  cursor: pointer;
+
 }
 
-.detalhes-receita{
-  display:flex;align-items:center;gap:1rem;margin:1.9rem 0 2rem;justify-content:center;font-size:1rem;flex-wrap:wrap
+.voltar img {
+  width: 25px;
 }
-.detalhes-receita img{width:30px;height:30px;border-radius:50%}
-#autor-receita{font-size:var(--font-regular)}
-#tempo-preparo{font-size:1rem;color:var(--text-color)}
 
-section{margin-bottom:3rem}
-section h2{font-size:1.2rem;margin-bottom:.5rem;text-align:left;font-weight:700}
-ul,ol{padding-left:1.5rem;font-size:var(--font-regular)}
+/* Bloco principal da receita */
+.container-receita {
+  max-width: 900px;
+  width: 80%;  
+  margin: 16px auto 80px;
+  background-color: var(--search-bg);
+  padding: 40px 60px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 
-@media (max-width:992px){
-  .container-receita{padding:2rem}
-  .imagem-central img{height:auto;max-width:300px}
+  padding-left: 60px;
+  padding-right: 60px;
+
+  margin-top: 0;           
+  margin-bottom: 0;       
+
+
+  display: flex;
+  flex-direction: column;
 }
-@media (max-width:768px){
-  .container-receita{padding:1.5rem}
-  h1#nome-receita{font-size:1.5rem}
-  .imagem-central img{max-width:250px}
+
+/* Título da receita */
+#nome-receita {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: var(--text-color);
 }
-@media (max-width:576px){
-  .container-receita{padding:1rem}
-  h1#nome-receita{font-size:1.2rem;text-align:center}
-  .imagem-central img{max-width:200px}
-  .detalhes-receita{flex-direction:column;gap:.5rem}
-  section h2{font-size:1rem}
-  ul,ol{padding-left:1rem}
-  #dica-chef,#tempo-preparo,#autor-receita{font-size:.9rem}
+
+/* Imagem central */
+.imagem-central {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.imagem-central img {
+  width: 100%;
+  max-width: 420px;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 0 16px rgba(0,0,0,0.12);
+}
+
+/* Detalhes (autor, tempo) */
+.detalhes-receita {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.detalhes-receita img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+#autor-receita {
+  font-size: 0.95rem;
+}
+
+#tempo-preparo {
+  font-size: 0.95rem;
+}
+
+/* Seções de texto */
+section {
+  margin-bottom: 32px;
+}
+
+section h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+section p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Listas */
+ul,
+ol {
+  padding-left: 1.2rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media (max-width: 992px) {
+  .voltar-container {
+    margin-top: 80px;
+  }
+
+  .container-receita {
+    max-width: 95;
+    padding: 32px 24px;
+    border-radius: 18px;
+  }
+
+  #nome-receita {
+    font-size: 1.7rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .container-receita {
+    padding: 24px 18px;
+    border-radius: 16px;
+  }
+
+  #nome-receita {
+    font-size: 1.5rem;
+  }
+
+  .imagem-central img {
+    max-width: 100%;
+  }
+
+  .detalhes-receita {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

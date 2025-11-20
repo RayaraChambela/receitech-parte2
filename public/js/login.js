@@ -37,9 +37,18 @@ document.addEventListener('DOMContentLoaded', () => {
           return;
         }
 
-        // Salva token + usuário no localStorage
+        // data precisa vir algo como: { user: {...}, token: '...' }
+
+        // monta o objeto de usuário já com o token dentro
+        const usuarioComToken = {
+          ...data.user,
+          token: data.token,
+        };
+
+        // salva no localStorage
+        localStorage.setItem('usuario', JSON.stringify(usuarioComToken));
+        // essa linha é opcional, mas não atrapalha:
         localStorage.setItem('token', data.token);
-        localStorage.setItem('usuario', JSON.stringify(data.user));
 
         // Redireciona para o perfil
         window.location.href = '/perfil';

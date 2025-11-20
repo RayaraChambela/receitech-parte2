@@ -283,4 +283,70 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.location.href = '/';
   });
+
+  // ==============================
+  // FEED DE RECEITAS DO USUÁRIO
+  // ==============================
+  const feedContainer = document.getElementById('feed-usuario');
+
+  async function carregarReceitasUsuario() {
+    if (!feedContainer || !usuario.id) return;
+
+    try {
+      const res = await fetch(`/receitas/usuario/${usuario.id}`);
+
+      console.log('GET /receitas/usuario', usuario.id, 'status:', res.status);
+
+      if (!res.ok) {
+        console.error('Erro HTTP ao buscar receitas do usuário');
+        feedContainer.innerHTML = '<p>Erro ao carregar suas receitas.</p>';
+        return;
+      }
+
+      const data = await res.json().catch(() => ({}));
+      console.log('Resposta da API de receitas do usuário:', data);
+
+      const receitas = data.recipes || data.receitas || [];
+
+      if (!receitas.length) {
+        feedContainer.innerHTML = '<p>Você ainda não publicou nenhuma receita.</p>';
+        return;
+      }
+
+      const html = receitas
+        .map(
+          (r) => `
+          <div class="receita-post" onclick="window.location.href='/receitas/${r.id}'">
+            <img
+              src="${r.cover_image || '/assets/img-bolinho.png'}"
+              class="receita-feed-img"
+              alt="${r.title}"
+            >
+          </div>
+        `
+        )
+        .join('');
+
+      feedContainer.innerHTML = html;
+    } catch (err) {
+      console.error('Erro ao carregar receitas do usuário:', err);
+      feedContainer.innerHTML = '<p>Erro ao carregar suas receitas.</p>';
+    }
+  }
+
+  carregarReceitasUsuario();
+
+
+
+  // ==============================
+  // BOTÃO "NOVO POST" → nova receita
+  // ==============================
+  const btnNovoPost = document.getElementById('btn-novo-post');
+
+  if (btnNovoPost) {
+    btnNovoPost.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.location.href = '/receitas/nova';
+    });
+  }
 });

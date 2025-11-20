@@ -12,41 +12,36 @@ const usuarioRoutes = require('./routes/usuarioRoutes');
 
 const app = express();
 
-// =========================
-// VIEW ENGINE (EJS)
-// =========================
+// VIEW ENGINE
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// =========================
-// MIDDLEWARES GLOBAIS
-// =========================
+// MIDDLEWARES
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// =========================
-// ARQUIVOS ESTÁTICOS
-// =========================
-
-// 1) /public (CSS, JS, imagens, assets)
+// ESTÁTICOS
 app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use(
+  '/uploads',
+  express.static(path.join(__dirname, '..', 'public', 'uploads'))
+);
 
-// 2) /uploads (AVATARES DO USUÁRIO)
-//    Essa rota serve corretamente o diretório:
-//      /public/uploads
-app.use('/uploads', express.static(path.join(__dirname, '..', 'public', 'uploads')));
-
-// =========================
-// ROTAS DE PÁGINAS
-// =========================
+// HOME – NÃO BUSCA MAIS RECEITAS DO BANCO
 app.get('/', async (req, res) => {
   try {
-    const receitas = await Recipe.findAll({ order: [['created_at', 'DESC']] });
-    const categorias = await Category.findAll({ order: [['name', 'ASC']] });
+    // se quiser manter categorias dinâmicas, mantém isso:
+    const categoriasBD = await Category.findAll({
+      order: [['name', 'ASC']],
+    });
 
+    // transforma em array de strings pra index.ejs
+    const categorias = categoriasBD.map((c) => c.name);
+
+    // NÃO PASSO MAIS NENHUMA RECEITA AQUI
     res.render('index', {
       title: 'Receita Tech',
-      receitas,
+      receitas: [],      // vazio -> nada publicado aparece na home
       categorias,
     });
   } catch (err) {
@@ -55,6 +50,7 @@ app.get('/', async (req, res) => {
   }
 });
 
+// PÁGINAS
 app.get('/login', (req, res) => {
   res.render('login', { title: 'Login' });
 });
@@ -67,17 +63,13 @@ app.get('/perfil', (req, res) => {
   res.render('perfil', { title: 'Meu Perfil' });
 });
 
-// =========================
 // ROTAS API
-// =========================
 app.use('/auth', authRoutes);
 app.use('/receitas', recipeRoutes);
 app.use('/categorias', categoryRoutes);
 app.use('/usuario', usuarioRoutes);
 
-// =========================
 // 404
-// =========================
 app.use((req, res) => {
   res.status(404).send('Página não encontrada.');
 });

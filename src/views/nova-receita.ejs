@@ -1,117 +1,146 @@
 <%- include('partials/_head') %>
-<%- include('partials/_navbar') %>
-
-<main>
-  <div class="overlay">
-    <div class="card-cadastro">
-      <div class="header-card">
-        <p id="titulo-etapa">Criar nova receita</p>
-        <a class="fechar" href="/perfil" aria-label="Cancelar criação">✕</a>
-      </div>
-
-      <div class="conteudo">
-        <div class="custom-progress">
-          <div class="progress-bar" role="progressbar"></div>
-          <div class="bolinha"></div>
+<link rel="stylesheet" href="/css/nova-receita.css">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <main>
+    <div class="overlay">
+      <div class="card-cadastro">
+        
+        <div class="header-card">
+          <p id="titulo-etapa">Criar nova receita</p>
+          <span class="fechar" onclick="fecharModal()">✕</span>
         </div>
 
-        <div id="etapa-1">
-          <label for="nome">Nome da receita:</label>
-          <input type="text" id="nome" autocomplete="off">
+        <div class="conteudo">
+          <div class="custom-progress">
+            <div class="progress-bar" role="progressbar"></div>
+            <div class="bolinha"></div>
+          </div>
 
-          <label for="categoria">Categoria:</label>
-          <select id="categoria">
-            <option value="">Selecione</option>
-            <option value="Sobremesas">Sobremesas</option>
-            <option value="Almoço">Almoço</option>
-            <option value="Fitness">Fitness</option>
-            <option value="Lanches">Lanches</option>
-          </select>
+          <!-- ============ ETAPA 1 ============ -->
+          <div id="etapa-1">
+            <label for="nome">Nome da receita:</label>
+            <input type="text" id="nome" autocomplete="off">
 
-          <label for="sobre">Sobre a receita:</label>
-          <textarea id="sobre" maxlength="500" rows="4" placeholder="Descreva brevemente sua receita"></textarea>
+            <label for="categoria">Categoria:</label>
+            <select id="categoria">
+              <option value="">Selecione</option>
+              <option value="Bolos e tortas">Bolos e tortas</option>
+              <option value="Carnes">Carnes</option>
+              <option value="Aves">Aves</option>
+              <option value="Peixes e frutos do mar">Peixes e frutos do mar</option>
+              <option value="Saladas e molhos">Saladas e molhos</option>
+              <option value="Sopas">Sopas</option>
+              <option value="Massas">Massas</option>
+              <option value="Bebidas">Bebidas</option>
+              <option value="Lanches">Lanches</option>
+              <option value="Doces e sobremesas">Doces e sobremesas</option>
+              <option value="Alimentação saudável">Alimentação saudável</option>
+            </select>
 
-          <div class="botoes">
-            <div class="botoes-esquerda"></div>
-            <div class="botoes-direita">
-              <button id="btn-etapa-1">Próximo</button>
+            <label for="subcategoria">Subcategoria:</label>
+            <select id="subcategoria" disabled>
+              <option value="">Selecione a categoria primeiro</option>
+            </select>
+
+            <label for="sobre">Sobre a receita:</label>
+            <textarea
+              id="sobre"
+              maxlength="500"
+              rows="4"
+              placeholder="Descreva brevemente sua receita"
+            ></textarea>
+
+            <div class="botoes">
+              <div class="botoes-esquerda"></div>
+              <div class="botoes-direita">
+                <button onclick="proximaEtapa()">Próximo</button>
+              </div>
             </div>
           </div>
+
+          <!-- ============ ETAPA 2 ============ -->
+          <div id="etapa-2" style="display:none;">
+            <p class="inserir" onclick="adicionarIngrediente()">+ Inserir ingrediente</p>
+            <div id="lista-ingredientes">
+              <input type="text" placeholder="1 -">
+              <input type="text" placeholder="2 -">
+            </div>
+
+            <div class="botoes">
+              <div class="botoes-esquerda">
+                <button class="btn-voltar" onclick="voltarEtapa()">← Voltar</button>
+              </div>
+              <div class="botoes-direita">
+                <button onclick="salvarEtapa2()">Próximo</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============ ETAPA 3 ============ -->
+          <div id="etapa-3" style="display:none;">
+            <p class="inserir" onclick="adicionarEtapaPreparo()">+ Inserir etapa de preparo</p>
+            <div id="lista-preparo">
+              <input type="text" placeholder="1 -">
+              <input type="text" placeholder="2 -">
+            </div>
+
+            <label for="tempo-preparo">Tempo de Preparo:</label>
+            <input type="text" id="tempo-preparo" placeholder="Ex: 30 min">
+
+            <div class="botoes">
+              <div class="botoes-esquerda">
+                <button class="btn-voltar" onclick="voltarEtapa()">← Voltar</button>
+              </div>
+              <div class="botoes-direita">
+                <button onclick="salvarEtapa3()">Próximo</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============ ETAPA 4 ============ -->
+          <div id="etapa-4" style="display:none;">
+            <label for="dica">Dica do chef:</label>
+            <textarea
+              id="dica"
+              rows="5"
+              maxlength="500"
+              placeholder="Máximo 150 caracteres"
+            ></textarea>
+
+            <div class="botoes">
+              <div class="botoes-esquerda">
+                <button class="btn-voltar" onclick="voltarEtapa()">← Voltar</button>
+              </div>
+              <div class="botoes-direita">
+                <button onclick="salvarEtapa4()">Próximo</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============ ETAPA 5 ============ -->
+          <div id="etapa-5" style="display:none;">
+            <label for="imagem-receita">Foto da receita:</label>
+            <div id="lista-imagens">
+              <input type="file" accept="image/*">
+            </div>
+
+            <div class="botoes">
+              <div class="botoes-esquerda">
+                <button class="btn-voltar" onclick="voltarEtapa()">← Voltar</button>
+              </div>
+              <div class="botoes-direita">
+                <button onclick="finalizarReceita()">Finalizar</button>
+              </div>
+            </div>
+          </div>
+
         </div>
-
-        <div id="etapa-2" style="display:none;">
-          <p class="inserir" id="btn-add-ingrediente">+ Inserir ingrediente</p>
-          <div id="lista-ingredientes">
-            <input type="text" placeholder="1 -">
-            <input type="text" placeholder="2 -">
-          </div>
-
-          <div class="botoes">
-            <div class="botoes-esquerda">
-              <button class="btn-voltar" data-voltar>← Voltar</button>
-            </div>
-            <div class="botoes-direita">
-              <button id="btn-etapa-2">Próximo</button>
-            </div>
-          </div>
-        </div>
-
-        <div id="etapa-3" style="display:none;">
-          <p class="inserir" id="btn-add-preparo">+ Inserir etapa de preparo</p>
-          <div id="lista-preparo">
-            <input type="text" placeholder="1 -">
-            <input type="text" placeholder="2 -">
-          </div>
-
-          <label for="tempo-preparo">Tempo de Preparo:</label>
-          <input type="text" id="tempo-preparo" placeholder="Ex: 30 min">
-
-          <div class="botoes">
-            <div class="botoes-esquerda">
-              <button class="btn-voltar" data-voltar>← Voltar</button>
-            </div>
-            <div class="botoes-direita">
-              <button id="btn-etapa-3">Próximo</button>
-            </div>
-          </div>
-        </div>
-
-        <div id="etapa-4" style="display:none;">
-          <label for="dica">Dica do chef:</label>
-          <textarea id="dica" rows="5" maxlength="500" placeholder="Máximo 150 caracteres"></textarea>
-
-          <div class="botoes">
-            <div class="botoes-esquerda">
-              <button class="btn-voltar" data-voltar>← Voltar</button>
-            </div>
-            <div class="botoes-direita">
-              <button id="btn-etapa-4">Próximo</button>
-            </div>
-          </div>
-        </div>
-
-        <div id="etapa-5" style="display:none;">
-          <label for="imagem-receita">Foto da receita:</label>
-          <div id="lista-imagens">
-            <input type="file" accept="image/*">
-          </div>
-
-          <div class="botoes">
-            <div class="botoes-esquerda">
-              <button class="btn-voltar" data-voltar>← Voltar</button>
-            </div>
-            <div class="botoes-direita">
-              <button id="btn-finalizar">Finalizar</button>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
-  </div>
-</main>
+  </main>
 
-<%- include('partials/_footer') %>
-
-<link rel="stylesheet" href="/css/nova-receita.css">
-<script src="/js/nova-receita.js" defer></script>
+  <script src="/js/nova-receita.js" defer></script>
+</body>
+</html>

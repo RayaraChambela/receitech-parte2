@@ -5,33 +5,40 @@
 <link rel="stylesheet" href="/css/footer.css">
 
 <body>
-  <!-- BOTÃO VOLTAR IGUAL AO PROJETO ANTIGO -->
+
+  <!-- BOTÃO VOLTAR -->
   <div class="voltar-container">
     <button class="voltar" onclick="window.history.back()">
       <img src="/assets/setinha-cinza.svg" alt="Voltar" width="25" height="25">
     </button>
   </div>
 
-  <!-- NAVBAR ANTIGA VIA PARTIAL -->
+  <!-- NAVBAR -->
   <%- include('partials/_navbar') %>
 
   <!-- PERFIL -->
   <main class="perfil-container">
+
+    <!-- BANNER -->
     <div class="perfil-banner">
       <img src="/assets/img-fundo-perfil.png" alt="banner" id="banner">
     </div>
 
     <div class="perfil-content">
+
+      <!-- FOTO DO PERFIL -->
       <div class="perfil-foto">
         <img src="/assets/icon-img-perfil.png" alt="Foto de perfil" id="img-perfil">
+
         <button class="camera-btn" id="btn-open-foto">
           <img src="/assets/icon-camera.png" alt="Câmera" class="img-camera">
         </button>
       </div>
 
-      <!-- POPUP FOTO (igual antigo, só ajustando paths) -->
+      <!-- POPUP EDITAR FOTO -->
       <div class="popup-overlay" id="popup-foto">
         <div class="popup">
+
           <div id="navbar-popup">
             <div class="centered-text">Editar Foto de Perfil</div>
             <button class="btn-fechar" id="close-foto">
@@ -50,23 +57,29 @@
             <img src="/assets/icon-excluir.png" alt="Excluir" id="img-btn-excluir">
             <p id="remover-foto">Remover foto atual</p>
           </div>
+
           <div>
             <button id="salvar">Salvar Alterações</button>
           </div>
         </div>
       </div>
 
+      <!-- INFO DO PERFIL -->
       <div class="perfil-info">
         <div class="perfil-nome-edit">
           <h2 id="nome-usuario">Usuário</h2>
-          <a href="#"><img src="/assets/icon-edit-perfil.png" alt="Editar perfil" id="edit-perfil"></a>
+          <a href="#">
+            <img src="/assets/icon-edit-perfil.png" alt="Editar perfil" id="edit-perfil">
+          </a>
         </div>
+
         <p id="email-usuario">email@gmail.com</p>
       </div>
 
-      <!-- POPUP EDITAR PERFIL (mantido igual) -->
+      <!-- POPUP EDITAR PERFIL -->
       <div class="popup-overlay" id="popup-editar">
         <div class="popup-editar">
+
           <div class="popup-header">
             <h3>Editar Perfil</h3>
             <button class="fechar-popup" id="close-editar">
@@ -81,19 +94,22 @@
             <label for="email" class="label-perfil">E-MAIL</label>
             <input type="email" id="email" placeholder="Digite o seu e-mail">
 
-            <label for="senha" class="label-perfil">SENHA (deixe em branco para não mudar)</label>
+            <label for="senha" class="label-perfil">SENHA (opcional)</label>
             <input type="password" id="senha" placeholder="Digite a sua nova senha (opcional)">
 
             <button type="submit" class="btn-salvar">Salvar Alterações</button>
           </form>
 
-          <p class="aviso">Quer excluir sua conta? <br>Essa ação não pode ser desfeita.</p>
+          <p class="aviso">
+            Quer excluir sua conta? <br>Essa ação não pode ser desfeita.
+          </p>
+
           <button class="btn-logout" id="btn-logout">Sair da conta</button>
           <button class="btn-excluir" id="btn-excluir-conta">Excluir minha conta</button>
         </div>
       </div>
 
-      <!-- NOVO POST + FEED -->
+      <!-- BOTÃO NOVO POST -->
       <section class="perfil-posts">
         <div class="post-box">
           <div class="post-header">
@@ -104,17 +120,11 @@
         </div>
       </section>
 
-      <div class="feed-receitas">
-        <div class="receita-post">
-          <img src="/assets/img-bolinho.png" class="receita-feed-img" alt="Receita 1">
-        </div>
-        <div class="receita-post">
-          <img src="/assets/img-cafe.png" class="receita-feed-img" alt="Receita 2">
-        </div>
-        <div class="receita-post">
-          <img src="/assets/img-bolo-milho.png" class="receita-feed-img" alt="Receita 3">
-        </div>
+      <!-- FEED DINÂMICO DO USUÁRIO -->
+      <div class="feed-receitas" id="feed-usuario">
+        <!-- O JS preenche isso -->
       </div>
+
     </div>
   </main>
 
@@ -123,5 +133,6 @@
   <script src="/js/categorias.js"></script>
   <script src="/js/navbar.js"></script>
   <script src="/js/perfil.js" defer></script>
+
 </body>
 </html>

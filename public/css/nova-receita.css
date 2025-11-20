@@ -24,6 +24,23 @@
    ESTRUTURA DO MODAL
 ========================= */
 
+body,
+input,
+select,
+textarea,
+button {
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* deixa os campos com a mesma “cara” do texto */
+input,
+select,
+textarea {
+  font-size: 0.95rem;
+  font-weight: 500;       /* ajusta se achar pesado demais */
+  letter-spacing: 0.2px;
+}
+
 .overlay {
   position: fixed;
   top: 0;
