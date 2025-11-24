@@ -54,7 +54,6 @@
   transform: translateY(-50%);
 }
 
-
 .logo {
   width: 110px;
   transition: transform 0.3s ease;
@@ -63,7 +62,6 @@
 .logo:hover {
   transform: scale(1.1);
 }
-
 
 /* =========================
    BARRA DE PESQUISA
@@ -98,6 +96,10 @@
 /* =========================
    DROPDOWN DE CATEGORIAS
 ========================= */
+.categorias-dropdown {
+  position: relative;
+}
+
 #dropdownMenu2 {
   font-weight: 500;
 }
@@ -107,158 +109,61 @@
   border: none;
   color: var(--text-color);
   font-size: var(--font-navbar);
-  padding: 1px;
+  padding: 4px 8px;
+  cursor: pointer;
 }
 
 .categorias-dropdown .dropdown-toggle::after {
-  color: var(--text-color);
+  content: " ▼";
+  font-size: 0.7rem;
 }
 
+/* MENU PRINCIPAL */
 .categorias-dropdown .dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 1050;
+
   background-color: var(--search-bg);
   border-radius: 8px;
   font-size: var(--font-regular);
   color: var(--text-color);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+  min-width: 220px;
+  padding: 0.5rem 0;
+  display: none;            /* 🔥 escondido por padrão */
 }
 
-.categorias-dropdown .dropdown-submenu,
-.categorias-dropdown .dropdown-submenu li {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-
-.categorias-dropdown .dropdown-item {
-  color: var(--text-color);
-}
-
-.categorias-dropdown .dropdown-item:hover {
-  background-color: var(--lighter-grey);
-}
-
-/* =========================
-   ÍCONE DO USUÁRIO
-========================= */
-.user-icon img {
-  width: 37px;
-  height: 37px;
-  border-radius: 50%;
-  object-fit: cover;   
-  color: var(--text-color);
-  transition: transform 0.3s ease;
-}
-
-.user-icon img:hover {
-  transform: scale(1.1);
-}
-
-/* =========================
-   MEDIA QUERIES (RESPONSIVO)
-========================= */
-
-/* Tablets (até 992px) */
-@media (max-width: 1215px) {
-  .navbar .container,
-  .container {
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    position: relative;
-  }
-
-   .user-wrapper {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-  }
-
-  .logo {
-    width: 90px;
-  }
-
-  
-  .search-container {
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .search-container input {
-    width: 100%;
-    max-width: 400px;
-  }
-
-  .user-icon {
-    margin-top: 5px;
-  }
-
-  .perfil-foto {
-    margin-top: 85px;
-    width: 90px;
-    height: 90px;
-  }
-
-  .camera-btn {
-    margin-right: -23px;
-  }
-
-  .perfil-navbar {
-
-  }
-
-
-
-}
-
-/* Celulares (até 576px) */
-@media (max-width: 576px) {
-  .logo {
-    width: 90px;
-  }
-
-  .search-container input {
-    font-size: 0.9rem;
-    height: 32px;
-  }
-
-  .perfil-navbar {
-    
-  }
-
-  .categorias-dropdown .dropdown-toggle {
-    font-size: var(--font-small);
-  }
-
-  .user-icon img {
-    width: 32px;
-    height: 32px;
-  }
-
-  .user-wrapper {
-    top: 8px;
-    right: 10px;
-  }
-
-  .user-icon img {
-    width: 30px;
-    height: 30px;
-  }
-}
-
-/* ========================= SUBMENU DO DROPDOWN CATEGORIAS ========================= */
-
-.categorias-dropdown .dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  z-index: 1050;
+.categorias-dropdown .dropdown-menu.show {
+  display: block;           /* 🔥 mostrado quando JS coloca .show */
 }
 
 .categorias-dropdown .categoria-item {
   position: relative;
 }
 
+/* BOTÕES DE CATEGORIA E SUBCATEGORIA */
+.categorias-dropdown .dropdown-item,
+.categorias-dropdown .dropdown-subitem {
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 0.35rem 1.25rem;
+  text-align: left;
+  font-size: var(--font-navbar);
+  color: var(--text-color);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.categorias-dropdown .dropdown-item:hover,
+.categorias-dropdown .dropdown-subitem:hover {
+  background-color: var(--lighter-grey);
+}
+
+/* SUBMENU (SUBCATEGORIAS) */
 .categorias-dropdown .dropdown-submenu {
   display: none;
   position: absolute;
@@ -276,17 +181,83 @@
   display: block;
 }
 
-.categorias-dropdown .dropdown-subitem {
-  width: 100%;
-  border: none;
-  background: transparent;
-  padding: 0.35rem 1.25rem;
-  text-align: left;
-  font-size: var(--font-navbar);
+/* =========================
+   ÍCONE DO USUÁRIO
+========================= */
+.user-icon img {
+  width: 37px;
+  height: 37px;
+  border-radius: 50%;
+  object-fit: cover;
   color: var(--text-color);
-  white-space: nowrap;
+  transition: transform 0.3s ease;
 }
 
-.categorias-dropdown .dropdown-subitem:hover {
-  background-color: var(--lighter-grey);
+.user-icon img:hover {
+  transform: scale(1.1);
+}
+
+/* =========================
+   MEDIA QUERIES (RESPONSIVO)
+========================= */
+
+/* Tablets (até 1215px) */
+@media (max-width: 1215px) {
+  .navbar .container,
+  .container {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    position: relative;
+  }
+
+  .user-wrapper {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+  }
+
+  .logo {
+    width: 90px;
+  }
+
+  .search-container {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .search-container input {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .user-icon {
+    margin-top: 5px;
+  }
+}
+
+/* Celulares (até 576px) */
+@media (max-width: 576px) {
+  .logo {
+    width: 90px;
+  }
+
+  .search-container input {
+    font-size: 0.9rem;
+    height: 32px;
+  }
+
+  .categorias-dropdown .dropdown-toggle {
+    font-size: var(--font-small);
+  }
+
+  .user-icon img {
+    width: 30px;
+    height: 30px;
+  }
+
+  .user-wrapper {
+    top: 8px;
+    right: 10px;
+  }
 }

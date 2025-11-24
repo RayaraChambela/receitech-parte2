@@ -1,0 +1,100 @@
+<%- include('partials/_head') %>
+
+<link rel="stylesheet" href="/css/perfil.css">
+<link rel="stylesheet" href="/css/navbar.css">
+<link rel="stylesheet" href="/css/footer.css">
+
+<body>
+
+  <!-- BOTÃO VOLTAR -->
+  <div class="voltar-container">
+    <button class="voltar" onclick="window.history.back()">
+      <img src="/assets/setinha-cinza.svg" alt="Voltar" width="25" height="25">
+    </button>
+  </div>
+
+  <!-- NAVBAR -->
+  <%- include('partials/_navbar') %>
+
+  <!-- PERFIL -->
+  <main class="perfil-container">
+
+    <!-- BANNER -->
+    <div class="perfil-banner">
+      <img src="/assets/img-fundo-perfil.png" alt="banner" id="banner">
+    </div>
+
+    <div class="perfil-content">
+
+      <!-- FOTO DO PERFIL -->
+      <div class="perfil-foto">
+        <img
+          src="<%= user.avatar_url || '/assets/icon-img-perfil.png' %>"
+          alt="Foto de perfil"
+          id="img-perfil"
+        >
+      </div>
+
+      <!-- INFO DO PERFIL -->
+      <div class="perfil-info">
+        <div class="perfil-nome-edit">
+          <h2 id="nome-usuario"><%= user.name %></h2>
+        </div>
+
+        <p id="email-usuario"><%= user.email %></p>
+      </div>
+
+      <!-- FEED DAS RECEITAS DO USUÁRIO -->
+      <section class="perfil-posts">
+        <div class="post-box">
+          <div class="post-header">
+            <h3 style="font-weight:600;color:#5B5B5B;">
+              Receitas de <%= user.name %>
+            </h3>
+          </div>
+        </div>
+      </section>
+
+      <div class="feed-receitas" id="feed-usuario">
+
+        <% if (!recipes || recipes.length === 0) { %>
+          <p style="text-align:center;margin-top:20px;color:#666;">
+            Nenhuma receita publicada ainda.
+          </p>
+        <% } else { %>
+
+          <% recipes.forEach(function(r){ %>
+            <div class="receita-card">
+              <a href="/receitas/<%= r.id %>">
+                <img
+                  src="<%= r.cover_image || '/assets/imagem-padrao.png' %>"
+                  alt="<%= r.title %>"
+                  class="imagem-receita"
+                >
+              </a>
+
+              <div class="info-receita">
+                <h3><%= r.title %></h3>
+
+                <div class="tempo-receita">
+                  <img src="/assets/icon-tempo.svg" alt="Tempo">
+                  <span><%= r.prep_time_min || '' %></span>
+                </div>
+              </div>
+            </div>
+          <% }) %>
+
+        <% } %>
+
+      </div>
+
+    </div>
+  </main>
+
+  <%- include('partials/_footer') %>
+
+  <script src="/js/categorias.js"></script>
+  <script src="/js/navbar.js"></script>
+
+</body>
+</html>

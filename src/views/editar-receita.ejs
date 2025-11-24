@@ -13,16 +13,13 @@
         </div>
 
         <div class="conteudo">
-          <!-- se quiser manter a barra de progresso, deixei aqui fixa -->
           <div class="custom-progress">
             <div class="progress-bar" role="progressbar"></div>
             <div class="bolinha"></div>
           </div>
 
-          <!-- Aqui, diferente da criação, vamos mostrar TODOS os campos de uma vez -->
-
-          <form id="form-editar-receita">
-            <!-- ============ CAMPOS BÁSICOS ============ -->
+          <!-- ============ ETAPA 1 ============ -->
+          <div id="etapa-1">
             <label for="nome">Nome da receita:</label>
             <input
               type="text"
@@ -48,12 +45,12 @@
             </select>
 
             <label for="subcategoria">Subcategoria:</label>
-            <select id="subcategoria">
-              <% if (recipe.subcategory) { %>
-                <option value="<%= recipe.subcategory %>" selected><%= recipe.subcategory %></option>
-              <% } else { %>
-                <option value="">Selecione a categoria primeiro</option>
-              <% } %>
+            <select
+              id="subcategoria"
+              disabled
+              data-subcategoria-salva="<%= recipe.subcategory || '' %>"
+            >
+              <option value="">Selecione a categoria primeiro</option>
             </select>
 
             <label for="sobre">Sobre a receita:</label>
@@ -64,11 +61,26 @@
               placeholder="Descreva brevemente sua receita"
             ><%= recipe.description || '' %></textarea>
 
-            <!-- ============ INGREDIENTES ============ -->
-            <p class="inserir" id="btn-add-ingrediente">+ Inserir ingrediente</p>
+            <div class="botoes">
+              <div class="botoes-esquerda"></div>
+              <div class="botoes-direita">
+                <button type="button" onclick="proximaEtapa()">Próximo</button>
+              </div>
+            </div>
+          </div>
+
+          <% 
+            // garante arrays pra preencher etapa 2 e 3
+            const ingredientesArr = Array.isArray(ingredientes) ? ingredientes : [];
+            const passosArr = Array.isArray(passos) ? passos : [];
+          %>
+
+          <!-- ============ ETAPA 2 ============ -->
+          <div id="etapa-2" style="display:none;">
+            <p class="inserir" onclick="adicionarIngrediente()">+ Inserir ingrediente</p>
             <div id="lista-ingredientes">
-              <% if (ingredientes && ingredientes.length) { %>
-                <% ingredientes.forEach(function(ing, index) { %>
+              <% if (ingredientesArr.length) { %>
+                <% ingredientesArr.forEach(function(ing, index) { %>
                   <input
                     type="text"
                     class="ingrediente-input"
@@ -82,11 +94,22 @@
               <% } %>
             </div>
 
-            <!-- ============ MODO DE PREPARO ============ -->
-            <p class="inserir" id="btn-add-preparo">+ Inserir etapa de preparo</p>
+            <div class="botoes">
+              <div class="botoes-esquerda">
+                <button type="button" class="btn-voltar" onclick="voltarEtapa()">← Voltar</button>
+              </div>
+              <div class="botoes-direita">
+                <button type="button" onclick="salvarEtapa2()">Próximo</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============ ETAPA 3 ============ -->
+          <div id="etapa-3" style="display:none;">
+            <p class="inserir" onclick="adicionarEtapaPreparo()">+ Inserir etapa de preparo</p>
             <div id="lista-preparo">
-              <% if (passos && passos.length) { %>
-                <% passos.forEach(function(step, index) { %>
+              <% if (passosArr.length) { %>
+                <% passosArr.forEach(function(step, index) { %>
                   <input
                     type="text"
                     class="preparo-input"
@@ -108,7 +131,18 @@
               value="<%= recipe.prep_time_min || '' %>"
             >
 
-            <!-- ============ DICA ============ -->
+            <div class="botoes">
+              <div class="botoes-esquerda">
+                <button type="button" class="btn-voltar" onclick="voltarEtapa()">← Voltar</button>
+              </div>
+              <div class="botoes-direita">
+                <button type="button" onclick="salvarEtapa3()">Próximo</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============ ETAPA 4 ============ -->
+          <div id="etapa-4" style="display:none;">
             <label for="dica">Dica do chef:</label>
             <textarea
               id="dica"
@@ -117,21 +151,33 @@
               placeholder="Máximo 150 caracteres"
             ><%= recipe.tip || '' %></textarea>
 
-            <!-- ============ IMAGEM (apenas visual / futuro) ============ -->
+            <div class="botoes">
+              <div class="botoes-esquerda">
+                <button type="button" class="btn-voltar" onclick="voltarEtapa()">← Voltar</button>
+              </div>
+              <div class="botoes-direita">
+                <button type="button" onclick="salvarEtapa4()">Próximo</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============ ETAPA 5 ============ -->
+          <div id="etapa-5" style="display:none;">
             <label for="imagem-receita">Foto da receita:</label>
             <div id="lista-imagens">
+              <!-- por enquanto, só deixa o input. A edição de imagem a gente trata depois -->
               <input type="file" accept="image/*">
             </div>
 
             <div class="botoes">
               <div class="botoes-esquerda">
-                <button type="button" class="btn-voltar" onclick="fecharModal()">← Voltar</button>
+                <button type="button" class="btn-voltar" onclick="voltarEtapa()">← Voltar</button>
               </div>
               <div class="botoes-direita">
-                <button type="submit">Salvar alterações</button>
+                <button type="button" onclick="finalizarReceita()">Salvar alterações</button>
               </div>
             </div>
-          </form>
+          </div>
 
         </div>
       </div>

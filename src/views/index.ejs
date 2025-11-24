@@ -21,55 +21,8 @@
     <link rel="stylesheet" href="/css/footer.css">
   </head>
   <body>
-    <header class="navbar">
-      <div class="container">
-        <a href="/">
-          <img src="/assets/logo-branca.png" alt="Logo Receita Tech" class="logo" />
-        </a>
+    <%- include('partials/_navbar') %>
 
-        <div class="user-wrapper">
-          <div class="user-icon">
-            <!-- JS decide se vai pra /login ou /perfil -->
-            <a href="#" id="user-link">
-              <img src="/assets/icon-perfil.png" alt="Usuário" class="perfil-navbar" />
-            </a>
-          </div>
-        </div>
-
-        <div class="search-container">
-          <div class="dropdown categorias-dropdown">
-            <button
-              class="dropdown-toggle"
-              type="button"
-              id="dropdownMenu2"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Categorias
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-              <% (categorias || []).forEach(function(c){ %>
-                <li>
-                  <button
-                    class="dropdown-item"
-                    type="button"
-                    data-categoria="<%= c %>"
-                  >
-                    <%= c %>
-                  </button>
-                </li>
-              <% }); %>
-            </ul>
-          </div>
-
-          <input
-            type="text"
-            id="campo-pesquisa"
-            placeholder="Pesquise a sua receita..."
-          />
-        </div>
-      </div>
-    </header>
 
     <main>
       <!-- GRID DE RECEITAS -->

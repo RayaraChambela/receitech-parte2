@@ -36,6 +36,26 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   }
 
+    // ===== CLIQUE NO AVATAR DO AUTOR =====
+  const linkPerfilAutor = document.querySelector('.link-perfil-autor');
+
+  if (linkPerfilAutor) {
+    linkPerfilAutor.addEventListener('click', (e) => {
+      e.preventDefault();
+
+      const autorId = linkPerfilAutor.dataset.authorId;
+      if (!autorId) return;
+
+      // se o autor da receita for o usuário logado -> vai pra /perfil
+      if (usuario && String(usuario.id) === String(autorId)) {
+        window.location.href = '/perfil';
+      } else {
+        // se for outro autor -> perfil público desse usuário
+        window.location.href = `/usuario/${autorId}`;
+      }
+    });
+  }
+
   // ID da receita pela URL: /receitas/:id
   const partesUrl = window.location.pathname.split('/');
   const recipeId = partesUrl[partesUrl.length - 1];

@@ -17,6 +17,29 @@
 
   <main class="container-receita" style="position:relative;">
 
+    <%
+      // Avatar do autor
+      const avatarUrl = recipe.author_avatar || '/assets/icon-perfil.svg';
+
+      // Função para formatar tempo (min → min / horas)
+      function formatTempo(t) {
+        if (!t) return '—';
+        const n = parseInt(t, 10);
+        if (isNaN(n)) return t;
+
+        if (n < 60) return `${n} min`;
+
+        const h = Math.floor(n / 60);
+        const m = n % 60;
+
+        if (m === 0) return `${h} h`;
+        return `${h} h ${m} min`;
+      }
+
+      const tempoFormatado = formatTempo(recipe.prep_time_min);
+    %>
+
+
     <h1 id="nome-receita"><%= recipe.title %></h1>
 
     <!-- 🔥 BLOCO DE AÇÕES DA RECEITA (SÓ APARECE PRO AUTOR VIA JS) -->
@@ -43,6 +66,7 @@
       </button>
     </div>
 
+    <!-- IMAGEM -->
     <div class="imagem-central">
       <img
         id="imagem-receita"
@@ -51,12 +75,18 @@
       >
     </div>
 
+    <!-- DETALHES DO AUTOR -->
     <div class="detalhes-receita">
-      <a href="/perfil" aria-label="Perfil">
+      <a
+        href="#"
+        class="link-perfil-autor"
+        data-author-id="<%= recipe.user_id %>"
+        aria-label="Perfil do autor"
+      >
         <img
           id="avatar-autor"
-          src="/assets/icon-perfil.svg"
-          alt="Usuário"
+          src="<%= avatarUrl %>"
+          alt="<%= recipe.author_name || 'Usuário' %>"
         >
       </a>
 
@@ -70,6 +100,7 @@
       </span>
     </div>
 
+
     <% 
       // ------- NORMALIZA INGREDIENTES -------
       let ingredientes = [];
@@ -78,11 +109,7 @@
       } else if (typeof recipe.ingredients === 'string' && recipe.ingredients.trim()) {
         try {
           const parsed = JSON.parse(recipe.ingredients);
-          if (Array.isArray(parsed)) {
-            ingredientes = parsed;
-          } else {
-            ingredientes = [recipe.ingredients];
-          }
+          ingredientes = Array.isArray(parsed) ? parsed : [recipe.ingredients];
         } catch (e) {
           ingredientes = [recipe.ingredients];
         }
@@ -95,49 +122,50 @@
       } else if (typeof recipe.steps === 'string' && recipe.steps.trim()) {
         try {
           const parsedSteps = JSON.parse(recipe.steps);
-          if (Array.isArray(parsedSteps)) {
-            passos = parsedSteps;
-          } else {
-            passos = [recipe.steps];
-          }
+          passos = Array.isArray(parsedSteps) ? parsedSteps : [recipe.steps];
         } catch (e) {
           passos = [recipe.steps];
         }
       }
     %>
 
+    <!-- SOBRE -->
     <section class="sobre">
       <h2>Sobre a Receita</h2>
       <p id="sobre-receita"><%= recipe.description || '' %></p>
     </section>
 
+    <!-- INGREDIENTES -->
     <section class="ingredientes">
       <h2>Ingredientes</h2>
       <ul id="ingredientes">
-        <% if (ingredientes && ingredientes.length) { %>
-          <% ingredientes.forEach(function(ing, index) { %>
+        <% if (ingredientes.length) { %>
+          <% ingredientes.forEach(function(ing) { %>
             <li><%= ing %></li>
           <% }) %>
         <% } %>
       </ul>
     </section>
 
+    <!-- MODO DE PREPARO -->
     <section class="preparo">
       <h2>Modo de Preparo</h2>
       <ol id="modo-preparo">
-        <% if (passos && passos.length) { %>
-          <% passos.forEach(function(step, index) { %>
+        <% if (passos.length) { %>
+          <% passos.forEach(function(step) { %>
             <li><%= step %></li>
           <% }) %>
         <% } %>
       </ol>
     </section>
 
+    <!-- DICA DO CHEF -->
     <section class="dica-chef">
       <h2>Dica do Chef</h2>
       <p id="dica-chef"><%= recipe.tip || '' %></p>
     </section>
 
+    <!-- COMENTÁRIOS -->
     <section class="comentarios">
       <h2>Comentários</h2>
 
@@ -159,7 +187,6 @@
               data-comment-id="<%= c.id %>"
               data-comment-user-id="<%= c.user_id %>">
 
-            <!-- CARD BRANCO DO COMENTÁRIO -->
             <div class="comentario-conteudo">
               <div class="comentario-topo">
                 <strong><%= c.author_name %></strong>
@@ -171,7 +198,6 @@
               <p class="comentario-texto"><%= c.content %></p>
             </div>
 
-            <!-- BOTÕES FORA DO CARD, MAS DENTRO DO MESMO <li> -->
             <div class="comentario-acoes">
               <button type="button" class="btn-editar-comentario">Editar</button>
               <button type="button" class="btn-excluir-comentario">Excluir</button>

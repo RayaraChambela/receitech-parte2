@@ -1,15 +1,49 @@
 <%- include('partials/_head') %>
+<link rel="stylesheet" href="/css/categorias.css">
 <%- include('partials/_navbar') %>
 
-<main style="position:relative;">
-  <div class="voltar-container">
-    <button class="voltar" onclick="window.history.back()" aria-label="Voltar">
-      <img src="/assets/setinha-cinza.svg" alt="Voltar" width="25" height="25">
-    </button>
-  </div>
+<body>
+  <main style="position:relative;">
+    <div class="voltar-container">
+      <button class="voltar" onclick="window.history.back()" aria-label="Voltar">
+        <img src="/assets/setinha-cinza.svg" alt="Voltar" width="25" height="25">
+      </button>
+    </div>
 
-  <h2 id="titulo-categoria">Categoria</h2>
-  <div class="resultados-container" id="resultado-categoria"></div>
-</main>
+    <% const cat = categoria || ''; %>
+    <% const sub = subcategoria || ''; %>
+    <% const tituloPagina = sub ? (cat + ' › ' + sub) : cat; %>
 
-<%- include('partials/_footer') %>
+    <h2 id="titulo-categoria"><%= tituloPagina %></h2>
+
+
+    <div class="resultados-container" id="resultado-categoria">
+      <% if (!recipes || recipes.length === 0) { %>
+        <p>
+          Nenhuma receita encontrada para 
+          "<%= tituloPagina %>".
+        </p>
+      <% } else { %>
+        <% recipes.forEach(function(recipe) { %>
+          <div class="card-receita" data-recipe-id="<%= recipe.id %>">
+            <img
+              src="<%= recipe.cover_image || '/assets/imagem-padrao.png' %>"
+              alt="<%= recipe.title %>"
+            >
+            <div class="card-receita-conteudo">
+              <h3 title="<%= recipe.title %>"><%= recipe.title %></h3>
+              <div class="tempo">
+                <img src="/assets/icon-tempo.svg" alt="Tempo">
+                <span><%= recipe.prep_time_min || '' %></span>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      <% } %>
+    </div>
+  </main>
+
+  <%- include('partials/_footer') %>
+  <script src="/js/categorias.js" defer></script>
+</body>
+</html>

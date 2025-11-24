@@ -117,3 +117,34 @@ router.delete('/avatar', async (req, res) => {
 });
 
 module.exports = router;
+
+// ==========================
+// PERFIL PÚBLICO DO USUÁRIO (GET /usuario/:id)
+// ==========================
+router.get('/:id', async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(404).send('Usuário não encontrado.');
+    }
+
+    // IMPORTANTE: pegar receitas desse usuário
+    const { Recipe } = require('../db');
+    const recipes = await Recipe.findAll({
+      where: { user_id: userId },
+      order: [['created_at', 'DESC']]
+    });
+
+    return res.render('perfil-publico', {
+      title: user.name,
+      user,
+      recipes
+    });
+
+  } catch (err) {
+    console.error('Erro ao carregar perfil público:', err);
+    return res.status(500).send('Erro ao carregar perfil público.');
+  }
+});

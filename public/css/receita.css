@@ -90,6 +90,16 @@ body {
 #autor-receita {
   font-size: 0.95rem;
 }
+#avatar-autor {
+  width: 40px;         
+  height: 40px;        
+  border-radius: 50%;   
+  object-fit: cover;  
+  object-position: center;
+  margin-right: 4px;    
+  border: 2px solid rgba(0,0,0,0.05); 
+}
+
 
 #tempo-preparo {
   font-size: 0.95rem;
@@ -158,6 +168,7 @@ ol {
 .btn-excluir-receita:hover img {
   filter: brightness(1.4) saturate(1.3); /* destaque mais forte */
 }
+
 
 
 

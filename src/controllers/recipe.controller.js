@@ -119,15 +119,11 @@ exports.create = async (req, res) => {
  * GET /receitas/:id
  * Mostra a receita em uma página
  */
-/**
- * GET /receitas/:id
- * Mostra a receita em uma página
- */
 exports.show = async (req, res) => {
   try {
     const id = req.params.id;
 
-    // 👇 sem include de User, só a receita
+    // 1) Busca só a receita
     const recipeInstance = await Recipe.findByPk(id);
 
     if (!recipeInstance) {
@@ -135,6 +131,14 @@ exports.show = async (req, res) => {
     }
 
     const recipe = recipeInstance.toJSON();
+
+    // 2) Busca o usuário dono da receita (se tiver user_id)
+    let author = null;
+    if (recipe.user_id) {
+      author = await User.findByPk(recipe.user_id, {
+        attributes: ['id', 'name', 'avatar_url'],
+      });
+    }
 
     // helper para normalizar arrays
     const normalizeFieldToArray = (field) => {
@@ -155,16 +159,20 @@ exports.show = async (req, res) => {
     recipe.ingredients = normalizeFieldToArray(recipe.ingredients);
     recipe.steps = normalizeFieldToArray(recipe.steps);
 
-    // 🔥 BUSCA OS COMENTÁRIOS
+    // 3) Comentários
     const comments = await Comment.findAll({
       where: { recipe_id: id },
       order: [['created_at', 'ASC']],
     });
 
-    // 🔥 ENVIA PARA O EJS
+    // 4) Renderiza já passando nome + avatar do autor
     return res.render('receita', {
       title: recipe.title,
-      recipe,   // já tem user_id, author_name, etc.
+      recipe: {
+        ...recipe,
+        author_name: author?.name || recipe.author_name || 'Autor desconhecido',
+        author_avatar: author?.avatar_url || null,
+      },
       comments,
     });
 
@@ -173,6 +181,8 @@ exports.show = async (req, res) => {
     return res.status(500).send('Erro ao carregar receita.');
   }
 };
+
+
 
 
 /**
