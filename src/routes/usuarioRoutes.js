@@ -7,11 +7,7 @@ const upload = require('../config/multer');
 const User = require('../models/User');
 const fs = require('fs');
 const path = require('path');
-
-// ==========================
-// EXCLUIR CONTA
-// ==========================
-router.delete('/excluir', usuarioController.excluirConta);
+const { Recipe } = require('../db'); // já importa aqui
 
 // ==========================
 // FUNÇÃO AUXILIAR: apagar arquivo antigo, se existir
@@ -32,6 +28,11 @@ function deleteAvatarFile(avatarUrl) {
     }
   });
 }
+
+// ==========================
+// EXCLUIR CONTA
+// ==========================
+router.delete('/excluir', usuarioController.excluirConta);
 
 // ==========================
 // SALVAR / ATUALIZAR AVATAR (POST /usuario/avatar)
@@ -68,8 +69,8 @@ router.post('/avatar', upload.single('avatar'), async (req, res) => {
         id: user.id,
         name: user.name,
         email: user.email,
-        avatar_url: user.avatar_url
-      }
+        avatar_url: user.avatar_url,
+      },
     });
   } catch (err) {
     console.error('Erro ao atualizar avatar:', err);
@@ -107,16 +108,14 @@ router.delete('/avatar', async (req, res) => {
         id: user.id,
         name: user.name,
         email: user.email,
-        avatar_url: user.avatar_url
-      }
+        avatar_url: user.avatar_url,
+      },
     });
   } catch (err) {
     console.error('Erro ao remover avatar:', err);
     return res.status(500).json({ error: 'Erro ao remover avatar.' });
   }
 });
-
-module.exports = router;
 
 // ==========================
 // PERFIL PÚBLICO DO USUÁRIO (GET /usuario/:id)
@@ -125,26 +124,25 @@ router.get('/:id', async (req, res) => {
   try {
     const userId = req.params.id;
 
-    const user = await User.findByPk(userId);
-    if (!user) {
+    const publicUser = await User.findByPk(userId);
+    if (!publicUser) {
       return res.status(404).send('Usuário não encontrado.');
     }
 
-    // IMPORTANTE: pegar receitas desse usuário
-    const { Recipe } = require('../db');
     const recipes = await Recipe.findAll({
       where: { user_id: userId },
-      order: [['created_at', 'DESC']]
+      order: [['created_at', 'DESC']],
     });
 
     return res.render('perfil-publico', {
-      title: user.name,
-      user,
-      recipes
+      title: publicUser.name,
+      publicUser,   // 🔹 nome bate com o que o EJS espera
+      recipes,
     });
-
   } catch (err) {
     console.error('Erro ao carregar perfil público:', err);
     return res.status(500).send('Erro ao carregar perfil público.');
   }
 });
+
+module.exports = router;

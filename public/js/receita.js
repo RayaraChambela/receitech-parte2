@@ -36,25 +36,32 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   }
 
-    // ===== CLIQUE NO AVATAR DO AUTOR =====
-  const linkPerfilAutor = document.querySelector('.link-perfil-autor');
+  // ================== REDIRECIONAMENTO DO AUTOR ==================
+  const authorLinks = document.querySelectorAll('.link-perfil-autor, .link-nome-autor');
 
-  if (linkPerfilAutor) {
-    linkPerfilAutor.addEventListener('click', (e) => {
+  authorLinks.forEach((link) => {
+    const autorId = link.dataset.authorId;
+    if (!autorId) return;
+
+    link.addEventListener('click', (e) => {
       e.preventDefault();
 
-      const autorId = linkPerfilAutor.dataset.authorId;
-      if (!autorId) return;
-
-      // se o autor da receita for o usuário logado -> vai pra /perfil
-      if (usuario && String(usuario.id) === String(autorId)) {
-        window.location.href = '/perfil';
-      } else {
-        // se for outro autor -> perfil público desse usuário
+      // ninguém logado → perfil público
+      if (!usuario) {
         window.location.href = `/usuario/${autorId}`;
+        return;
       }
+
+      // é o dono da receita → perfil pessoal
+      if (String(usuario.id) === String(autorId)) {
+        window.location.href = '/perfil';
+        return;
+      }
+
+      // outro usuário → perfil público
+      window.location.href = `/usuario/${autorId}`;
     });
-  }
+  });
 
   // ID da receita pela URL: /receitas/:id
   const partesUrl = window.location.pathname.split('/');
@@ -76,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // EDITAR RECEITA – redireciona para a página que parece pop-up
+  // EDITAR RECEITA
   btnEditarReceita?.addEventListener('click', () => {
     if (!usuario) {
       alert('Você precisa estar logado para editar esta receita.');
@@ -124,7 +131,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const textarea = document.getElementById('comentario-texto');
   const lista = document.getElementById('lista-comentarios');
 
-  // Controla visibilidade dos botões (só para comentários do usuário logado)
   function aplicarPermissoesComentarios() {
     const itensComentario = document.querySelectorAll('.comentario-item');
 
@@ -141,7 +147,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Aplica nas linhas que vieram do servidor
   aplicarPermissoesComentarios();
 
   // ================== CRIAR COMENTÁRIO ==================
@@ -294,4 +299,5 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   });
+
 });

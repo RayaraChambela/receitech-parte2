@@ -76,9 +76,12 @@
     </div>
 
     <!-- DETALHES DO AUTOR -->
+        <!-- DETALHES DO AUTOR -->
     <div class="detalhes-receita">
+
+      <!-- LINK PARA PERFIL (JS decide se é /perfil ou /usuario/:id) -->
       <a
-        href="#"
+        href="/usuario/<%= recipe.user_id %>"
         class="link-perfil-autor"
         data-author-id="<%= recipe.user_id %>"
         aria-label="Perfil do autor"
@@ -90,13 +93,21 @@
         >
       </a>
 
-      <span id="autor-receita">
-        <%= recipe.author_name || 'Autor desconhecido' %>
-      </span>
+      <!-- NOME DO AUTOR (MESMA LÓGICA) -->
+      <a
+        href="/usuario/<%= recipe.user_id %>"
+        class="link-nome-autor"
+        data-author-id="<%= recipe.user_id %>"
+        style="text-decoration:none;color:inherit;"
+      >
+        <span id="autor-receita">
+          <%= recipe.author_name || 'Autor desconhecido' %>
+        </span>
+      </a>
 
       <img src="/assets/icon-tempo.svg" alt="Relógio">
       <span id="tempo-preparo">
-        <%= recipe.prep_time_min || '—' %>
+        <%= tempoFormatado %>
       </span>
     </div>
 
