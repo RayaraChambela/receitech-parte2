@@ -21,7 +21,6 @@ body {
   background: none;
   border: none;
   cursor: pointer;
-
 }
 
 .voltar img {
@@ -31,7 +30,7 @@ body {
 /* Bloco principal da receita */
 .container-receita {
   max-width: 900px;
-  width: 80%;  
+  width: 80%;
   margin: 16px auto 80px;
   background-color: var(--search-bg);
   padding: 40px 60px;
@@ -40,9 +39,8 @@ body {
   padding-left: 60px;
   padding-right: 60px;
 
-  margin-top: 0;           
-  margin-bottom: 0;       
-
+  margin-top: 0;
+  margin-bottom: 0;
 
   display: flex;
   flex-direction: column;
@@ -90,20 +88,28 @@ body {
 #autor-receita {
   font-size: 0.95rem;
 }
-#avatar-autor {
-  width: 40px;         
-  height: 40px;        
-  border-radius: 50%;   
-  object-fit: cover;  
-  object-position: center;
-  margin-right: 4px;    
-  border: 2px solid rgba(0,0,0,0.05); 
-}
 
+#avatar-autor {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+  margin-right: 4px;
+  border: 2px solid rgba(0,0,0,0.05);
+}
 
 #tempo-preparo {
   font-size: 0.95rem;
 }
+
+.tempo-preparo img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  opacity: 0.85;
+}
+
 
 /* Seções de texto */
 section {
@@ -138,6 +144,7 @@ ol {
   justify-content: flex-end;
 }
 
+/* botão base */
 .btn-acao-receita {
   border: none;
   background: transparent;
@@ -168,7 +175,6 @@ ol {
 .btn-excluir-receita:hover img {
   filter: brightness(1.4) saturate(1.3); /* destaque mais forte */
 }
-
 
 
 
@@ -232,7 +238,6 @@ ol {
 }
 
 /* Lista de comentários */
-
 #lista-comentarios {
   list-style: none;
   padding-left: 0;
@@ -318,8 +323,6 @@ ol {
 
 
 
-
-
 /* =========================
    RESPONSIVO
 ========================= */
@@ -330,7 +333,7 @@ ol {
   }
 
   .container-receita {
-    max-width: 95;
+    max-width: 95%;
     padding: 32px 24px;
     border-radius: 18px;
   }
