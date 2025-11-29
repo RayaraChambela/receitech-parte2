@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
       // 👇 CASO ESPECIAL: TODAS AS RECEITAS
       if (categoria.toLowerCase() === 'todas as receitas') {
         window.location.href = '/categorias'; // sem filtro
+      if (categoria.toLowerCase() === 'todas as receitas') {
+        window.location.href = '/categorias';
         return;
       }
 
@@ -34,12 +36,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Clique no card leva pra página da receita
-  document.querySelectorAll('.card-receita').forEach((card) => {
-    card.addEventListener('click', () => {
-      const id = card.dataset.recipeId;
-      if (!id) return;
-      window.location.href = `/receitas/${id}`;
+      if (categoria.toLowerCase() === 'todas as receitas') {
+        window.location.href = '/categorias';
+        return;
+      }
+
+      window.location.href =
+        `/categorias?categoria=${encodeURIComponent(categoria)}`;
     });
   });
 });
