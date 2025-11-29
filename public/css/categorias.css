@@ -84,37 +84,38 @@ main {
 }
 
 .card-receita-conteudo {
-  padding: 15px;
-  background-color: #fff;
+  padding: 12px 16px 14px;
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  flex-direction: column;  /* título em cima, tempo embaixo */
+  align-items: flex-start;   /* tudo encostado à direita */
+  gap: 4px;
 }
 
-.card-receita h3 {
-  font-size: 0.95rem;
-  color: var(--text-color);
+/* título */
+.card-receita-conteudo h3 {
   margin: 0;
+  font-size: 1rem;
   font-weight: 700;
-  text-align: left;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  color: var(--text-color);
+  text-align: left;      
 }
 
-.card-receita .tempo {
+/* tempo */
+.card-receita-conteudo .tempo {
   display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: flex-end;
+  gap: 4px;
   font-size: 0.9rem;
   color: var(--text-color);
-  font-weight: 700;
+  white-space: nowrap;
 }
 
-.card-receita .tempo img {
+.card-receita-conteudo .tempo img {
   width: 16px;
   height: 16px;
 }
+
 
 /* Responsividade para tablet e celular */
 @media (max-width: 1024px) {

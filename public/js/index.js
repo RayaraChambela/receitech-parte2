@@ -29,11 +29,3 @@ function filtrarPorCategoria(cat) {
   });
 }
 
-function filtrarPorTexto(texto) {
-  const t = (texto || '').toLowerCase().trim();
-  const cards = document.querySelectorAll('.receita-card');
-  cards.forEach(card => {
-    const titulo = card.querySelector('h3')?.textContent?.toLowerCase() || '';
-    card.style.display = titulo.includes(t) ? '' : 'none';
-  });
-}

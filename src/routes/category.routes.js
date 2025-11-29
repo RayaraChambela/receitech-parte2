@@ -5,37 +5,47 @@ const { Recipe } = require('../db');
 
 router.get('/', async (req, res) => {
   try {
-    const categoria = req.query.categoria || null;
+    const categoria    = req.query.categoria || null;
     const subcategoria = req.query.subcategoria || null;
 
-    if (!categoria) {
-      return res.status(400).send("Categoria não informada.");
+    const where = {};
+
+    // Se vier categoria (e não for vazia), filtra por ela
+    if (categoria && categoria.toLowerCase() !== 'todas as receitas') {
+      where.category = categoria;
     }
 
-    // Se tiver subcategoria → filtra pelas duas
-    const where = {
-      category: categoria
-    };
-
+    // Se vier subcategoria, filtra também
     if (subcategoria) {
       where.subcategory = subcategoria;
     }
 
-    const recipes = await Recipe.findAll({
-      where,
+    const findOptions = {
       order: [['created_at', 'DESC']]
-    });
+    };
+
+    // Só adiciona where se tiver algum filtro
+    if (Object.keys(where).length > 0) {
+      findOptions.where = where;
+    }
+
+    const recipes = await Recipe.findAll(findOptions);
+
+    // Título da página
+    const tituloPagina = categoria
+      ? (subcategoria ? `${categoria} › ${subcategoria}` : categoria)
+      : 'Todas as receitas';
 
     return res.render('categorias', {
-      title: categoria,
-      categoria,
-      subcategoria, // ← AGORA EXISTE
+      title: tituloPagina,
+      categoria: categoria || 'Todas as receitas',
+      subcategoria,
       recipes
     });
 
   } catch (err) {
-    console.error("Erro ao carregar categorias:", err);
-    return res.status(500).send("Erro ao carregar categorias.");
+    console.error('Erro ao carregar categorias:', err);
+    return res.status(500).send('Erro ao carregar categorias.');
   }
 });
 

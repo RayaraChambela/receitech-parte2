@@ -8,57 +8,77 @@ document.addEventListener('DOMContentLoaded', () => {
       if (e.key === 'Enter') {
         const termo = this.value.trim();
         if (termo) {
-          // versão Node/Express: rota /pesquisa
           window.location.href = `/pesquisa?termo=${encodeURIComponent(termo)}`;
         }
       }
     });
   }
 
-  // ====== FOTO DO USUÁRIO NA NAVBAR ======
+// ====== ÍCONE / FOTO DO USUÁRIO NA NAVBAR ======
+const userLink =
+  document.getElementById('user-link') ||
+  document.querySelector('.user-icon');
+
+// tenta achar a imagem do perfil em diferentes formatos de HTML
+const userImg =
+  document.querySelector('.navbar .perfil-navbar img') || // caso .perfil-navbar seja wrapper
+  document.querySelector('.navbar img.perfil-navbar')   || // caso a própria img tenha a classe
+  document.querySelector('.navbar .user-icon img')      || // outras páginas
+  (userLink ? userLink.querySelector('img') : null);
+
+if (userLink && userImg) {
   let usuario = null;
+  let token = null;
+
   try {
     const usuarioStr = localStorage.getItem('usuario');
+    token = localStorage.getItem('token');
+
     if (usuarioStr) {
       usuario = JSON.parse(usuarioStr);
     }
   } catch (err) {
-    console.error('Erro ao ler usuário do localStorage:', err);
+    console.warn('Erro ao ler usuário do localStorage:', err);
   }
 
-  if (usuario && usuario.fotoPerfil) {
-    // tenta achar primeiro na home (.perfil-navbar)
-    let navbarIcon = document.querySelector('.perfil-navbar');
-
-    // se for outra página que usa .user-icon img, pega ela
-    if (!navbarIcon) {
-      navbarIcon = document.querySelector('.user-icon img');
+  // Se estiver logado (usuario + token), troca a foto
+  if (usuario && token) {
+    if (usuario.avatar_url) {
+      userImg.src = usuario.avatar_url;
+    } else if (usuario.fotoPerfil) {
+      userImg.src = usuario.fotoPerfil;
     }
-
-    if (navbarIcon) {
-      navbarIcon.src = usuario.fotoPerfil;
-    }
+    // se não tiver nada, mantém o ícone padrão do HTML
   }
 
-  // (opcional) ajustar link do usuário
-  const userLink = document.getElementById('user-link');
-  if (userLink) {
-    if (usuario) {
-      // ajusta conforme sua rota real
-      userLink.href = `/perfil`;
+  // Clique no ícone: se logado vai pro perfil, senão vai pro login
+  userLink.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    const usuarioStrAtual = localStorage.getItem('usuario');
+    const tokenAtual = localStorage.getItem('token');
+
+    if (usuarioStrAtual && tokenAtual) {
+      window.location.href = '/perfil';
     } else {
-      userLink.href = `/login`;
+      window.location.href = '/login'; // ou /register se preferir
     }
-  }
+  });
+}
+
 
   // ====== CATEGORIAS DO DROPDOWN ======
-  document.querySelectorAll('.dropdown-item[data-categoria]').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const categoria = btn.dataset.categoria || btn.textContent.trim();
-      if (!categoria) return;
-      window.location.href = `/categorias?categoria=${encodeURIComponent(categoria)}`;
+  document
+    .querySelectorAll('.dropdown-item[data-categoria]')
+    .forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const categoria = btn.dataset.categoria || btn.textContent.trim();
+        if (!categoria) return;
+        window.location.href = `/categorias?categoria=${encodeURIComponent(
+          categoria
+        )}`;
+      });
     });
-  });
 
   document.querySelectorAll('.dropdown-subitem').forEach((btn) => {
     btn.addEventListener('click', () => {

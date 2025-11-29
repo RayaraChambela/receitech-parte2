@@ -15,6 +15,7 @@ const recipeRoutes = require('./routes/recipe.routes');
 const categoryRoutes = require('./routes/category.routes');
 const authRoutes = require('./routes/auth.routes');
 const usuarioRoutes = require('./routes/usuarioRoutes');
+const pesquisaRoutes = require('./routes/resultado-pesquisa.routes.');
 
 // =======================
 // VIEW ENGINE
@@ -115,6 +116,7 @@ app.use('/auth', authRoutes);
 app.use('/receitas', recipeRoutes);
 app.use('/categorias', categoryRoutes);
 app.use('/usuario', usuarioRoutes);
+app.use('/pesquisa', pesquisaRoutes);
 
 // =======================
 // 404
