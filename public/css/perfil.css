@@ -41,119 +41,6 @@ main {
   flex: 1;
 }
 
-.voltar-container {
-  position: absolute;
-  top: 1.5rem;
-  left: 1.5rem;
-  z-index: 5;
-}
-
-.voltar {
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.voltar img {
-  width: 25px;
-}
-
-.container {
-  width: 100%;
-  height: 40px;
-  max-width: 1400px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-img {
-  width: 100px;
-}
-
-.logo span {
-  font-weight: normal;
-}
-
-.search-container {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-
-.search-container input {
-  background-color: var(--search-bg);
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 8px;
-  font-size: var(--font-regular);
-  width: 300px;
-  color: var(--text-color);
-}
-
-.search-container input::placeholder {
-  color: var(--placeholder);
-}
-
-.categorias-dropdown .dropdown-toggle {
-  background-color: transparent;
-  border: none;
-  color: var(--text-color);
-  font-size: var(--font-navbar);
-  padding: 0.5rem 1rem;
-}
-
-.categorias-dropdown .dropdown-toggle::after {
-  color: var(--text-color);
-}
-
-.categorias-dropdown .dropdown-menu {
-  background-color: var(--search-bg);
-  border-radius: 8px;
-  font-size: var(--font-regular);
-  color: var(--text-color);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-.categorias-dropdown .dropdown-item {
-  color: var(--text-color);
-}
-
-.categorias-dropdown .dropdown-item:hover {
-  background-color: var(--lighter-grey);
-}
-
-.user-icon img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  color: var(--text-color);
-}
-
-/* CATEGORIAS */
-.categorias-container {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  padding: 2rem;
-}
-
-.categoria {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  text-align: center;
-}
-
-.categoria img {
-  width: 80px;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 50%;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
 
 .perfil-banner {
   width: 100vw;
@@ -206,18 +93,7 @@ img {
   border-radius: 25px;
 }
 
-#navbar-popup {
-  background-color: var(--navbar-color);
-  width: 100%;
-  height: 50px;
-  font-weight: 600;
-  position: relative;
-  display: flex;
-  align-items: center;
-  padding: 0 15px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-}
+
 
 .centered-text {
   position: absolute;
@@ -526,11 +402,6 @@ span {
   display: block;
 }
 
-
-header.navbar {
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
 
 
 .perfil-container {

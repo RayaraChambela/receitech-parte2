@@ -104,6 +104,22 @@
   font-weight: 500;
 }
 
+.categorias-dropdown .dropdown-item,
+.categorias-dropdown .dropdown-subitem {
+  width: 100%;
+  display: block;              
+  border: none;
+  background: transparent;
+  padding: 0.5rem 1.25rem;      
+  text-align: left;
+  font-size: var(--font-navbar);
+  line-height: 1.5;             
+  color: var(--text-color);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+
 .categorias-dropdown .dropdown-toggle {
   background-color: transparent;
   border: none;
@@ -114,7 +130,14 @@
 }
 
 .categorias-dropdown .dropdown-toggle::after {
-  font-size: 0.7rem;
+  display: inline-block;
+  margin-left: 0.255em;
+  vertical-align: 0.255em;
+  content: "";
+  border-top: .3em solid;
+  border-right: .3em solid transparent;
+  border-bottom: 0;
+  border-left: .3em solid transparent;
 }
 
 /* MENU PRINCIPAL */
@@ -180,10 +203,26 @@
   display: block;
 }
 
+/* tira as bolinhas das categorias/subcategorias */
+.categorias-dropdown .dropdown-menu,
+.categorias-dropdown .dropdown-menu ul,
+.categorias-dropdown .dropdown-menu li {
+  list-style: none;
+  padding-left: 0;   /* opcional, pra alinhar bonitinho */
+}
+
+/* garantia extra: remove o marker do li */
+.categorias-dropdown .dropdown-menu li::marker {
+  content: "";
+}
+
+
 /* =========================
    ÍCONE DO USUÁRIO
 ========================= */
-.user-icon img {
+.user-icon img,
+.perfil-navbar,
+.perfil-navbar img {
   width: 37px;
   height: 37px;
   border-radius: 50%;
@@ -192,9 +231,13 @@
   transition: transform 0.3s ease;
 }
 
-.user-icon img:hover {
+/* hover */
+.user-icon img:hover,
+.perfil-navbar:hover,
+.perfil-navbar img:hover {
   transform: scale(1.1);
 }
+
 
 /* =========================
    MEDIA QUERIES (RESPONSIVO)

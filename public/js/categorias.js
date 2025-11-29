@@ -3,9 +3,17 @@ document.addEventListener('DOMContentLoaded', () => {
   // Dropdown da navbar
   document.querySelectorAll('.dropdown-item[data-categoria]').forEach((btn) => {
     btn.addEventListener('click', () => {
-      const categoria = btn.dataset.categoria || btn.textContent.trim();
+      const categoria = (btn.dataset.categoria || btn.textContent.trim()).trim();
       if (!categoria) return;
-      window.location.href = `/categorias?categoria=${encodeURIComponent(categoria)}`;
+
+      // 👇 CASO ESPECIAL: TODAS AS RECEITAS
+      if (categoria.toLowerCase() === 'todas as receitas') {
+        window.location.href = '/categorias'; // sem filtro
+        return;
+      }
+
+      window.location.href =
+        `/categorias?categoria=${encodeURIComponent(categoria)}`;
     });
   });
 
@@ -14,7 +22,15 @@ document.addEventListener('DOMContentLoaded', () => {
     bolinha.addEventListener('click', () => {
       const categoria = bolinha.dataset.categoria;
       if (!categoria) return;
-      window.location.href = `/categorias?categoria=${encodeURIComponent(categoria)}`;
+
+      // se algum dia tiver bolinha "Todas as receitas"
+      if (categoria.toLowerCase() === 'todas as receitas') {
+        window.location.href = '/categorias';
+        return;
+      }
+
+      window.location.href =
+        `/categorias?categoria=${encodeURIComponent(categoria)}`;
     });
   });
 
