@@ -248,15 +248,6 @@ main {
 }
 
 
-/* =========================
-   FOOTER
-========================= */
-.footer {
-  background-color: var(--navbar-color);
-  text-align: center;
-  padding: 1rem;
-  font-size: var(--font-small);
-}
 
 /* =========================
    PÁGINA DE PERFIL

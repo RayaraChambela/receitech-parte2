@@ -30,7 +30,7 @@ body {
 
 .cadastro-container {
   background-color: var(--bg-color);
-  min-height: calc(100vh - 80px); /* deixa espaço pro footer, se houver */
+  min-height: calc(100vh - 80px); 
   display: flex;
   justify-content: center;
   align-items: center;
