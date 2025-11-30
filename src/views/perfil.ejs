@@ -6,134 +6,42 @@
 
 <body>
 
-  <!-- BOTÃO VOLTAR -->
   <div class="voltar-container">
     <button class="voltar" onclick="window.history.back()">
       <img src="/assets/setinha-cinza.svg" alt="Voltar" width="25" height="25">
     </button>
   </div>
 
-  <!-- NAVBAR -->
   <%- include('partials/_navbar') %>
 
-  <!-- PERFIL -->
   <main class="perfil-container">
+    <div id="perfil-root"></div> 
 
-    <!-- BANNER -->
-    <div class="perfil-banner">
-      <img src="/assets/img-fundo-perfil.png" alt="banner" id="banner">
-    </div>
-
-    <div class="perfil-content">
-
-      <!-- FOTO DO PERFIL -->
-      <div class="perfil-foto">
-        <img src="/assets/icon-img-perfil.png" alt="Foto de perfil" id="img-perfil">
-
-        <button class="camera-btn" id="btn-open-foto">
-          <img src="/assets/icon-camera.png" alt="Câmera" class="img-camera">
-        </button>
-      </div>
-
-      <!-- POPUP EDITAR FOTO -->
-      <div class="popup-overlay" id="popup-foto">
-        <div class="popup">
-
-          <div id="navbar-popup">
-            <div class="centered-text">Editar Foto de Perfil</div>
-            <button class="btn-fechar" id="close-foto">
-              <img src="/assets/icon-sair.png" alt="Sair" class="img-btn-sair">
-            </button>
-          </div>
-
-          <label for="imagem" class="label-imagem">+ Inserir Imagem</label>
-          <input type="file" id="imagem" class="input-arquivo" accept="image/*">
-
-          <div class="preview-wrapper">
-            <img id="preview-foto" class="preview-foto" src="/assets/icon-img-perfil.png" alt="Pré-visualização da foto">
-          </div>
-
-          <div id="excluir">
-            <img src="/assets/icon-excluir.png" alt="Excluir" id="img-btn-excluir">
-            <p id="remover-foto">Remover foto atual</p>
-          </div>
-
-          <div>
-            <button id="salvar">Salvar Alterações</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- INFO DO PERFIL -->
-      <div class="perfil-info">
-        <div class="perfil-nome-edit">
-          <h2 id="nome-usuario">Usuário</h2>
-          <a href="#">
-            <img src="/assets/icon-edit-perfil.png" alt="Editar perfil" id="edit-perfil">
-          </a>
-        </div>
-
-        <p id="email-usuario">email@gmail.com</p>
-      </div>
-
-      <!-- POPUP EDITAR PERFIL -->
-      <div class="popup-overlay" id="popup-editar">
-        <div class="popup-editar">
-
-          <div class="popup-header">
-            <h3>Editar Perfil</h3>
-            <button class="fechar-popup" id="close-editar">
-              <img src="/assets/icon-sair.png" alt="" class="img-btn-sair">
-            </button>
-          </div>
-
-          <form id="form-editar-perfil" novalidate>
-            <label for="nome" class="label-perfil">NOME</label>
-            <input type="text" id="nome" placeholder="Digite o seu nome">
-
-            <label for="email" class="label-perfil">E-MAIL</label>
-            <input type="email" id="email" placeholder="Digite o seu e-mail">
-
-            <label for="senha" class="label-perfil">SENHA (opcional)</label>
-            <input type="password" id="senha" placeholder="Digite a sua nova senha (opcional)">
-
-            <button type="submit" class="btn-salvar">Salvar Alterações</button>
-          </form>
-
-          <p class="aviso">
-            Quer excluir sua conta? <br>Essa ação não pode ser desfeita.
-          </p>
-
-          <button class="btn-logout" id="btn-logout">Sair da conta</button>
-          <button class="btn-excluir" id="btn-excluir-conta">Excluir minha conta</button>
-        </div>
-      </div>
-
-      <!-- BOTÃO NOVO POST -->
-      <section class="perfil-posts">
-        <div class="post-box">
-          <div class="post-header">
-            <button class="novo-post-btn" id="btn-novo-post">
-              <img src="/assets/icon-novo-post.png" alt="Novo Post" id="novo-post"> Novo Post
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <!-- FEED DINÂMICO DO USUÁRIO -->
-      <div class="feed-receitas" id="feed-usuario">
-        <!-- O JS preenche isso -->
-      </div>
-
-    </div>
+    <script>
+      const usuarioData = localStorage.getItem('usuario');
+      window.__PERFIL_PROPS__ = {
+        token: localStorage.getItem('token'),
+        usuario: usuarioData ? JSON.parse(usuarioData) : null,
+      };
+    </script>
   </main>
 
   <%- include('partials/_footer') %>
 
   <script src="/js/categorias.js"></script>
   <script src="/js/navbar.js"></script>
-  <script src="/js/perfil.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script> 
+
+  <script type="text/babel" src="/js/perfil-react.js"></script>
+  <script src="/js/perfil-react.js"></script> 
 
 </body>
 </html>
