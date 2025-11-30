@@ -1,3 +1,6 @@
+/* =========================
+   VARIÁVEIS GLOBAIS
+========================= */
 :root {
   --bg-color: #FFE3CD;
   --navbar-color: #FEC89A;
@@ -13,6 +16,10 @@
   --font-placeholder: 0.875rem;
   --font-small: 0.75rem;
 }
+
+/* =========================
+   RESET E BASE
+========================= */
 * {
   margin: 0;
   padding: 0;
@@ -20,7 +27,11 @@
   font-family: 'Montserrat', sans-serif;
 }
 
-html, body { height: 100%; }
+html, body {
+  width: 100%;
+  min-height: 100%;
+}
+
 body {
   background-color: var(--bg-color);
   color: var(--text-color);
@@ -28,140 +39,233 @@ body {
   flex-direction: column;
 }
 
+/* =========================
+   CONTAINER PRINCIPAL
+========================= */
 .cadastro-container {
-  background-color: var(--bg-color);
-  min-height: calc(100vh - 80px); 
+  width: 100%;
+  min-height: 100vh; /* Garante tela cheia */
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem;
+  padding: 2rem 1rem; /* Espaço nas laterais no mobile */
 }
 
+/* =========================
+   CARD DE CADASTRO
+========================= */
 .cadastro-card {
   background-color: var(--search-bg);
-  padding: 2rem;
+  padding: 2.5rem;
   border-radius: 20px;
-  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 600px;
+  max-width: 550px; /* Um pouco mais largo que o login, pois tem mais campos */
   position: relative;
 }
 
+/* Topo (Logo + Títulos) */
 .topo-cadastro {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  justify-content: center; /* Centraliza o conjunto */
+  gap: 1.5rem;
   margin-bottom: 2rem;
 }
 
-.logo-cadastro { width: 60px; height: auto; }
-.logo-cadastro img { width: 60px; margin-bottom: 1rem; }
+.logo-cadastro img {
+  width: 70px; /* Tamanho controlado */
+  height: auto;
+  display: block;
+}
 
-.titulos-cadastro { flex: 1; text-align: center; }
+.titulos-cadastro {
+  flex: 1;
+  text-align: left; /* Título alinhado à esquerda fica melhor ao lado do logo */
+}
+
 .titulos-cadastro h1 {
-  font-size: var(--font-subtitle);
+  font-size: 1.4rem;
   color: var(--text-color);
   margin-bottom: 0.25rem;
+  font-weight: 700;
+  line-height: 1.2;
 }
+
 .titulos-cadastro h2 {
-  font-size: var(--font-regular);
+  font-size: 1rem;
   color: var(--text-color);
-  font-weight: 600;
+  font-weight: 500;
 }
 
-.cadastro-card label {
-  text-align: left;
-  display: block;
-  font-size: var(--font-placeholder);
-  margin: 0.5rem 0 0.2rem;
-  color: var(--text-color);
-}
-
-.cadastro-card input {
-  width: 100%;
-  padding: 0.5rem 0.8rem;
-  border-radius: 8px;
-  border: 1px solid var(--lighter-grey);
-  background-color: #fff;
-  font-size: var(--font-regular);
-  margin-bottom: 1rem;
-  color: var(--text-color);
-}
-.cadastro-card input::placeholder { color: var(--placeholder); }
-
-.btn-cadastrar {
-  background-color: var(--navbar-color);
-  color: var(--text-color);
-  border: none;
-  padding: 0.7rem 2rem;
-  border-radius: 8px;
-  font-size: var(--font-regular);
-  cursor: pointer;
-  box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
-  transition: background-color 0.2s ease;
-  display: block;
-  margin: 0 auto;
-}
-.btn-cadastrar:hover { background-color: #fdb77e; }
-
-.login-link {
-  text-align: center;
-  margin-top: 1rem;
-  font-size: var(--font-placeholder);
-}
-.login-link a { color: #4b4bff; text-decoration: none; }
-.login-link a:hover { text-decoration: underline; }
-
+/* Botão Fechar (X) */
 .fechar-popup {
   position: absolute;
   top: 15px;
   right: 20px;
   font-size: 1.5rem;
-  color: var(--text-color);
+  color: var(--placeholder);
   cursor: pointer;
   z-index: 10;
+  transition: color 0.3s;
+  padding: 5px;
 }
 
+.fechar-popup:hover {
+  color: var(--text-color);
+}
+
+/* =========================
+   FORMULÁRIO
+========================= */
+.cadastro-card label {
+  text-align: left;
+  display: block;
+  font-size: 0.9rem;
+  margin: 1rem 0 0.4rem;
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+.cadastro-card input {
+  width: 100%;
+  padding: 0.8rem; /* Padding maior para conforto */
+  border-radius: 8px;
+  border: 1px solid var(--lighter-grey);
+  background-color: #fff;
+  font-size: 1rem; /* 16px evita zoom no iOS */
+  color: var(--text-color);
+  transition: border-color 0.3s;
+}
+
+.cadastro-card input:focus {
+  outline: none;
+  border-color: var(--navbar-color);
+}
+
+.cadastro-card input::placeholder {
+  color: var(--placeholder);
+}
+
+/* Ícone de Senha (Olhinho) */
 .input-senha {
   position: relative;
   width: 100%;
 }
 
 .input-senha input {
-  padding-right: 2.5rem; /* espaço pro olhinho */
+  padding-right: 3rem; /* Espaço para o ícone não cobrir o texto */
 }
 
 .input-senha .toggle-senha {
   position: absolute;
-  right: 12px;
+  right: 15px;
   top: 50%;
-  transform: translateY(-90%);  /* empurra mais pra cima */
-  width: 18px;
-  height: 18px;
+  transform: translateY(-50%); /* Centralização vertical perfeita */
+  width: 20px;
+  height: auto;
   cursor: pointer;
-  opacity: 0.7;
+  opacity: 0.6;
+  transition: opacity 0.3s;
 }
 
 .input-senha .toggle-senha:hover {
   opacity: 1;
 }
 
+/* Botão Cadastrar */
+.btn-cadastrar {
+  background-color: var(--navbar-color);
+  color: var(--text-color);
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+  transition: background-color 0.2s ease, transform 0.1s;
+  display: block;
+  width: 100%; /* Botão largura total no cadastro fica melhor */
+  margin-top: 1.5rem;
+}
+
+.btn-cadastrar:hover {
+  background-color: #fdb77e;
+  transform: translateY(-1px);
+}
+
+/* Link de Login */
+.login-link {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.login-link a {
+  color: #4b4bff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
 /* =============================
    RESPONSIVIDADE
 ============================= */
+
+/* Tablets (até 768px) */
 @media (max-width: 768px) {
-  .cadastro-card { padding: 1.5rem; max-width: 90%; }
-  .titulos-cadastro h1 { font-size: 1.3rem; }
-  .titulos-cadastro h2 { font-size: 1rem; }
-  .logo-cadastro img { width: 50px; }
-  .btn-cadastrar { width: 100%; }
+  .cadastro-card {
+    padding: 2rem;
+    max-width: 90%;
+  }
+
+  .titulos-cadastro h1 {
+    font-size: 1.25rem;
+  }
 }
+
+/* Celulares (até 480px) */
 @media (max-width: 480px) {
-  .cadastro-card { padding: 1rem; }
-  .topo-cadastro { flex-direction: column; gap: 0.5rem; text-align: center; }
-  .titulos-cadastro h1 { font-size: 1.1rem; }
-  .titulos-cadastro h2 { font-size: 0.95rem; }
-  .cadastro-card input { font-size: 0.95rem; }
-  .btn-cadastrar { padding: 0.6rem 1rem; font-size: 0.95rem; }
-  .logo-cadastro img { width: 45px; }
+  .cadastro-card {
+    padding: 1.5rem;
+    border-radius: 15px;
+  }
+
+  /* Muda layout do topo para coluna */
+  .topo-cadastro {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .titulos-cadastro {
+    text-align: center; /* Centraliza texto quando empilhado */
+  }
+
+  .logo-cadastro img {
+    width: 60px;
+  }
+
+  .titulos-cadastro h1 {
+    font-size: 1.2rem;
+  }
+
+  .titulos-cadastro h2 {
+    font-size: 0.9rem;
+  }
+
+  .btn-cadastrar {
+    padding: 0.8rem;
+    font-size: 1rem;
+  }
+  
+  .fechar-popup {
+    top: 10px;
+    right: 15px;
+  }
 }

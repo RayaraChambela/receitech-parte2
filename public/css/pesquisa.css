@@ -1,3 +1,6 @@
+/* =========================
+   VARIÁVEIS GLOBAIS
+========================= */
 :root {
   --bg-color: #FFE3CD;
   --navbar-color: #FEC89A;
@@ -14,6 +17,9 @@
   --font-small: 0.75rem;
 }
 
+/* =========================
+   RESET E BASE
+========================= */
 html, body {
   height: 100%;
   margin: 0;
@@ -23,13 +29,20 @@ html, body {
   background-color: var(--bg-color);
   color: var(--text-color);
   font-family: 'Montserrat', sans-serif;
+  overflow-x: hidden;
 }
 
 main {
   flex: 1;
-  padding: 40px 80px;
+  padding: 80px 80px 40px 80px; /* Topo maior por causa do btn voltar */
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
+/* =========================
+   BOTÃO VOLTAR
+========================= */
 .voltar-container {
   position: absolute;
   top: 1.5rem;
@@ -41,74 +54,101 @@ main {
   background: none;
   border: none;
   cursor: pointer;
+  padding: 5px; /* Aumenta área de toque */
 }
 
 .voltar img {
   width: 25px;
+  height: auto;
+  transition: transform 0.2s;
 }
 
+.voltar:hover img {
+  transform: translateX(-3px); /* Efeitinho de "voltar" */
+}
+
+/* =========================
+   TÍTULO
+========================= */
 #titulo-pesquisa {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: 700;
   color: var(--text-color);
-  margin-bottom: 40px;
+  margin-bottom: 2rem;
+  padding-left: 0.5rem; /* Alinhamento visual com os cards */
 }
 
+/* =========================
+   GRID DE RESULTADOS
+========================= */
 .resultados-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  gap: 16px;
+  display: grid;
+  /* Cria colunas automáticas com largura mínima de 220px */
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+  padding-bottom: 2rem;
 }
 
+/* =========================
+   CARD DE RECEITA
+========================= */
 .card-receita {
-  width: 240px;
   background-color: #fff;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: transform 0.2s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
+  width: 100%; /* Ocupa 100% da célula do grid */
 }
 
 .card-receita:hover {
-  transform: scale(1.03);
+  transform: translateY(-5px); /* Sobe um pouquinho */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .card-receita img {
   width: 100%;
-  height: 220px;
+  height: 200px; /* Altura padrão */
   object-fit: cover;
 }
 
 .card-receita-conteudo {
-  padding: 15px;
+  padding: 1rem;
   background-color: #fff;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0.5rem;
+  flex: 1; /* Garante que o conteúdo ocupe o espaço restante */
 }
 
 .card-receita h3 {
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: var(--text-color);
   margin: 0;
   font-weight: 700;
   text-align: left;
-  white-space: nowrap;
+  
+  /* Lógica para cortar texto muito longo (...) */
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Limita a 2 linhas */
+  -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: normal; /* Permite quebrar linha se couber */
 }
 
 .card-receita .tempo {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--text-color);
-  font-weight: 700;
+  font-weight: 600;
+  margin-top: auto; /* Empurra o tempo para o rodapé do card */
+  opacity: 0.8;
 }
 
 .card-receita .tempo img {
@@ -116,61 +156,75 @@ main {
   height: 16px;
 }
 
-/* Responsividade para tablet e celular */
+/* =========================
+   RESPONSIVIDADE
+========================= */
+
+/* Tablets (até 1024px) */
 @media (max-width: 1024px) {
+  main {
+    padding: 70px 40px 40px 40px;
+  }
+  
   .resultados-container {
-    justify-content: flex-start;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   }
-
-  .card-receita {
-    width: 200px;
-  }
-
+  
   .card-receita img {
-    height: 180px;
+    height: 160px;
   }
 }
 
-@media (max-width: 768px) {
+/* Celulares (até 600px) */
+@media (max-width: 600px) {
+  main {
+    padding: 70px 20px 20px 20px; /* Menos padding lateral */
+  }
+
+  #titulo-pesquisa {
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+    text-align: center; /* Centraliza título no mobile */
+    padding-left: 0;
+  }
+
   .resultados-container {
-    justify-content: flex-start;
+    /* Força 2 colunas no celular */
+    grid-template-columns: 1fr 1fr;
+    gap: 10px; /* Gap menor para caber melhor */
   }
 
   .card-receita {
-    width: 160px;
+    border-radius: 8px; /* Bordas um pouco menos arredondadas */
   }
 
   .card-receita img {
-    height: 140px;
+    height: 130px; /* Imagem menor */
+  }
+
+  .card-receita-conteudo {
+    padding: 0.8rem;
   }
 
   .card-receita h3 {
     font-size: 0.85rem;
-  }
-
-  .card-receita .tempo {
-    font-size: 0.8rem;
-  }
-}
-
-@media (max-width: 480px) {
-  main {
-    padding: 20px;
-  }
-
-  .card-receita {
-    width: calc(50% - 8px); /* 50% da largura menos metade do gap */
-  }
-
-  .card-receita img {
-    height: 120px;
-  }
-
-  .card-receita h3 {
-    font-size: 0.8rem;
+    line-height: 1.3;
   }
 
   .card-receita .tempo {
     font-size: 0.75rem;
+  }
+  
+  .voltar-container {
+    top: 1rem;
+    left: 1rem;
+  }
+}
+
+/* Celulares muito pequenos (iPhone SE antigo e similares) */
+@media (max-width: 350px) {
+  .resultados-container {
+    grid-template-columns: 1fr; /* Vira 1 coluna só se for muito estreito */
   }
 }

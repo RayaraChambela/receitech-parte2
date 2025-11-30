@@ -1,3 +1,6 @@
+/* =========================
+   VARIÁVEIS GLOBAIS
+========================= */
 :root {
   --bg-color: #FFE3CD;
   --navbar-color: #FEC89A;
@@ -22,7 +25,7 @@
 }
 
 html, body {
-  height: 100%;
+  min-height: 100%;
 }
 
 body {
@@ -41,107 +44,319 @@ main {
   flex: 1;
 }
 
+/* =========================
+   BANNER E FOTO DE PERFIL (CORRIGIDO)
+========================= */
 
+/* Container Pai: Define a altura da área do banner */
+.perfil-container {
+  position: relative;
+  width: 100%;
+  height: 200px; /* Altura fixa no Desktop */
+  margin-bottom: 0; 
+}
+
+/* Banner: Ocupa a largura total da tela */
 .perfil-banner {
-  width: 100vw;
-  margin-left: calc(50% - 50vw);   /* puxa o banner pra esquerda até a borda */
-  margin-right: calc(50% - 50vw);  /* puxa pra direita */
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%); /* Centraliza */
+  width: 100vw; /* Largura da viewport */
+  height: 100%; /* 100% dos 200px do pai */
+  background-color: #ccc; 
+  z-index: 1;
 }
 
 #banner {
   width: 100%;
-  display: block;
-  height: 180px;      /* mantém sua altura atual */
+  height: 100%;
   object-fit: cover;
+  display: block;
 }
 
-
+/* Wrapper da Foto */
 .perfil-foto {
   position: absolute;
-  top: 100px;
+  top: 100%; /* Começa exatamente onde o banner termina */
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%); /* Centraliza no meio da linha */
+  
+  /* Tamanho FIXO do container */
+  width: 180px;
+  height: 180px;
+  
+  z-index: 10;
+}
+
+/* A Imagem Redonda */
+#img-perfil {
+  /* Força a imagem a respeitar o tamanho do pai (180px) */
+  width: 100% !important; 
+  height: 100% !important;
+  
+  /* Garante o formato redondo */
+  border-radius: 50%;
+  
+  /* Borda branca grossa */
+  border: 5px solid var(--bg-color);
+  
+  /* Corta a imagem para caber no círculo sem deformar */
+  object-fit: cover;
+  
+  /* Garante fundo branco caso a imagem seja PNG transparente */
+  background-color: #fff;
+  
+  display: block;
+}
+
+/* Botão da Câmera (Posicionado em relação à .perfil-foto) */
+.camera-btn {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background-color: var(--lighter-grey);
+  border: 2px solid var(--bg-color);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  
+  /* Flexbox apenas para centralizar o ícone da câmera */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  cursor: pointer;
+  z-index: 11;
+  transition: 0.3s;
+}
+
+.camera-btn:hover {
+  background-color: #ccc;
+}
+
+.img-camera {
+  width: 20px;
+  height: 20px;
+}
+
+/* =========================
+   INFORMAÇÕES DO USUÁRIO
+========================= */
+
+.perfil-info {
+  margin-top: 100px; 
+  text-align: center;
+  padding: 0 1rem;
+  position: relative;
+  z-index: 2;
+}
+
+.perfil-nome-edit {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
+  margin-bottom: 0.5rem;
 }
 
-#img-perfil {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  border: 4px solid white;
-  object-fit: cover;
-}
-
-.img-camera {
-  width: 50px;
-}
-
-.camera-btn {
-  background-color: transparent;
-  border: none;
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-}
-
-.camera-btn:hover {
-  background-color: #5B5B5B;
-  border: 1px solid #5B5B5B;
-  border-radius: 25px;
-}
-
-
-
-.centered-text {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--text-color);
-}
-
-#text-edit {
+#nome-usuario {
+  font-weight: 800;
+  font-size: 1.8rem;
   margin: 0;
-  font-size: 16px;
+}
+
+#edit-perfil {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+#email-usuario {
+  font-size: 0.9rem;
+  color: var(--text-color);
+  margin-bottom: 1.5rem;
+}
+
+/* =========================
+   BOTÃO NOVO POST & STATS
+========================= */
+.post-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.novo-post-btn {
+  padding: 0.6rem 1.5rem;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  color: #fff;
+  font-weight: 600;
+  background-color: var(--navbar-color); /* Laranja */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
+
+.novo-post-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(0.95);
+}
+
+#novo-post {
+  width: 20px;
+}
+
+/* =========================
+   FEED DE RECEITAS (GRID)
+========================= */
+.feed-receitas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 Colunas no PC */
+  gap: 1rem;
+  max-width: 900px;
+  margin: 0 auto 3rem; /* Centraliza e dá margem no fundo */
+  padding: 0 1rem;
+}
+
+.receita-post {
+  width: 100%;
+  aspect-ratio: 1 / 1; /* Mantém quadrado */
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.receita-post:hover {
+  transform: scale(1.02);
+}
+
+.receita-post img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* =========================
+   POPUPS (MODAIS)
+========================= */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: none; /* Controlado via JS */
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.popup, .popup-editar {
+  background-color: var(--bg-color);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto; /* Permite rolar se for pequeno */
+}
+
+/* Header do Popup */
+.popup-header, #navbar-popup {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--navbar-color);
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.popup-header h3, .centered-text {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0;
   color: var(--text-color);
 }
 
-.btn-fechar {
-  background-color: transparent;
+.fechar-popup, .btn-fechar {
+  background: none;
   border: none;
   cursor: pointer;
-  margin-left: auto;
+  padding: 0;
 }
 
 .img-btn-sair {
-  width: 17px;
+  width: 20px;
 }
 
+/* Inputs e Forms dentro do Popup */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: -5px;
+}
+
+input {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  background-color: #fff;
+}
+
+/* Botões do Popup */
+.btn-salvar, #salvar {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 15px;
+  width: 100%;
+  font-size: 1rem;
+}
+
+/* Upload de Imagem */
 .input-arquivo {
   display: none;
 }
 
 .label-imagem {
-  display: flex;
-  color: var(--text-color);
-  padding: 10px 20px;
+  display: block;
+  text-align: center;
+  background-color: var(--navbar-color);
+  color: #fff;
+  padding: 10px;
   border-radius: 8px;
-  font-weight: 600;
-  font-size: 13px;
   cursor: pointer;
-  margin-top: 2rem;
-  justify-content: center;
+  margin-top: 10px;
 }
 
-.label-imagem:hover {
-  text-decoration: underline;
-}
-
-/* PRÉ-VISUALIZAÇÃO */
 .preview-wrapper {
   display: flex;
   justify-content: center;
@@ -152,405 +367,108 @@ main {
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  border: 4px solid #ffffff;
+  border: 3px solid #fff;
   object-fit: cover;
 }
 
+/* Área de Excluir */
 #excluir {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 2px;
-  margin-bottom: 30px;
-}
-
-#img-btn-excluir {
-  width: 20px;
-}
-
-#remover-foto {
-  font-weight: 600;
-  font-size: 13px;
+  gap: 5px;
+  margin-bottom: 10px;
   cursor: pointer;
-  color: var(--text-color);
-  margin: 0;
-}
-
-#remover-foto:hover {
-  text-decoration: underline;
-}
-
-#salvar {
-  width: 200px;
-  height: 50px;
-  border: none;
-  border-radius: 6px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  cursor: pointer;
-  background-color: var(--navbar-color);
-  color: var(--text-color);
+  color: #D9534F;
   font-weight: 600;
-  margin-bottom: 30px;
-  font-size: 14px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.popup-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
-}
-
-.popup {
-  background-color: var(--bg-color);
-  border-radius: 10px;
-  width: 360px;
-  max-width: 90vw;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  overflow: hidden;
-}
-
-.popup-editar {
-  background-color: #FFE3CD;
-  border-radius: 12px;
-  padding: 30px;
-  width: 400px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  position: relative;
-}
-
-.popup-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 3px solid #FEC89A;
-  padding-bottom: 10px;
-  width: 100%;
-}
-
-.popup-header h3 {
-  margin: 0;
-  color: var(--text-color);
-  font-weight: 600;
-  font-size: 25px;
-}
-
-.fechar-popup {
-  background: none;
-  border: none;
-  font-size: 24px;
-  color: var(--text-color);
-  cursor: pointer;
-}
-
-.label-perfil {
-  font-weight: 600;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-input {
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-}
-
-.btn-salvar {
-  background-color: #4CAF50;
-  color: white;
-  padding: 10px;
-  margin-top: 10px;
-  border: none;
-  border-radius: 6px;
-  font-weight: bold;
-  cursor: pointer;
+  font-size: 0.9rem;
 }
 
 .aviso {
-  margin-top: 1rem;
-  font-size: 0.9rem;
+  margin-top: 1.5rem;
+  font-size: 0.85rem;
   color: #A94442;
+  text-align: center;
 }
 
-.aviso span {
-  font-weight: bold;
-}
-
-.btn-excluir {
-  margin-top: 0.5rem;
-  background: none;
-  border: 2px solid #D9534F;
-  color: #D9534F;
+.btn-logout, .btn-excluir {
+  background: transparent;
   padding: 10px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-  width: 100%;
-}
-
-.perfil-info {
-  margin: 25px;
-}
-
-.perfil-nome-edit {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-#nome-usuario {
-  font-weight: 800;
-  font-size: 25px;
-  margin: 0;
-}
-
-#edit-perfil {
-  width: 25px;
-  height: 25px;
-  cursor: pointer;
-}
-
-.perfil-posts {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 50px;
-}
-
-.post-box {
-  border-radius: 12px;
-  padding: 15px;
-  background-color: #FEF6F0;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s, box-shadow 0.2s;
-  cursor: pointer;
-}
-
-.post-box:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-}
-
-.post-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1.8rem;
-  padding: 3px;
-  box-sizing: border-box;
-}
-
-span {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.novo-post-btn {
-  padding: 0.6rem 1.2rem;
-  font-size: 15px;
-  border: none;
   border-radius: 8px;
   cursor: pointer;
-  color: #5b5b5b;
   font-weight: bold;
-  background-color: transparent;
-}
-
-#novo-post {
-  width: 23px;
-}
-
-.feed-receitas {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  max-width: 800px;
-  margin: 30px auto;
-  padding: 0 1rem;
-}
-
-.receita-post {
   width: 100%;
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-.receita-post img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-
-
-.perfil-container {
-  margin-top: 0;
-  padding-top: 0;
+  text-align: center;
+  margin-top: 8px;
 }
 
 .btn-logout {
-  margin-top: 0.5rem;
-  background: none;
-  border: 2px solid #F0AD4E;
+  border: 1px solid #F0AD4E;
   color: #F0AD4E;
-  padding: 10px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-  width: 100%;
 }
 
+.btn-excluir {
+  border: 1px solid #D9534F;
+  color: #D9534F;
+}
 
+/* =========================
+   MEDIA QUERIES (RESPONSIVIDADE)
+========================= */
 
-/* ========================
-   RESPONSIVIDADE
-======================== */
+/* Tablets (até 992px) */
 @media (max-width: 992px) {
-
-  .categorias-container {
-    flex-wrap: wrap;
-    justify-content: center;
+  .perfil-container,
+  .perfil-banner {
+    height: 160px; /* Banner menor */
   }
-
+  
   .perfil-foto {
-    top: 80px;
-  }
-
-  #img-perfil {
     width: 150px;
     height: 150px;
   }
-
-  .img-camera {
-    width: 40px;
-  }
-
-  .popup {
-    width: 90%;
-    height: auto;
-  }
-
-  .perfil-nome-edit {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .feed-receitas {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  #img-perfil {
-    margin-top: 35px;
-  }
-
-  .img-camera {
-    margin-right: -30px;
-    margin-bottom: -80px;
+  
+  .perfil-info {
+    margin-top: 85px; /* Ajuste proporcional */
   }
 }
 
+/* Celulares (até 576px) */
 @media (max-width: 576px) {
-  .container {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 0 1rem;
-    gap: 1rem;
-  }
-
-  .search-container {
-    width: 100%;
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .search-container input {
-    width: 100%;
-  }
-
-  .categorias-container {
-    gap: 1rem;
-    padding: 1rem;
-  }
-
-  .categoria img {
-    width: 60px;
-    height: 60px;
-  }
-
-  #img-perfil {
-    width: 120px;
-    height: 120px;
-    margin-top: 10px;
-  }
-
-  .img-camera {
-    width: 35px;
-    margin-top: -30px;
-    margin-right: 4px;
-  }
-
-  .popup-editar {
-    width: 95%;
-    padding: 20px;
-  }
-
-  .feed-receitas {
-    grid-template-columns: 1fr;
-  }
-
-  .perfil-posts {
-    margin-top: 20px;
-  }
-
-  .post-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-    margin-left: 0;
+  /* 1. Ajuste de Banner e Foto */
+  .perfil-container,
+  .perfil-banner {
+    height: 130px;
   }
 
   .perfil-foto {
-    margin-top: 70px;
+    width: 130px;
+    height: 130px;
+  }
+  
+  .perfil-info {
+    margin-top: 75px; 
   }
 
+  /* 2. Texto e Botões */
   #nome-usuario {
-    font-size: 20px;
+    font-size: 1.5rem;
   }
 
   .novo-post-btn {
-    font-size: 14px;
+    width: 100%; /* Botão ocupa largura total */
+    justify-content: center;
   }
 
-  .camera-btn {
-    right: 0;
+  /* 3. Grid de Receitas (2 colunas) */
+  .feed-receitas {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
   }
 
-  .perfil-info {
-    font-size: 12px;
+  /* 4. Popups */
+  .popup, .popup-editar {
+    width: 100%;
+    border-radius: 15px; /* Borda arredondada no topo */
   }
-
-  .num-post {
-    margin-left: 50px;
-  } 
 }

@@ -1,3 +1,6 @@
+/* =========================
+   VARIÁVEIS GLOBAIS
+========================= */
 :root {
   --bg-color: #FFE3CD;
   --navbar-color: #FEC89A;
@@ -14,6 +17,9 @@
   --font-small: 0.75rem;
 }
 
+/* =========================
+   RESET E BASE
+========================= */
 html, body {
   height: 100%;
   margin: 0;
@@ -23,13 +29,21 @@ html, body {
   background-color: var(--bg-color);
   color: var(--text-color);
   font-family: 'Montserrat', sans-serif;
+  overflow-x: hidden;
 }
 
 main {
   flex: 1;
-  padding: 40px 80px;
+  /* Espaço maior no topo (80px) para o botão voltar não encavalar */
+  padding: 80px 5% 40px; 
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
+/* =========================
+   BOTÃO VOLTAR
+========================= */
 .voltar-container {
   position: absolute;
   top: 1.5rem;
@@ -41,74 +55,108 @@ main {
   background: none;
   border: none;
   cursor: pointer;
+  padding: 5px; /* Área de toque melhor */
+  display: flex;
+  align-items: center;
 }
 
 .voltar img {
   width: 25px;
+  height: auto;
+  transition: transform 0.2s;
 }
 
+.voltar:hover img {
+  transform: translateX(-3px);
+}
+
+/* =========================
+   TÍTULO DA CATEGORIA
+========================= */
 #titulo-categoria {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: 700;
   color: var(--text-color);
-  margin-bottom: 40px;
+  margin-bottom: 2rem;
+  padding-left: 0.5rem;
+  line-height: 1.2;
 }
 
+/* =========================
+   GRID DE RESULTADOS
+========================= */
 .resultados-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  gap: 16px;
+  display: grid;
+  /* Cria colunas automáticas. Mínimo 200px, Máximo 1 fração */
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
 }
 
+/* =========================
+   CARD DE RECEITA
+========================= */
 .card-receita {
-  width: 240px;
   background-color: #fff;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: transform 0.2s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
+  width: 100%; /* Ocupa a célula do grid inteira */
+  height: 100%; /* Garante altura igual */
 }
 
 .card-receita:hover {
-  transform: scale(1.03);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .card-receita img {
   width: 100%;
-  height: 220px;
+  height: 200px;
   object-fit: cover;
 }
 
 .card-receita-conteudo {
-  padding: 12px 16px 14px;
+  padding: 1rem;
   display: flex;
-  flex-direction: column;  /* título em cima, tempo embaixo */
-  align-items: flex-start;   /* tudo encostado à direita */
-  gap: 4px;
+  flex-direction: column;
+  justify-content: space-between; /* Empurra o tempo para o final */
+  flex: 1; /* Ocupa o resto da altura do card */
+  gap: 0.5rem;
+  background-color: #fff;
 }
 
-/* título */
+/* Título */
 .card-receita-conteudo h3 {
   margin: 0;
   font-size: 1rem;
   font-weight: 700;
   color: var(--text-color);
-  text-align: left;      
+  text-align: left;
+  
+  /* Limita texto a 2 linhas e põe '...' */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* tempo */
+/* Tempo */
 .card-receita-conteudo .tempo {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: 4px;
-  font-size: 0.9rem;
+  justify-content: flex-start; /* Alinhado com o título */
+  gap: 6px;
+  font-size: 0.85rem;
   color: var(--text-color);
-  white-space: nowrap;
+  font-weight: 600;
+  opacity: 0.8;
+  margin-top: auto; /* Garante que fique no rodapé do conteúdo */
 }
 
 .card-receita-conteudo .tempo img {
@@ -116,63 +164,75 @@ main {
   height: 16px;
 }
 
+/* =========================
+   RESPONSIVIDADE
+========================= */
 
-/* Responsividade para tablet e celular */
+/* Tablets (até 1024px) */
 @media (max-width: 1024px) {
-  .resultados-container {
-    justify-content: flex-start;
-  }
-
-  .card-receita {
-    width: 200px;
-  }
-
-  .card-receita img {
-    height: 180px;
-  }
-}
-
-@media (max-width: 768px) {
-  .resultados-container {
-    justify-content: flex-start;
-  }
-
-  .card-receita {
-    width: 160px;
-  }
-
-  .card-receita img {
-    height: 140px;
-  }
-
-  .card-receita h3 {
-    font-size: 0.85rem;
-  }
-
-  .card-receita .tempo {
-    font-size: 0.8rem;
-  }
-}
-
-@media (max-width: 480px) {
   main {
-    padding: 20px;
+    padding: 70px 40px 40px;
+  }
+  
+  .resultados-container {
+    gap: 1rem;
+  }
+  
+  .card-receita img {
+    height: 160px;
+  }
+}
+
+/* Celulares (até 600px) */
+@media (max-width: 600px) {
+  main {
+    padding: 70px 20px 20px; /* Margens laterais menores */
+  }
+
+  #titulo-categoria {
+    font-size: 1.4rem;
+    text-align: center; /* Centraliza título no mobile */
+    padding-left: 0;
+    margin-bottom: 1.5rem;
+  }
+
+  .resultados-container {
+    /* Força 2 colunas no celular */
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
   }
 
   .card-receita {
-    width: calc(50% - 8px); /* 50% da largura menos metade do gap */
+    border-radius: 8px;
   }
 
   .card-receita img {
-    height: 120px;
+    height: 130px; /* Imagem menor para caber */
   }
 
-  .card-receita h3 {
-    font-size: 0.8rem;
+  .card-receita-conteudo {
+    padding: 0.8rem;
   }
 
-  .card-receita .tempo {
+  .card-receita-conteudo h3 {
+    font-size: 0.85rem;
+    line-height: 1.3;
+  }
+
+  .card-receita-conteudo .tempo {
     font-size: 0.75rem;
   }
+  
+  /* Ajuste no botão voltar para telas pequenas */
+  .voltar-container {
+    top: 1rem;
+    left: 1rem;
+  }
 }
 
+/* Celulares muito pequenos (até 350px) */
+@media (max-width: 350px) {
+  .resultados-container {
+    grid-template-columns: 1fr; /* 1 coluna se a tela for minúscula */
+  }
+}

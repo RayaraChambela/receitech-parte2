@@ -29,6 +29,8 @@
 
 html, body {
   height: 100%;
+  width: 100%; /* Garante que não ultrapasse a largura da tela */
+  overflow-x: hidden; /* Evita rolagem horizontal indesejada */
 }
 
 body {
@@ -40,6 +42,7 @@ body {
 
 p {
   color: var(--text-color);
+  line-height: 1.5; /* Melhor leitura */
 }
 
 main {
@@ -47,13 +50,14 @@ main {
 }
 
 /* =========================
-   NAVBAR
+   NAVBAR & CONTAINER
 ========================= */
 
 .container {
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
+  padding: 1rem; /* Adicionado padding para não colar na borda em telas menores */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -72,6 +76,7 @@ main {
   display: flex;
   gap: 0.5rem;
   align-items: center;
+  position: relative; /* Ajuda no posicionamento */
 }
 
 .search-container input {
@@ -80,24 +85,23 @@ main {
   border: none;
   border-radius: 8px;
   font-size: var(--font-regular);
-  width: 300px;
+  width: 300px; /* Será sobrescrito no mobile */
   color: var(--text-color);
+  transition: width 0.3s ease;
 }
 
 .search-container input::placeholder {
   color: var(--placeholder);
 }
 
+/* Dropdown */
 .categorias-dropdown .dropdown-toggle {
   background-color: transparent;
   border: none;
   color: var(--text-color);
   font-size: var(--font-navbar);
   padding: 0.5rem 1rem;
-}
-
-.categorias-dropdown .dropdown-toggle::after {
-  color: var(--text-color); /* cor da setinha */
+  cursor: pointer;
 }
 
 .categorias-dropdown .dropdown-menu {
@@ -106,98 +110,36 @@ main {
   font-size: var(--font-regular);
   color: var(--text-color);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  /* Posicionamento absoluto se necessário, ou controlado pelo bootstrap/js */
 }
 
 .categorias-dropdown .dropdown-item {
   color: var(--text-color);
+  padding: 0.5rem 1rem;
+  display: block;
+  text-decoration: none;
 }
 
 .categorias-dropdown .dropdown-item:hover {
   background-color: var(--lighter-grey);
 }
 
-
 .user-icon img {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  color: var(--text-color);
-}
-
-.receitas-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  justify-content: center;
-  padding: 2rem;
-}
-
-/* =========================
-   RECEITA - CARD
-========================= */
-.receita-card {
-  position: relative;
-  width: 300px;
-  height: 380px;
-  overflow: hidden;
-  border-radius: 0;
-  flex-shrink: 0;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-}
-
-.receita-card:hover {
-  transform: scale(1.03);
-  box-shadow: 0 8px 15px rgba(0,0,0,0.2);
-}
-
-.receita-imagem {
-  width: 100%;
-  height: 100%;
   object-fit: cover;
 }
 
-.receita-info {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  padding: 3rem 1rem 1rem 1rem;
-  text-align: center;
-  color: white;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.818), transparent);
-}
-
-.receita-info h3 {
-  margin-top: 1.2rem;
-  font-size: 1rem;
-  font-weight: 600;
-}
-
 /* =========================
-   TEMPO DE PREPARO
-========================= */
-.tempo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  font-size: var(--font-small);
-}
-
-.tempo img {
-  width: 16px;
-  height: 16px;
-}
-
-/* =========================
-   CATEGORIAS
+   CATEGORIAS (HOME)
 ========================= */
 .categorias-container {
   display: flex;
   justify-content: center;
   gap: 2rem;
-  padding: 2rem 2rem 0.4rem 2rem;
+  padding: 2rem;
+  flex-wrap: wrap; /* Permite que os itens quebrem linha */
 }
 
 .categoria {
@@ -206,6 +148,7 @@ main {
   align-items: center;
   gap: 0.5rem;
   text-align: center;
+  min-width: 100px; /* Garante tamanho mínimo */
 }
 
 .categoria img {
@@ -214,8 +157,6 @@ main {
   object-fit: cover;
   border-radius: 50%;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  border: none;
-  outline: none;
 }
 
 .btn-categoria {
@@ -234,7 +175,6 @@ main {
   transform: scale(1.1);
 }
 
-
 .btn-categoria img {
   width: 80px;
   height: 80px;
@@ -243,11 +183,71 @@ main {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-.btn-categoria:focus {
-  outline: none;
+/* =========================
+   RECEITAS - GRID & CARD
+========================= */
+.receitas-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  padding: 2rem;
 }
 
+.receita-card {
+  position: relative;
+  width: 300px;
+  height: 380px;
+  overflow: hidden;
+  border-radius: 8px; /* Adicionei um pequeno raio para modernizar, pode remover se preferir 0 */
+  flex-shrink: 0;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  background-color: #fff; /* Fallback */
+}
 
+.receita-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+}
+
+.receita-imagem {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.receita-info {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 4rem 1rem 1rem 1rem; /* Aumentei o padding top para o gradiente ficar suave */
+  text-align: center;
+  color: white;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+}
+
+.receita-info h3 {
+  margin-top: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.tempo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  font-size: var(--font-small);
+}
+
+.tempo img {
+  width: 16px;
+  height: 16px;
+  filter: brightness(0) invert(1); /* Garante que o ícone fique branco sobre o fundo escuro */
+}
 
 /* =========================
    PÁGINA DE PERFIL
@@ -257,25 +257,30 @@ main {
   padding: 2rem;
   background-color: var(--search-bg);
   flex: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .perfil-banner {
   background-color: #e5e5e5;
-  height: 100px;
+  height: 150px; /* Aumentei um pouco para dar mais respiro */
   border-radius: 10px;
+  width: 100%;
 }
 
 .perfil-content {
   display: flex;
-  align-items: center;
+  align-items: flex-end; /* Alinha a foto com o texto na base */
   gap: 2rem;
-  margin-top: -3rem;
-  padding: 1rem 0;
+  margin-top: -4rem; /* Sobe a foto para cima do banner */
+  padding: 0 1rem 1rem 1rem;
   position: relative;
 }
 
 .perfil-foto {
   position: relative;
+  flex-shrink: 0;
 }
 
 .perfil-foto img {
@@ -283,7 +288,8 @@ main {
   height: 140px;
   border-radius: 50%;
   object-fit: cover;
-  border: 4px solid var(--bg-color);
+  border: 4px solid var(--search-bg); /* Corrigido para combinar com o fundo do container */
+  background-color: white;
 }
 
 .camera-btn {
@@ -294,12 +300,21 @@ main {
   border: none;
   border-radius: 50%;
   font-size: 1rem;
-  padding: 0.3rem;
+  padding: 0.5rem;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.perfil-info {
+  margin-bottom: 1rem; /* Ajuste visual */
+  flex: 1;
 }
 
 .perfil-info h2 {
   font-size: var(--font-subtitle);
+  margin-bottom: 0.2rem;
 }
 
 .perfil-info p {
@@ -309,8 +324,8 @@ main {
 
 .btn-excluir {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 1rem; /* Ajustado posicionamento */
+  right: 1rem;
   font-size: var(--font-small);
   background-color: transparent;
   border: none;
@@ -320,7 +335,8 @@ main {
 }
 
 .perfil-posts {
-  margin-top: 2rem;
+  margin-top: 3rem;
+  padding: 0 1rem;
 }
 
 .post-header {
@@ -328,22 +344,31 @@ main {
   justify-content: space-between;
   align-items: center;
   font-size: var(--font-regular);
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap; /* Permite quebrar linha em telas pequenas */
+  gap: 1rem;
 }
 
 .novo-post-btn {
   background-color: var(--navbar-color);
   border: none;
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1.2rem;
   border-radius: 8px;
-  font-size: var(--font-regular);
+  font-size: var(--font-navbar);
+  font-weight: 600;
   cursor: pointer;
+  transition: filter 0.2s;
+}
+
+.novo-post-btn:hover {
+  filter: brightness(0.95);
 }
 
 .feed-receitas {
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem;
   flex-wrap: wrap;
+  justify-content: flex-start;
 }
 
 .receita-feed-img {
@@ -352,26 +377,133 @@ main {
   object-fit: cover;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
 }
 
-
-/* =========================
-   VOLTAR
-========================= */
+.receita-feed-img:hover {
+  transform: scale(1.05);
+}
 
 .voltar {
     display: inline-block;
-    margin: 20px 0 0 20px; /* Espaçamento superior e lateral */
+    margin: 20px 0 0 20px;
     background: none;
     border: none;
-    font-size: 1.2rem;
+    font-size: 1rem;
     cursor: pointer;
     color: var(--text-color);
     text-decoration: underline;
 }
 
-
 .voltar:hover {
     opacity: 0.7;
 }
 
+/* ==================================================
+   RESPONSIVIDADE (MEDIA QUERIES)
+   Aqui está a mágica para funcionar no celular
+================================================== */
+
+/* Tablets e Celulares Maiores (até 900px) */
+@media (max-width: 900px) {
+  /* Navbar: Empilha logo, busca e usuário */
+  .container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .search-container {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .search-container input {
+    width: 100%; /* Ocupa a largura toda disponível */
+  }
+
+  .user-icon {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+}
+
+/* Celulares (até 768px) */
+@media (max-width: 768px) {
+  :root {
+    --font-title: 1.75rem;
+    --font-subtitle: 1.25rem;
+  }
+  
+  /* Ajuste no Banner de Perfil */
+  .perfil-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: -60px; /* Ajuste para centralizar foto */
+  }
+
+  .perfil-info {
+    width: 100%;
+  }
+
+  .btn-excluir {
+    position: relative;
+    top: 0;
+    right: 0;
+    margin-top: 1rem;
+    display: block;
+  }
+
+  /* Grid de receitas do feed no perfil */
+  .feed-receitas {
+    justify-content: center;
+  }
+  
+  .receita-feed-img {
+    width: 140px;
+    height: 140px;
+  }
+}
+
+/* Celulares Pequenos (até 480px) */
+@media (max-width: 480px) {
+  /* Categorias: Diminui tamanho dos ícones */
+  .categorias-container {
+    gap: 1rem;
+    padding: 1rem;
+  }
+  
+  .btn-categoria img, .categoria img {
+    width: 60px;
+    height: 60px;
+  }
+
+  /* Cards de Receita: Ficam 100% da tela */
+  .receita-card {
+    width: 100%;
+    max-width: 340px; /* Limite para não ficar gigante */
+    height: auto;
+    aspect-ratio: 3/4; /* Mantém proporção */
+  }
+
+  .receita-feed-img {
+    width: 100%; /* No perfil, imagem ocupa largura total */
+    height: auto;
+    aspect-ratio: 1/1;
+  }
+
+  /* Ajustes Navbar */
+  .logo {
+    font-size: 1.2rem;
+    align-self: flex-start;
+  }
+
+  .user-icon {
+    top: 0.8rem;
+  }
+  
+  .perfil-container {
+    padding: 1rem;
+  }
+}

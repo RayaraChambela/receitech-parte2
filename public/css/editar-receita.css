@@ -1,3 +1,6 @@
+/* =========================
+   VARIÁVEIS GLOBAIS
+========================= */
 :root {
   --bg-color: #FFE3CD;
   --navbar-color: #FEC89A;
@@ -24,14 +27,19 @@ html, body {
   height: 100%;
 }
 
-/* fundo da página de edição – estilo “sem fundo escuro”, só uma cor lisa */
+/* =========================
+   FUNDO DA PÁGINA (WRAPPER)
+========================= */
 .editar-bg {
   min-height: 100vh;
-  background-color: #9b8a7a;  /* tom parecido com o print do pop-up */
+  background-color: #9b8a7a;  /* Fundo escuro/liso */
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 40px 16px;
+  align-items: center; /* Centraliza verticalmente */
+  padding: 20px; /* Padding reduzido para mobile */
+  
+  /* Garante scroll se a tela for pequena */
+  overflow-y: auto; 
 }
 
 /* wrapper que centraliza o card */
@@ -39,66 +47,90 @@ html, body {
   width: 100%;
   display: flex;
   justify-content: center;
+  margin: auto; /* Ajuda no flexbox */
 }
 
-/* card que parece pop-up */
+/* =========================
+   CARD DO MODAL
+========================= */
 .editar-modal-card {
-  width: min(780px, 100%);
+  width: 100%;
+  max-width: 600px; /* Largura máxima controlada */
   background: #FEE1C9;
   border-radius: 16px;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
-  padding: 24px 32px 20px;
+  padding: 2rem 2.5rem; /* Padding interno confortável */
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
-/* topo do card: título + X */
+/* Topo: Título + Fechar */
 .editar-modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 3px solid #FEC89A;
-  padding-bottom: 10px;
-  margin-bottom: 18px;
+  border-bottom: 2px solid #FEC89A;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
 }
 
 .editar-modal-header h1 {
   font-size: 1.25rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-color);
+  margin: 0;
 }
 
 .editar-close-btn {
   border: none;
   background: transparent;
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   line-height: 1;
   cursor: pointer;
   color: var(--text-color);
+  padding: 5px; /* Área de toque */
+  transition: opacity 0.2s;
 }
 
-/* campos do formulário */
+.editar-close-btn:hover {
+  opacity: 0.7;
+}
+
+/* =========================
+   FORMULÁRIO
+========================= */
 .campo-form {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  margin-bottom: 12px;
+  gap: 6px;
+  margin-bottom: 16px;
 }
 
 .campo-form label {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 600;
   color: var(--text-color);
+  margin-left: 2px;
 }
 
 .campo-form input,
 .campo-form textarea {
   border-radius: 10px;
-  border: none;
-  padding: 10px 12px;
+  border: 1px solid transparent; /* Prepara para o focus */
+  padding: 12px;
   font-size: 0.95rem;
   background-color: var(--search-bg);
   color: var(--text-color);
   outline: none;
+  width: 100%;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.campo-form input:focus,
+.campo-form textarea:focus {
+  background-color: #fff;
+  border-color: var(--navbar-color);
 }
 
 .campo-form input::placeholder,
@@ -108,57 +140,99 @@ html, body {
 
 .campo-form textarea {
   resize: vertical;
-  min-height: 80px;
+  min-height: 100px;
 }
 
-/* ações (botões) */
+/* =========================
+   BOTÕES DE AÇÃO
+========================= */
 .acoes-form {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
-  margin-top: 16px;
+  margin-top: 24px;
 }
 
 .btn-principal {
   border: none;
-  border-radius: 999px;
-  padding: 8px 22px;
+  border-radius: 25px;
+  padding: 10px 24px;
   background: var(--navbar-color);
   color: var(--text-color);
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.12);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.15s ease, background-color 0.15s;
 }
 
 .btn-principal:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.18);
+  transform: translateY(-2px);
+  filter: brightness(0.95);
 }
 
 .btn-secundario {
-  border-radius: 999px;
-  padding: 8px 20px;
-  border: 1px solid var(--placeholder);
+  border-radius: 25px;
+  padding: 10px 20px;
+  border: 1px solid var(--text-color); /* Borda mais visível */
   background: transparent;
   color: var(--text-color);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
+  font-weight: 600;
   cursor: pointer;
   transition: background-color 0.15s ease;
 }
 
 .btn-secundario:hover {
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
-/* responsivo */
-@media (max-width: 600px) {
+/* =========================
+   RESPONSIVIDADE
+========================= */
+
+/* Tablets (até 768px) */
+@media (max-width: 768px) {
   .editar-modal-card {
-    padding: 18px 16px 16px;
+    padding: 1.5rem;
+    max-width: 90%;
+  }
+}
+
+/* Celulares (até 480px) */
+@media (max-width: 480px) {
+  .editar-bg {
+    padding: 10px;
+    align-items: flex-start; /* Permite scroll se o teclado subir */
+  }
+
+  .editar-modal-card {
+    padding: 1.2rem;
+    border-radius: 12px;
   }
 
   .editar-modal-header h1 {
     font-size: 1.1rem;
+  }
+
+  /* Ajuste para inputs no mobile */
+  .campo-form input,
+  .campo-form textarea {
+    font-size: 1rem; /* 16px evita zoom automático no iOS */
+    padding: 10px;
+  }
+
+  /* Botões empilhados */
+  .acoes-form {
+    flex-direction: column-reverse; /* Cancelar embaixo, Salvar em cima */
+    gap: 10px;
+    width: 100%;
+  }
+
+  .btn-principal,
+  .btn-secundario {
+    width: 100%; /* Largura total */
+    text-align: center;
+    padding: 12px; /* Botão mais alto para o dedo */
   }
 }
