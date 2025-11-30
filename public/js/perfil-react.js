@@ -166,22 +166,16 @@ function PopupEditarPerfil({
     e.preventDefault();
 
     const updateData = {
-      // O backend pode usar o email original para identificar o usuário
       emailOriginal: usuario.email, 
       name: nome,
       email: email,
-      // A senha só é enviada se preenchida
       password: senha || undefined, 
     };
 
     try {
-      // Sua lógica original do JS puro apenas atualizava o localStorage,
-      // mas para ser robusto, implementamos aqui a comunicação com o backend
-      // para salvar o perfil, análogo à lógica de avatar.
       
-      // OBS: Assumindo um endpoint de API para atualizar o perfil
       const res = await fetch('/usuario/perfil', {
-        method: 'PUT', // ou POST/PATCH, dependendo da sua API
+        method: 'PUT', 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updateData),
       });
@@ -200,18 +194,6 @@ function PopupEditarPerfil({
       onClose();
     } catch (err) {
       console.error(err);
-      // Mantendo a lógica de fallback da versão JS pura (apenas local)
-      // Se não houver endpoint de API, o código abaixo seria o fallback:
-      /*
-      const novoUsuario = { ...usuario };
-      if (nome) novoUsuario.name = nome;
-      if (email) novoUsuario.email = email;
-      if (senha) novoUsuario.password = senha; 
-
-      localStorage.setItem('usuario', JSON.stringify(novoUsuario));
-      onUpdateUsuario(novoUsuario);
-      onClose();
-      */
       alert('Erro ao salvar alterações do perfil.');
     }
   };
@@ -475,12 +457,8 @@ function PerfilApp({ initialUsuario, initialToken }) {
 const rootElement = document.getElementById('perfil-root');
 
 if (rootElement) {
-  // Acesso seguro aos dados
   const props = window.__PERFIL_PROPS__ || {}; 
 
-  // Se a página de perfil é carregada, e os dados são null,
-  // significa que a lógica de JS puro de redirecionamento falhou
-  // ou os dados foram perdidos. O componente fará o redirecionamento.
   
   const root = ReactDOM.createRoot(rootElement);
   root.render(
@@ -490,6 +468,5 @@ if (rootElement) {
     />
   );
 } else {
-    // Adicione um log de erro no console para debug
     console.error("Elemento 'perfil-root' não encontrado no DOM. O React não pode ser montado.");
 }
