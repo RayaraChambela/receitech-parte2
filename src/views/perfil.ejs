@@ -14,6 +14,7 @@
 
   <%- include('partials/_navbar') %>
 
+<<<<<<< HEAD
   <main>
     <div class="perfil-container">
       
@@ -53,6 +54,18 @@
     <div class="feed-receitas" id="feed-usuario">
       </div>
 
+=======
+  <main class="perfil-container">
+    <div id="perfil-root"></div> 
+
+    <script>
+      const usuarioData = localStorage.getItem('usuario');
+      window.__PERFIL_PROPS__ = {
+        token: localStorage.getItem('token'),
+        usuario: usuarioData ? JSON.parse(usuarioData) : null,
+      };
+    </script>
+>>>>>>> e13c9f992b746eaa2d0ba5c1dc1636eb79b78c00
   </main>
 
   <div class="popup-overlay" id="popup-foto">
@@ -119,8 +132,18 @@
 
   <script src="/js/categorias.js"></script>
   <script src="/js/navbar.js"></script>
-  <script src="/js/perfil.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script> 
+
+  <script type="text/babel" src="/js/perfil-react.js"></script>
+  <script src="/js/perfil-react.js"></script> 
 
 </body>
 </html>
