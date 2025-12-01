@@ -1,0 +1,46 @@
+* [33m1735625[m[33m ([m[1;31mupstream/main[m[33m)[m Relogio do card ajustado
+* [33m50ca745[m pesquisa funcionando
+*   [33mae13522[m Merge branch 'main' of https://github.com/RayaraChambela/receitech-parte2
+[32m|[m[33m\[m  
+[32m|[m *   [33mf581219[m Merge pull request #2 from livia-mendez/main
+[32m|[m [34m|[m[35m\[m  
+[32m|[m [34m|[m * [33m1efe9ab[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m alteração no código de perfil-react
+[32m|[m * [35m|[m [33m64ee11c[m Update README.md
+* [35m|[m [35m|[m [33md4bb300[m Atualização
+[35m|[m[35m/[m [35m/[m  
+* [35m|[m [33m0df76ee[m Responsividade
+* [35m|[m   [33m31ddf6e[m Merge branch 'main' of https://github.com/RayaraChambela/receitech-parte2
+[36m|[m[1;31m\[m [35m\[m  
+[36m|[m * [35m|[m [33me13c9f9[m Merge pull request #1 from livia-mendez/main
+[36m|[m [1;32m|[m[35m\[m[35m|[m 
+[36m|[m [1;32m|[m * [33m2c39ab9[m Aplicação de React
+[36m|[m [1;32m|[m[1;32m/[m  
+* [1;32m|[m [33m455637c[m Att
+* [1;32m|[m [33m52944f0[m Merge branch 'main' of https://github.com/RayaraChambela/receitech-parte2
+[1;34m|[m[1;32m\[m[1;32m|[m 
+[1;34m|[m * [33madd6800[m adicionando react nas categorias
+[1;34m|[m * [33m7ef14f9[m transformando footer em componente reutilizavel
+[1;34m|[m * [33m713b88f[m navbar ajustada e categorias 100%
+[1;34m|[m * [33me444d90[m ajustando categorias na navbar e página de categorias
+* [1;35m|[m [33m2fb03b3[m NV
+* [1;35m|[m [33mc5dea81[m ND
+[1;35m|[m[1;35m/[m  
+* [33mc04aeb8[m começando a ajustar categorias
+* [33m73b2100[m ajustando receita que tinha dado problema, mas ainda falta ajustar o tempo que está esquisito
+* [33m0f25e1d[m Home completa
+* [33md7a0dff[m Update README with installation instructions
+* [33m53f79ea[m arquivo-banco
+* [33m671c3ee[m perfil publico funcionando
+* [33m5af5bfb[m crud de receitas completo, começando a ajustar categorias, ajustando perfil-publico
+* [33mb3bb3c2[m comentários funcionando corretamente, e adicionando funcionalidades de editar e excluir receitas
+* [33ma9fc084[m adicionando seção de comentários - parte 1
+* [33m760a329[m perfil quase 100% e começo do ajuste nas páginas de receita
+* [33ma2551d2[m login e cadastro funcionando, inserir e excluir imagem de perfil também
+* [33m7261ad9[m adição das imagens padrão do sistema, nova opção de deslogar da conta, ajustes da página de perfil e excluir conta com erros
+* [33m567ff98[m Add Trello link to README
+* [33mdf9b3a5[m criação do banco de dados, cadastro funcionando
+* [33mdb451a9[m Add team members to README
+* [33m4b6e5c6[m Add initial documentation link to README
+* [33m6bbe954[m adaptando primeira parte do frontend
+* [33m56e52fe[m estrutura das páginas
+* [33m2cdad97[m Initial commit

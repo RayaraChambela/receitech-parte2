@@ -44,26 +44,32 @@ main {
 /* =========================
    BOTÃO VOLTAR
 ========================= */
+
 .voltar-container {
   position: absolute;
-  top: 1.5rem;
-  left: 1.5rem;
+  top: 1.8rem;
+  left: 2.2rem;
   z-index: 5;
+  background-color: transparent;
+  border: none; /* se quiser tirar a borda também */
+  cursor: pointer;  
+
 }
 
 .voltar {
-  background: none;
-  border: none;
+  background-color: transparent;
+  border: none; /* se quiser tirar a borda também */
   cursor: pointer;
-  padding: 5px; /* Área de toque melhor */
-  display: flex;
-  align-items: center;
 }
 
 .voltar img {
-  width: 25px;
-  height: auto;
+  width: clamp(18px, 5vw, 28px); /* Redimensiona automaticamente */
   transition: transform 0.2s;
+  position: relative;
+  top: 5px;
+  background-color: transparent;
+  border: none; /* se quiser tirar a borda também */
+  cursor: pointer;  
 }
 
 .voltar:hover img {
@@ -77,9 +83,10 @@ main {
   font-size: 1.8rem;
   font-weight: 700;
   color: var(--text-color);
-  margin-bottom: 2rem;
-  padding-left: 0.5rem;
+  padding-left: 1rem;
   line-height: 1.2;
+  position: relative;
+  bottom: 30px;
 }
 
 /* =========================
@@ -228,6 +235,7 @@ main {
   .voltar-container {
     top: 1rem;
     left: 1rem;
+
   }
 }
 

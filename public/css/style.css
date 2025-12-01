@@ -304,13 +304,16 @@ main {
 
 .voltar {
     display: inline-block;
-    margin: 20px 0 0 20px;
+    margin: 93px 0 0 27px;
     background: none;
     border: none;
     font-size: 1rem;
     cursor: pointer;
     color: var(--text-color);
     text-decoration: underline;
+    background-color: transparent;
+    border: none; /* se quiser tirar a borda também */
+    cursor: pointer;
 }
 
 .voltar:hover {

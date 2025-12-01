@@ -55,12 +55,18 @@ main {
   border: none;
   cursor: pointer;
   padding: 5px; /* Aumenta área de toque */
+  background-color: transparent;
+  border: none; /* se quiser tirar a borda também */
+  cursor: pointer;
 }
 
 .voltar img {
   width: 25px;
   height: auto;
   transition: transform 0.2s;
+  background-color: transparent;
+  border: none; /* se quiser tirar a borda também */
+  cursor: pointer;
 }
 
 .voltar:hover img {
