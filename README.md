@@ -13,7 +13,6 @@ O passo a passo completo está disponível no documento abaixo:
 
 O arquivo do layout da aplicação e o documento contendo as receitas para realização de testes estão disponíveis no Google Drive. Como esses arquivos são grandes, optamos por mantê-los fora do repositório.
 
-👉 Acessar arquivos:
-https://drive.google.com/drive/folders/1YA4o5hlG7nCh0t-49X7lMNrR460LvKH9?usp=drive_link
+Acessar arquivos: https://drive.google.com/drive/folders/1YA4o5hlG7nCh0t-49X7lMNrR460LvKH9?usp=drive_link
 
 👥 Integrantes do Projeto: Rayara Chambela, Igor Mazeti, Lívia Mendes
