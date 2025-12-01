@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (nomeUsuarioEl) nomeUsuarioEl.textContent = usuario.name || 'Usuário';
   if (emailUsuarioEl) emailUsuarioEl.textContent = usuario.email || '';
 
-  // Foto do usuário (prioriza avatar_url salvo no BD)
   if (usuario.avatar_url && imgPerfilEl) {
     imgPerfilEl.src = usuario.avatar_url;
   } else if (imgPerfilEl) {
@@ -65,7 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.target === popupFoto) fecharPopupFoto();
   });
 
-  // Preview local antes de enviar
   inputImagem?.addEventListener('change', () => {
     const file = inputImagem.files[0];
     if (!file || !previewFoto) return;
@@ -77,7 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
     reader.readAsDataURL(file);
   });
 
-  // REMOVER FOTO DE PERFIL (envia DELETE pro backend com email)
   btnExcluirFoto?.addEventListener('click', async (e) => {
     e.preventDefault();
 
@@ -103,11 +100,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // atualiza objeto usuario vindo do backend (avatar_url = null)
       usuario = data.user;
       localStorage.setItem('usuario', JSON.stringify(usuario));
 
-      // volta para a imagem padrão em todos os lugares
       if (imgPerfilEl) imgPerfilEl.src = '/assets/icon-img-perfil.png';
       if (previewFoto) previewFoto.src = '/assets/icon-img-perfil.png';
 
@@ -123,7 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // SALVAR FOTO → envia para backend com FormData
   btnSalvarFoto?.addEventListener('click', async (e) => {
     e.preventDefault();
 
@@ -140,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const formData = new FormData();
     formData.append('avatar', file);
-    formData.append('email', usuario.email); // identifica o usuário no backend
+    formData.append('email', usuario.email); 
 
     try {
       const res = await fetch('/usuario/avatar', {
@@ -214,7 +208,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.target === popupEditar) fecharPopupEditar();
   });
 
-  // Editar perfil (ainda localStorage por enquanto)
   formEditar?.addEventListener('submit', (e) => {
     e.preventDefault();
 
