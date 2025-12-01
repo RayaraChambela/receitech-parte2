@@ -33,13 +33,11 @@ exports.create = async (req, res) => {
       author_name,
       author_email,
       servings,
-      user_id,        // virá do front, se quiser usar
+      user_id,
     } = req.body;
 
-    // pega o user id do body ou fixa em 1 se não vier
     const userId = user_id || 1;
 
-    // valida campos mínimos
     if (!title || !category || !description) {
       return res
         .status(400)
@@ -52,17 +50,13 @@ exports.create = async (req, res) => {
         .json({ error: 'Usuário da receita não informado.' });
     }
 
-    // trata imagem (multer preenche req.file)
     let coverImage = null;
     if (req.file) {
-      // se vier via .single('image')
       coverImage = `/uploads/recipes/${req.file.filename}`;
     } else if (req.files && req.files.length > 0) {
-      // se vier via .any()
       coverImage = `/uploads/recipes/${req.files[0].filename}`;
     }
 
-    // converte ingredientes e passos (vêm como JSON.stringfy([]) do front)
     let ingredientsArr = [];
     let stepsArr = [];
 
@@ -87,7 +81,6 @@ exports.create = async (req, res) => {
         .json({ error: 'Informe pelo menos uma etapa de preparo.' });
     }
 
-    // gera slug único
     const slug = generateSlug(title);
 
     const recipe = await Recipe.create({
@@ -107,7 +100,6 @@ exports.create = async (req, res) => {
       author_email: author_email || null,
     });
 
-    // front espera { recipe: { id: ... } }
     return res.status(201).json({ recipe });
   } catch (err) {
     console.error('Erro ao criar receita:', err);
@@ -117,13 +109,11 @@ exports.create = async (req, res) => {
 
 /**
  * GET /receitas/:id
- * Mostra a receita em uma página
  */
 exports.show = async (req, res) => {
   try {
     const id = req.params.id;
 
-    // 1) Busca só a receita
     const recipeInstance = await Recipe.findByPk(id);
 
     if (!recipeInstance) {
@@ -132,7 +122,6 @@ exports.show = async (req, res) => {
 
     const recipe = recipeInstance.toJSON();
 
-    // 2) Busca o usuário dono da receita (se tiver user_id)
     let author = null;
     if (recipe.user_id) {
       author = await User.findByPk(recipe.user_id, {
@@ -140,7 +129,6 @@ exports.show = async (req, res) => {
       });
     }
 
-    // helper para normalizar arrays
     const normalizeFieldToArray = (field) => {
       if (!field) return [];
       if (Array.isArray(field)) return field;
@@ -159,13 +147,11 @@ exports.show = async (req, res) => {
     recipe.ingredients = normalizeFieldToArray(recipe.ingredients);
     recipe.steps = normalizeFieldToArray(recipe.steps);
 
-    // 3) Comentários
     const comments = await Comment.findAll({
       where: { recipe_id: id },
       order: [['created_at', 'ASC']],
     });
 
-    // 4) Renderiza já passando nome + avatar do autor
     return res.render('receita', {
       title: recipe.title,
       recipe: {
@@ -182,12 +168,8 @@ exports.show = async (req, res) => {
   }
 };
 
-
-
-
 /**
  * GET /receitas/:id/editar
- * Mostra formulário para editar a receita
  */
 exports.editForm = async (req, res) => {
   try {
@@ -230,9 +212,7 @@ exports.editForm = async (req, res) => {
   }
 };
 
-
-
-// POST /receitas/:id/comentarios
+// COMENTÁRIOS (mesmo código que você já tinha)
 exports.addComment = async (req, res) => {
   try {
     const recipeId = req.params.id;
@@ -260,7 +240,6 @@ exports.addComment = async (req, res) => {
   }
 };
 
-// PUT /receitas/:id/comentarios/:commentId
 exports.updateComment = async (req, res) => {
   try {
     const recipeId = req.params.id;
@@ -277,7 +256,6 @@ exports.updateComment = async (req, res) => {
       return res.status(404).json({ error: 'Comentário não encontrado.' });
     }
 
-    // 🔒 Só o dono pode editar
     if (String(comment.user_id) !== String(user_id)) {
       return res.status(403).json({ error: 'Você não tem permissão para editar este comentário.' });
     }
@@ -292,7 +270,6 @@ exports.updateComment = async (req, res) => {
   }
 };
 
-// DELETE /receitas/:id/comentarios/:commentId
 exports.deleteComment = async (req, res) => {
   try {
     const recipeId = req.params.id;
@@ -305,7 +282,6 @@ exports.deleteComment = async (req, res) => {
       return res.status(404).json({ error: 'Comentário não encontrado.' });
     }
 
-    // 🔒 Só o dono pode excluir
     if (String(comment.user_id) !== String(user_id)) {
       return res.status(403).json({ error: 'Você não tem permissão para excluir este comentário.' });
     }
@@ -319,9 +295,6 @@ exports.deleteComment = async (req, res) => {
   }
 };
 
-/**
- * (Opcional) listar receitas em uma página de lista
- */
 exports.list = async (req, res) => {
   try {
     const recipes = await Recipe.findAll({
@@ -338,10 +311,6 @@ exports.list = async (req, res) => {
   }
 };
 
-/**
- * GET /receitas/usuario/:userId
- * Retorna as receitas de um usuário específico (JSON)
- */
 exports.listByUser = async (req, res) => {
   try {
     const userId = req.params.userId;
@@ -364,8 +333,7 @@ exports.listByUser = async (req, res) => {
 
 /**
  * PUT /receitas/:id
- * Atualiza uma receita (servidor confere se o user é o dono)
- * OBS: aqui só deixei preparado; você pode ligar isso à tela de edição depois
+ * Atualiza uma receita (com imagem opcional)
  */
 exports.update = async (req, res) => {
   try {
@@ -393,9 +361,15 @@ exports.update = async (req, res) => {
       return res.status(404).json({ error: 'Receita não encontrada.' });
     }
 
-    // 🔒 Só o dono pode editar
     if (String(recipe.user_id) !== String(user_id)) {
       return res.status(403).json({ error: 'Você não tem permissão para editar esta receita.' });
+    }
+
+    let newCoverImage = recipe.cover_image;
+    if (req.file) {
+      newCoverImage = `/uploads/recipes/${req.file.filename}`;
+    } else if (req.files && req.files.length > 0) {
+      newCoverImage = `/uploads/recipes/${req.files[0].filename}`;
     }
 
     let ingredientsArr = recipe.ingredients;
@@ -431,6 +405,7 @@ exports.update = async (req, res) => {
     recipe.prep_time_min = prep_time_min ?? recipe.prep_time_min;
     recipe.tip = tip ?? recipe.tip;
     recipe.servings = servings ?? recipe.servings;
+    recipe.cover_image = newCoverImage;
 
     await recipe.save();
 
@@ -441,10 +416,6 @@ exports.update = async (req, res) => {
   }
 };
 
-/**
- * DELETE /receitas/:id
- * Exclui uma receita (só o autor)
- */
 exports.delete = async (req, res) => {
   try {
     const id = req.params.id;
@@ -460,7 +431,6 @@ exports.delete = async (req, res) => {
       return res.status(404).json({ error: 'Receita não encontrada.' });
     }
 
-    // 🔒 Só o dono pode excluir
     if (String(recipe.user_id) !== String(user_id)) {
       return res.status(403).json({ error: 'Você não tem permissão para excluir esta receita.' });
     }

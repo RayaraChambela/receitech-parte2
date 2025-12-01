@@ -29,8 +29,12 @@ router.get('/usuario/:userId', recipeController.listByUser);
 // formulário de edição
 router.get('/:id/editar', recipeController.editForm);
 
-// atualizar receita
-router.put('/:id', recipeController.update);
+// atualizar receita (1 imagem opcional, campo "image")
+router.put(
+  '/:id',
+  uploadRecipe.single('image'),
+  recipeController.update
+);
 
 // excluir receita
 router.delete('/:id', recipeController.delete);

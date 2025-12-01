@@ -196,7 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
     listaPreparo.appendChild(input);
   };
 
-  // essas funções só avançam etapa (se quiser guardar estado no futuro, dá pra evoluir)
+  // essas funções só avançam etapa
   window.salvarEtapa2 = function () {
     window.proximaEtapa();
   };
@@ -209,12 +209,18 @@ document.addEventListener('DOMContentLoaded', () => {
     window.proximaEtapa();
   };
 
-  // ===== FINALIZAR (PUT /receitas/:id) =====
+  // ===== FINALIZAR (PUT /receitas/:id) – COM IMAGEM (FormData) =====
   window.finalizarReceita = async function () {
     const inputNome = document.getElementById('nome');
     const textareaSobre = document.getElementById('sobre');
     const inputTempo = document.getElementById('tempo-preparo');
     const textareaDica = document.getElementById('dica');
+    const inputImagem = document.getElementById('imagem-receita');
+
+    if (!inputNome || !selectCategoria || !textareaSobre) {
+      alert('Erro interno no formulário. Tente recarregar a página.');
+      return;
+    }
 
     const nome = inputNome.value.trim();
     const categoria = selectCategoria.value.trim();
@@ -247,29 +253,36 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const payload = {
-      user_id: usuario.id,
-      title: nome,
-      category: categoria,
-      subcategory: selectSubcategoria.value || null,
-      description: sobre,
-      ingredients: JSON.stringify(ingredientesArr),
-      steps: JSON.stringify(passosArr),
-      prep_time_min: inputTempo.value.trim() || null,
-      tip: textareaDica.value.trim() || null,
-      // por enquanto não estamos mexendo com porções nem imagem aqui
-    };
+    // Monta FormData em vez de JSON
+    const formData = new FormData();
+    formData.append('user_id', String(usuario.id));
+    formData.append('title', nome);
+    formData.append('category', categoria);
+    formData.append('subcategory', selectSubcategoria?.value || '');
+    formData.append('description', sobre);
+    formData.append('ingredients', JSON.stringify(ingredientesArr));
+    formData.append('steps', JSON.stringify(passosArr));
+    formData.append('prep_time_min', inputTempo?.value.trim() || '');
+    formData.append('tip', textareaDica?.value.trim() || '');
+
+    // Só envia arquivo se o usuário escolheu uma nova imagem
+    if (inputImagem && inputImagem.files && inputImagem.files[0]) {
+      // IMPORTANTE: campo "image", igual ao multer
+      formData.append('image', inputImagem.files[0]);
+    }
 
     try {
       const resp = await fetch(`/receitas/${recipeId}`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
+        body: formData, // NÃO colocar Content-Type aqui
       });
 
-      const data = await resp.json().catch(() => ({}));
+      let data = {};
+      try {
+        data = await resp.json();
+      } catch (e) {
+        // se a API não devolver JSON, ignora
+      }
 
       if (!resp.ok) {
         alert(data.error || 'Erro ao atualizar receita.');

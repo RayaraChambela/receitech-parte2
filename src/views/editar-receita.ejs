@@ -1,189 +1,195 @@
-<%- include('partials/_head') %>
-<link rel="stylesheet" href="/css/nova-receita.css">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
-  <main>
-    <div class="overlay">
-      <div class="card-cadastro" data-recipe-id="<%= recipe.id %>">
-        
-        <div class="header-card">
-          <p id="titulo-etapa">Editar receita</p>
-          <span class="fechar" onclick="fecharModal()">✕</span>
-        </div>
-
-        <div class="conteudo">
-          <div class="custom-progress">
-            <div class="progress-bar" role="progressbar"></div>
-            <div class="bolinha"></div>
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <%- include('partials/_head') %>
+    <link rel="stylesheet" href="/css/nova-receita.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <main>
+      <div class="overlay">
+        <div class="card-cadastro" data-recipe-id="<%= recipe.id %>">
+          
+          <div class="header-card">
+            <p id="titulo-etapa">Editar receita</p>
+            <span class="fechar" onclick="fecharModal()">✕</span>
           </div>
 
-          <!-- ============ ETAPA 1 ============ -->
-          <div id="etapa-1">
-            <label for="nome">Nome da receita:</label>
-            <input
-              type="text"
-              id="nome"
-              autocomplete="off"
-              value="<%= recipe.title %>"
-            >
+          <div class="conteudo">
+            <div class="custom-progress">
+              <div class="progress-bar" role="progressbar"></div>
+              <div class="bolinha"></div>
+            </div>
 
-            <label for="categoria">Categoria:</label>
-            <select id="categoria">
-              <option value="">Selecione</option>
-              <option value="Bolos e tortas" <%= recipe.category === 'Bolos e tortas' ? 'selected' : '' %>>Bolos e tortas</option>
-              <option value="Carnes" <%= recipe.category === 'Carnes' ? 'selected' : '' %>>Carnes</option>
-              <option value="Aves" <%= recipe.category === 'Aves' ? 'selected' : '' %>>Aves</option>
-              <option value="Peixes e frutos do mar" <%= recipe.category === 'Peixes e frutos do mar' ? 'selected' : '' %>>Peixes e frutos do mar</option>
-              <option value="Saladas e molhos" <%= recipe.category === 'Saladas e molhos' ? 'selected' : '' %>>Saladas e molhos</option>
-              <option value="Sopas" <%= recipe.category === 'Sopas' ? 'selected' : '' %>>Sopas</option>
-              <option value="Massas" <%= recipe.category === 'Massas' ? 'selected' : '' %>>Massas</option>
-              <option value="Bebidas" <%= recipe.category === 'Bebidas' ? 'selected' : '' %>>Bebidas</option>
-              <option value="Lanches" <%= recipe.category === 'Lanches' ? 'selected' : '' %>>Lanches</option>
-              <option value="Doces e sobremesas" <%= recipe.category === 'Doces e sobremesas' ? 'selected' : '' %>>Doces e sobremesas</option>
-              <option value="Alimentação saudável" <%= recipe.category === 'Alimentação saudável' ? 'selected' : '' %>>Alimentação saudável</option>
-            </select>
+            <!-- ============ ETAPA 1 ============ -->
+            <div id="etapa-1">
+              <label for="nome">Nome da receita:</label>
+              <input
+                type="text"
+                id="nome"
+                autocomplete="off"
+                value="<%= recipe.title %>"
+              >
 
-            <label for="subcategoria">Subcategoria:</label>
-            <select
-              id="subcategoria"
-              disabled
-              data-subcategoria-salva="<%= recipe.subcategory || '' %>"
-            >
-              <option value="">Selecione a categoria primeiro</option>
-            </select>
+              <label for="categoria">Categoria:</label>
+              <select id="categoria">
+                <option value="">Selecione</option>
+                <option value="Bolos e tortas" <%= recipe.category === 'Bolos e tortas' ? 'selected' : '' %>>Bolos e tortas</option>
+                <option value="Carnes" <%= recipe.category === 'Carnes' ? 'selected' : '' %>>Carnes</option>
+                <option value="Aves" <%= recipe.category === 'Aves' ? 'selected' : '' %>>Aves</option>
+                <option value="Peixes e frutos do mar" <%= recipe.category === 'Peixes e frutos do mar' ? 'selected' : '' %>>Peixes e frutos do mar</option>
+                <option value="Saladas e molhos" <%= recipe.category === 'Saladas e molhos' ? 'selected' : '' %>>Saladas e molhos</option>
+                <option value="Sopas" <%= recipe.category === 'Sopas' ? 'selected' : '' %>>Sopas</option>
+                <option value="Massas" <%= recipe.category === 'Massas' ? 'selected' : '' %>>Massas</option>
+                <option value="Bebidas" <%= recipe.category === 'Bebidas' ? 'selected' : '' %>>Bebidas</option>
+                <option value="Lanches" <%= recipe.category === 'Lanches' ? 'selected' : '' %>>Lanches</option>
+                <option value="Doces e sobremesas" <%= recipe.category === 'Doces e sobremesas' ? 'selected' : '' %>>Doces e sobremesas</option>
+                <option value="Alimentação saudável" <%= recipe.category === 'Alimentação saudável' ? 'selected' : '' %>>Alimentação saudável</option>
+              </select>
 
-            <label for="sobre">Sobre a receita:</label>
-            <textarea
-              id="sobre"
-              maxlength="500"
-              rows="4"
-              placeholder="Descreva brevemente sua receita"
-            ><%= recipe.description || '' %></textarea>
+              <label for="subcategoria">Subcategoria:</label>
+              <select
+                id="subcategoria"
+                disabled
+                data-subcategoria-salva="<%= recipe.subcategory || '' %>"
+              >
+                <option value="">Selecione a categoria primeiro</option>
+              </select>
 
-            <div class="botoes">
-              <div class="botoes-esquerda"></div>
-              <div class="botoes-direita">
-                <button type="button" onclick="proximaEtapa()">Próximo</button>
+              <label for="sobre">Sobre a receita:</label>
+              <textarea
+                id="sobre"
+                maxlength="500"
+                rows="4"
+                placeholder="Descreva brevemente sua receita"
+              ><%= recipe.description || '' %></textarea>
+
+              <div class="botoes">
+                <div class="botoes-esquerda"></div>
+                <div class="botoes-direita">
+                  <button type="button" onclick="proximaEtapa()">Próximo</button>
+                </div>
               </div>
             </div>
+
+            <% 
+              const ingredientesArr = Array.isArray(ingredientes) ? ingredientes : [];
+              const passosArr = Array.isArray(passos) ? passos : [];
+            %>
+
+            <!-- ============ ETAPA 2 ============ -->
+            <div id="etapa-2" style="display:none;">
+              <p class="inserir" onclick="adicionarIngrediente()">+ Inserir ingrediente</p>
+              <div id="lista-ingredientes">
+                <% if (ingredientesArr.length) { %>
+                  <% ingredientesArr.forEach(function(ing, index) { %>
+                    <input
+                      type="text"
+                      class="ingrediente-input"
+                      placeholder="<%= (index + 1) + ' -' %>"
+                      value="<%= ing %>"
+                    >
+                  <% }) %>
+                <% } else { %>
+                  <input type="text" class="ingrediente-input" placeholder="1 -">
+                  <input type="text" class="ingrediente-input" placeholder="2 -">
+                <% } %>
+              </div>
+
+              <div class="botoes">
+                <div class="botoes-esquerda">
+                  <button type="button" class="btn-voltar" onclick="voltarEtapa()">← Voltar</button>
+                </div>
+                <div class="botoes-direita">
+                  <button type="button" onclick="salvarEtapa2()">Próximo</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- ============ ETAPA 3 ============ -->
+            <div id="etapa-3" style="display:none;">
+              <p class="inserir" onclick="adicionarEtapaPreparo()">+ Inserir etapa de preparo</p>
+              <div id="lista-preparo">
+                <% if (passosArr.length) { %>
+                  <% passosArr.forEach(function(step, index) { %>
+                    <input
+                      type="text"
+                      class="preparo-input"
+                      placeholder="<%= (index + 1) + ' -' %>"
+                      value="<%= step %>"
+                    >
+                  <% }) %>
+                <% } else { %>
+                  <input type="text" class="preparo-input" placeholder="1 -">
+                  <input type="text" class="preparo-input" placeholder="2 -">
+                <% } %>
+              </div>
+
+              <label for="tempo-preparo">Tempo de Preparo:</label>
+              <input
+                type="text"
+                id="tempo-preparo"
+                placeholder="Ex: 30 min"
+                value="<%= recipe.prep_time_min || '' %>"
+              >
+
+              <div class="botoes">
+                <div class="botoes-esquerda">
+                  <button type="button" class="btn-voltar" onclick="voltarEtapa()">← Voltar</button>
+                </div>
+                <div class="botoes-direita">
+                  <button type="button" onclick="salvarEtapa3()">Próximo</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- ============ ETAPA 4 ============ -->
+            <div id="etapa-4" style="display:none;">
+              <label for="dica">Dica do chef:</label>
+              <textarea
+                id="dica"
+                rows="5"
+                maxlength="500"
+                placeholder="Máximo 150 caracteres"
+              ><%= recipe.tip || '' %></textarea>
+
+              <div class="botoes">
+                <div class="botoes-esquerda">
+                  <button type="button" class="btn-voltar" onclick="voltarEtapa()">← Voltar</button>
+                </div>
+                <div class="botoes-direita">
+                  <button type="button" onclick="salvarEtapa4()">Próximo</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- ============ ETAPA 5 ============ -->
+            <div id="etapa-5" style="display:none;">
+              <label for="imagem-receita">Foto da receita:</label>
+              <div id="lista-imagens">
+                <input
+                  type="file"
+                  id="imagem-receita"
+                  name="image"
+                  accept="image/*"
+                >
+              </div>
+
+              <div class="botoes">
+                <div class="botoes-esquerda">
+                  <button type="button" class="btn-voltar" onclick="voltarEtapa()">← Voltar</button>
+                </div>
+                <div class="botoes-direita">
+                  <button type="button" onclick="finalizarReceita()">Salvar alterações</button>
+                </div>
+              </div>
+            </div>
+
           </div>
-
-          <% 
-            // garante arrays pra preencher etapa 2 e 3
-            const ingredientesArr = Array.isArray(ingredientes) ? ingredientes : [];
-            const passosArr = Array.isArray(passos) ? passos : [];
-          %>
-
-          <!-- ============ ETAPA 2 ============ -->
-          <div id="etapa-2" style="display:none;">
-            <p class="inserir" onclick="adicionarIngrediente()">+ Inserir ingrediente</p>
-            <div id="lista-ingredientes">
-              <% if (ingredientesArr.length) { %>
-                <% ingredientesArr.forEach(function(ing, index) { %>
-                  <input
-                    type="text"
-                    class="ingrediente-input"
-                    placeholder="<%= (index + 1) + ' -' %>"
-                    value="<%= ing %>"
-                  >
-                <% }) %>
-              <% } else { %>
-                <input type="text" class="ingrediente-input" placeholder="1 -">
-                <input type="text" class="ingrediente-input" placeholder="2 -">
-              <% } %>
-            </div>
-
-            <div class="botoes">
-              <div class="botoes-esquerda">
-                <button type="button" class="btn-voltar" onclick="voltarEtapa()">← Voltar</button>
-              </div>
-              <div class="botoes-direita">
-                <button type="button" onclick="salvarEtapa2()">Próximo</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- ============ ETAPA 3 ============ -->
-          <div id="etapa-3" style="display:none;">
-            <p class="inserir" onclick="adicionarEtapaPreparo()">+ Inserir etapa de preparo</p>
-            <div id="lista-preparo">
-              <% if (passosArr.length) { %>
-                <% passosArr.forEach(function(step, index) { %>
-                  <input
-                    type="text"
-                    class="preparo-input"
-                    placeholder="<%= (index + 1) + ' -' %>"
-                    value="<%= step %>"
-                  >
-                <% }) %>
-              <% } else { %>
-                <input type="text" class="preparo-input" placeholder="1 -">
-                <input type="text" class="preparo-input" placeholder="2 -">
-              <% } %>
-            </div>
-
-            <label for="tempo-preparo">Tempo de Preparo:</label>
-            <input
-              type="text"
-              id="tempo-preparo"
-              placeholder="Ex: 30 min"
-              value="<%= recipe.prep_time_min || '' %>"
-            >
-
-            <div class="botoes">
-              <div class="botoes-esquerda">
-                <button type="button" class="btn-voltar" onclick="voltarEtapa()">← Voltar</button>
-              </div>
-              <div class="botoes-direita">
-                <button type="button" onclick="salvarEtapa3()">Próximo</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- ============ ETAPA 4 ============ -->
-          <div id="etapa-4" style="display:none;">
-            <label for="dica">Dica do chef:</label>
-            <textarea
-              id="dica"
-              rows="5"
-              maxlength="500"
-              placeholder="Máximo 150 caracteres"
-            ><%= recipe.tip || '' %></textarea>
-
-            <div class="botoes">
-              <div class="botoes-esquerda">
-                <button type="button" class="btn-voltar" onclick="voltarEtapa()">← Voltar</button>
-              </div>
-              <div class="botoes-direita">
-                <button type="button" onclick="salvarEtapa4()">Próximo</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- ============ ETAPA 5 ============ -->
-          <div id="etapa-5" style="display:none;">
-            <label for="imagem-receita">Foto da receita:</label>
-            <div id="lista-imagens">
-              <!-- por enquanto, só deixa o input. A edição de imagem a gente trata depois -->
-              <input type="file" accept="image/*">
-            </div>
-
-            <div class="botoes">
-              <div class="botoes-esquerda">
-                <button type="button" class="btn-voltar" onclick="voltarEtapa()">← Voltar</button>
-              </div>
-              <div class="botoes-direita">
-                <button type="button" onclick="finalizarReceita()">Salvar alterações</button>
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
-    </div>
-  </main>
+    </main>
 
-  <script src="/js/editar-receita.js" defer></script>
-</body>
+    <script src="/js/editar-receita.js" defer></script>
+  </body>
 </html>
