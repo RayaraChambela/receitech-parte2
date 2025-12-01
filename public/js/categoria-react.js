@@ -1,6 +1,6 @@
 // public/js/categoria-react.js
 
-// ajudante pra deixar o código menos feio
+// Ajudante pra deixar o código menos feio
 const e = React.createElement;
 
 function formatTempoJS(min) {
@@ -47,24 +47,47 @@ function CategoriaPage(props) {
                 window.location.href = `/receitas/${recipe.id}`;
               }
             },
-            e('img', {
-              src: recipe.cover_image || '/assets/imagem-padrao.png',
-              alt: recipe.title
-            }),
-            e(
-              'div',
-              { className: 'card-receita-conteudo' },
-              e('h3', { title: recipe.title }, recipe.title),
+            [
+              // Imagem de capa
+              e('img', {
+                key: 'img',
+                src: recipe.cover_image || '/assets/imagem-padrao.png',
+                alt: recipe.title || ''
+              }),
+
+              // Conteúdo do card
               e(
                 'div',
-                { className: 'tempo' },
-                e('img', {
-                  src: '/assets/icon-tempo.svg',
-                  alt: 'Tempo'
-                }),
-                e('span', null, formatTempoJS(recipe.prep_time_min))
+                { key: 'conteudo', className: 'card-receita-conteudo' },
+                [
+                  e(
+                    'h3',
+                    { key: 'titulo', title: recipe.title || '' },
+                    recipe.title || ''
+                  ),
+
+                  // Linha do tempo (ícone + texto)
+                  e(
+                    'div',
+                    { key: 'tempo', className: 'tempo' },
+                    [
+                      e('img', {
+                        key: 'icone-tempo',
+                        // 🔴 IMPORTANTE: esse arquivo PRECISA existir em public/assets
+                        // exemplo: public/assets/icon-tempo-novo.svg
+                        src: '/assets/icon-tempo-novo.svg',
+                        alt: 'Tempo'
+                      }),
+                      e(
+                        'span',
+                        { key: 'tempo-texto' },
+                        formatTempoJS(recipe.prep_time_min)
+                      )
+                    ]
+                  )
+                ]
               )
-            )
+            ]
           )
         );
 
@@ -80,6 +103,7 @@ function CategoriaPage(props) {
   );
 }
 
+// Montar na página
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('categoria-root');
   if (!container) return;

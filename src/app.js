@@ -15,7 +15,7 @@ const recipeRoutes = require('./routes/recipe.routes');
 const categoryRoutes = require('./routes/category.routes');
 const authRoutes = require('./routes/auth.routes');
 const usuarioRoutes = require('./routes/usuarioRoutes');
-const pesquisaRoutes = require('./routes/resultado-pesquisa.routes.');
+const pesquisaRoutes = require('./routes/resultado-pesquisa.routes');
 
 // =======================
 // VIEW ENGINE

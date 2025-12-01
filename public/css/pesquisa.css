@@ -54,7 +54,7 @@ main {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 5px; /* Aumenta área de toque */
+  padding: 5px;
 }
 
 .voltar img {
@@ -64,18 +64,18 @@ main {
 }
 
 .voltar:hover img {
-  transform: translateX(-3px); /* Efeitinho de "voltar" */
+  transform: translateX(-3px);
 }
 
 /* =========================
    TÍTULO
 ========================= */
-#titulo-pesquisa {
+#titulo-categoria {
   font-size: 1.8rem;
   font-weight: 700;
   color: var(--text-color);
   margin-bottom: 2rem;
-  padding-left: 0.5rem; /* Alinhamento visual com os cards */
+  padding-left: 0.5rem;
 }
 
 /* =========================
@@ -83,7 +83,6 @@ main {
 ========================= */
 .resultados-container {
   display: grid;
-  /* Cria colunas automáticas com largura mínima de 220px */
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 1.5rem;
   padding-bottom: 2rem;
@@ -101,130 +100,14 @@ main {
   flex-direction: column;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
-  width: 100%; /* Ocupa 100% da célula do grid */
+  width: 100%;
 }
 
 .card-receita:hover {
-  transform: translateY(-5px); /* Sobe um pouquinho */
+  transform: translateY(-5px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-.card-receita img {
-  width: 100%;
-  height: 200px; /* Altura padrão */
-  object-fit: cover;
-}
-
-.card-receita-conteudo {
-  padding: 1rem;
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  flex: 1; /* Garante que o conteúdo ocupe o espaço restante */
-}
-
-.card-receita h3 {
-  font-size: 1rem;
-  color: var(--text-color);
-  margin: 0;
-  font-weight: 700;
-  text-align: left;
-  
-  /* Lógica para cortar texto muito longo (...) */
-  display: -webkit-box;
-  -webkit-line-clamp: 2; /* Limita a 2 linhas */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: normal; /* Permite quebrar linha se couber */
-}
-
-.card-receita .tempo {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.85rem;
-  color: var(--text-color);
-  font-weight: 600;
-  margin-top: auto; /* Empurra o tempo para o rodapé do card */
-  opacity: 0.8;
-}
-
-.card-receita .tempo img {
-  width: 16px;
-  height: 16px;
-}
-
-/* =========================
-   RESPONSIVIDADE
-========================= */
-
-/* Tablets (até 1024px) */
-@media (max-width: 1024px) {
-  main {
-    padding: 70px 40px 40px 40px;
-  }
-  
-  .resultados-container {
-    gap: 1rem;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  }
-  
-  .card-receita img {
-    height: 160px;
-  }
-}
-
-/* Celulares (até 600px) */
-@media (max-width: 600px) {
-  main {
-    padding: 70px 20px 20px 20px; /* Menos padding lateral */
-  }
-
-  #titulo-pesquisa {
-    font-size: 1.4rem;
-    margin-bottom: 1.5rem;
-    text-align: center; /* Centraliza título no mobile */
-    padding-left: 0;
-  }
-
-  .resultados-container {
-    /* Força 2 colunas no celular */
-    grid-template-columns: 1fr 1fr;
-    gap: 10px; /* Gap menor para caber melhor */
-  }
-
-  .card-receita {
-    border-radius: 8px; /* Bordas um pouco menos arredondadas */
-  }
-
-  .card-receita img {
-    height: 130px; /* Imagem menor */
-  }
-
-  .card-receita-conteudo {
-    padding: 0.8rem;
-  }
-
-  .card-receita h3 {
-    font-size: 0.85rem;
-    line-height: 1.3;
-  }
-
-  .card-receita .tempo {
-    font-size: 0.75rem;
-  }
-  
-  .voltar-container {
-    top: 1rem;
-    left: 1rem;
-  }
-}
-
-/* Celulares muito pequenos (iPhone SE antigo e similares) */
-@media (max-width: 350px) {
-  .resultados-container {
-    grid-template-columns: 1fr; /* Vira 1 coluna só se for muito estreito */
-  }
-}
+/* só a IMAGEM DE CAPA do card */
+.card-receita > img {
+  width: 10

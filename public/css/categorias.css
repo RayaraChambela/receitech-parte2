@@ -114,7 +114,7 @@ main {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-.card-receita img {
+.card-receita > img {
   width: 100%;
   height: 200px;
   object-fit: cover;
@@ -162,6 +162,7 @@ main {
 .card-receita-conteudo .tempo img {
   width: 16px;
   height: 16px;
+  object-fit: contain;
 }
 
 /* =========================
