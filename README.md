@@ -11,7 +11,7 @@ O passo a passo completo está disponível no documento abaixo:
 
 🎨 Layout (Figma) e Documentação com Receitas
 
-O arquivo do layout da aplicação e o documento contendo as receitas utilizadas nos testes estão disponíveis no Google Drive.
+O arquivo do layout da aplicação e o documento contendo as receitas para realização de testes estão disponíveis no Google Drive.
 
 Como esses arquivos são grandes, optamos por mantê-los fora do repositório.
 
