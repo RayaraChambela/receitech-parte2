@@ -1,5 +1,5 @@
 /* =========================
-   VARIÁVEIS GLOBAIS
+   1. VARIÁVEIS GLOBAIS
 ========================= */
 :root {
   --bg-color: #FFE3CD;
@@ -8,6 +8,8 @@
   --text-color: #5B5B5B;
   --placeholder: #BBBBBB;
   --lighter-grey: #e6e6e6;
+  --hover: rgb(0, 68, 255);
+  --bolinha-color: #FFB088;
 
   --font-title: 2rem;
   --font-subtitle: 1.5rem;
@@ -17,15 +19,19 @@
   --font-small: 0.75rem;
 }
 
+/* =========================
+   2. RESET & CONFIGURAÇÕES BASE
+========================= */
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  box-sizing: border-box; /* Essencial para responsividade */
   font-family: 'Montserrat', sans-serif;
 }
 
 html, body {
   min-height: 100%;
+  width: 100%;
 }
 
 body {
@@ -33,38 +39,41 @@ body {
   color: var(--text-color);
   display: flex;
   flex-direction: column;
-  overflow-x: hidden;
+  overflow-x: hidden; /* Evita rolagem horizontal indesejada */
+}
+
+main {
+  flex: 1;
+  width: 100%;
+  margin-top: 0; /* Garante que não haja espaço acima do main */
+  padding-top: 0;
 }
 
 p {
   color: var(--text-color);
 }
 
-main {
-  flex: 1;
-}
-
 /* =========================
-   BANNER E FOTO DE PERFIL (CORRIGIDO)
+   3. BANNER E FOTO DE PERFIL
 ========================= */
-
-/* Container Pai: Define a altura da área do banner */
 .perfil-container {
   position: relative;
   width: 100%;
-  height: 200px; /* Altura fixa no Desktop */
-  margin-bottom: 0; 
+  height: 200px; /* Altura do banner no Desktop */
+  margin-top: 0;
+  padding-top: 0;
+  margin-bottom: 0;
 }
 
-/* Banner: Ocupa a largura total da tela */
+/* Banner Grudado na Navbar */
 .perfil-banner {
   position: absolute;
   top: 0;
   left: 50%;
-  transform: translateX(-50%); /* Centraliza */
-  width: 100vw; /* Largura da viewport */
-  height: 100%; /* 100% dos 200px do pai */
-  background-color: #ccc; 
+  transform: translateX(-50%);
+  width: 100vw; /* Garante largura total da tela */
+  height: 100%;
+  background-color: #ccc;
   z-index: 1;
 }
 
@@ -75,42 +84,28 @@ main {
   display: block;
 }
 
-/* Wrapper da Foto */
+/* Foto de Perfil */
 .perfil-foto {
   position: absolute;
-  top: 100%; /* Começa exatamente onde o banner termina */
+  top: 100%; /* Posiciona exatamente na linha inferior do banner */
   left: 50%;
-  transform: translate(-50%, -50%); /* Centraliza no meio da linha */
-  
-  /* Tamanho FIXO do container */
+  transform: translate(-50%, -50%);
   width: 180px;
   height: 180px;
-  
   z-index: 10;
 }
 
-/* A Imagem Redonda */
 #img-perfil {
-  /* Força a imagem a respeitar o tamanho do pai (180px) */
-  width: 100% !important; 
+  width: 100% !important;
   height: 100% !important;
-  
-  /* Garante o formato redondo */
   border-radius: 50%;
-  
-  /* Borda branca grossa */
   border: 5px solid var(--bg-color);
-  
-  /* Corta a imagem para caber no círculo sem deformar */
   object-fit: cover;
-  
-  /* Garante fundo branco caso a imagem seja PNG transparente */
   background-color: #fff;
-  
   display: block;
 }
 
-/* Botão da Câmera (Posicionado em relação à .perfil-foto) */
+/* Botão da Câmera */
 .camera-btn {
   position: absolute;
   bottom: 5px;
@@ -120,12 +115,9 @@ main {
   border-radius: 50%;
   width: 40px;
   height: 40px;
-  
-  /* Flexbox apenas para centralizar o ícone da câmera */
   display: flex;
   align-items: center;
   justify-content: center;
-  
   cursor: pointer;
   z-index: 11;
   transition: 0.3s;
@@ -141,11 +133,10 @@ main {
 }
 
 /* =========================
-   INFORMAÇÕES DO USUÁRIO
+   4. INFORMAÇÕES DO USUÁRIO
 ========================= */
-
 .perfil-info {
-  margin-top: 100px; 
+  margin-top: 100px; /* Espaço para a foto que vazou do banner */
   text-align: center;
   padding: 0 1rem;
   position: relative;
@@ -179,7 +170,7 @@ main {
 }
 
 /* =========================
-   BOTÃO NOVO POST & STATS
+   5. AÇÕES E FEED (GRID)
 ========================= */
 .post-header {
   display: flex;
@@ -196,7 +187,7 @@ main {
   cursor: pointer;
   color: #fff;
   font-weight: 600;
-  background-color: var(--navbar-color); /* Laranja */
+  background-color: var(--navbar-color);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -213,21 +204,18 @@ main {
   width: 20px;
 }
 
-/* =========================
-   FEED DE RECEITAS (GRID)
-========================= */
 .feed-receitas {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 Colunas no PC */
+  grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
   max-width: 900px;
-  margin: 0 auto 3rem; /* Centraliza e dá margem no fundo */
+  margin: 0 auto 3rem;
   padding: 0 1rem;
 }
 
 .receita-post {
   width: 100%;
-  aspect-ratio: 1 / 1; /* Mantém quadrado */
+  aspect-ratio: 1 / 1;
   overflow: hidden;
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
@@ -247,105 +235,194 @@ main {
 }
 
 /* =========================
-   POPUPS (MODAIS)
+   6. ESTILIZAÇÃO DE FORMULÁRIOS & SELECTS
+   (Design bonito e moderno)
 ========================= */
-.popup-overlay {
+
+/* Inputs de Texto */
+input[type="text"], 
+input[type="email"], 
+input[type="password"], 
+textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  font-size: 1rem;
+  background-color: var(--search-bg);
+  color: var(--text-color);
+  outline: none;
+  transition: all 0.2s;
+}
+
+input:focus, textarea:focus {
+  background-color: #fff;
+  border-color: var(--navbar-color);
+}
+
+/* SELECT CUSTOMIZADO (COM SETA SVG) */
+select {
+  /* Remove estilo padrão feio */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  width: 100%;
+  padding: 12px 40px 12px 15px; /* Espaço extra na direita para seta */
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background-color: var(--search-bg);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-color);
+  cursor: pointer;
+  
+  /* Seta SVG Personalizada */
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235B5B5B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 16px;
+  
+  transition: all 0.2s;
+}
+
+select:hover {
+  background-color: #fff;
+  border: 1px solid var(--navbar-color);
+}
+
+select:focus {
+  outline: none;
+  background-color: #fff;
+  border-color: var(--navbar-color);
+  box-shadow: 0 0 0 4px rgba(254, 200, 154, 0.3);
+}
+
+/* Ajuste das Opções da Lista (Cores) */
+select option {
+  background-color: var(--search-bg);
+  color: var(--text-color);
+  padding: 15px;
+  font-size: 1rem;
+}
+
+/* =========================
+   7. MODAIS (POPUPS)
+========================= */
+.popup-overlay, .overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.6);
-  display: none; /* Controlado via JS */
+  z-index: 1000;
+  
+  /* Centralização com Scroll */
+  display: none; /* JS controla o display flex */
   justify-content: center;
   align-items: center;
-  z-index: 1000;
   padding: 1rem;
+  overflow-y: auto;
 }
 
-.popup, .popup-editar {
+/* Classe auxiliar para exibir overlay via JS */
+.popup-overlay.ativo {
+  display: flex;
+}
+
+/* Ajuste para telas paisagem/baixas */
+@media (max-height: 700px) {
+  .popup-overlay, .overlay {
+    align-items: flex-start;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+}
+
+.popup, .popup-editar, .card-cadastro {
   background-color: var(--bg-color);
   border-radius: 12px;
   width: 100%;
-  max-width: 400px;
+  max-width: 500px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
-  padding: 1.5rem;
+  padding: 2rem;
   position: relative;
-  max-height: 90vh;
-  overflow-y: auto; /* Permite rolar se for pequeno */
+  margin: auto;
 }
 
 /* Header do Popup */
-.popup-header, #navbar-popup {
+.popup-header, .header-card {
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 2px solid var(--navbar-color);
-  padding-bottom: 10px;
-  margin-bottom: 15px;
-  width: 100%;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
 }
 
-.popup-header h3, .centered-text {
-  font-size: 1.2rem;
+.popup-header h3, .header-card h1 {
+  font-size: 1.25rem;
   font-weight: 700;
   margin: 0;
   color: var(--text-color);
 }
 
-.fechar-popup, .btn-fechar {
+.fechar-popup, .fechar, .editar-close-btn {
   background: none;
   border: none;
+  font-size: 1.8rem;
+  line-height: 1;
   cursor: pointer;
-  padding: 0;
-}
-
-.img-btn-sair {
-  width: 20px;
-}
-
-/* Inputs e Forms dentro do Popup */
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-label {
-  font-weight: 600;
-  font-size: 0.9rem;
-  margin-bottom: -5px;
-}
-
-input {
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
-  background-color: #fff;
+  color: var(--text-color);
+  padding: 5px;
 }
 
 /* Botões do Popup */
-.btn-salvar, #salvar {
-  background-color: #4CAF50;
+.btn-salvar, #salvar, .btn-principal {
+  background-color: #4CAF50; /* Verde sucesso */
   color: white;
   padding: 12px;
   border: none;
   border-radius: 8px;
   font-weight: bold;
   cursor: pointer;
-  margin-top: 15px;
+  margin-top: 20px;
   width: 100%;
   font-size: 1rem;
+  transition: transform 0.2s;
 }
 
-/* Upload de Imagem */
-.input-arquivo {
-  display: none;
+.btn-salvar:hover {
+  transform: translateY(-2px);
+  filter: brightness(0.95);
 }
 
+/* Botões Secundários */
+.btn-logout, .btn-excluir {
+  background: transparent;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100%;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.btn-logout {
+  border: 1px solid #F0AD4E;
+  color: #F0AD4E;
+}
+
+.btn-excluir {
+  border: 1px solid #D9534F;
+  color: #D9534F;
+}
+
+/* Upload de Imagem no Popup */
 .label-imagem {
   display: block;
   text-align: center;
@@ -355,6 +432,7 @@ input {
   border-radius: 8px;
   cursor: pointer;
   margin-top: 10px;
+  font-weight: 600;
 }
 
 .preview-wrapper {
@@ -369,58 +447,18 @@ input {
   border-radius: 50%;
   border: 3px solid #fff;
   object-fit: cover;
-}
-
-/* Área de Excluir */
-#excluir {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  color: #D9534F;
-  font-weight: 600;
-  font-size: 0.9rem;
-}
-
-.aviso {
-  margin-top: 1.5rem;
-  font-size: 0.85rem;
-  color: #A94442;
-  text-align: center;
-}
-
-.btn-logout, .btn-excluir {
-  background: transparent;
-  padding: 10px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-  width: 100%;
-  text-align: center;
-  margin-top: 8px;
-}
-
-.btn-logout {
-  border: 1px solid #F0AD4E;
-  color: #F0AD4E;
-}
-
-.btn-excluir {
-  border: 1px solid #D9534F;
-  color: #D9534F;
+  background-color: #fff;
 }
 
 /* =========================
-   MEDIA QUERIES (RESPONSIVIDADE)
+   8. MEDIA QUERIES (RESPONSIVIDADE)
 ========================= */
 
 /* Tablets (até 992px) */
 @media (max-width: 992px) {
   .perfil-container,
   .perfil-banner {
-    height: 160px; /* Banner menor */
+    height: 160px;
   }
   
   .perfil-foto {
@@ -429,13 +467,13 @@ input {
   }
   
   .perfil-info {
-    margin-top: 85px; /* Ajuste proporcional */
+    margin-top: 85px;
   }
 }
 
 /* Celulares (até 576px) */
 @media (max-width: 576px) {
-  /* 1. Ajuste de Banner e Foto */
+  /* Banner e Foto menores */
   .perfil-container,
   .perfil-banner {
     height: 130px;
@@ -450,25 +488,25 @@ input {
     margin-top: 75px; 
   }
 
-  /* 2. Texto e Botões */
   #nome-usuario {
     font-size: 1.5rem;
   }
 
-  .novo-post-btn {
-    width: 100%; /* Botão ocupa largura total */
-    justify-content: center;
-  }
-
-  /* 3. Grid de Receitas (2 colunas) */
+  /* Grid vira 2 colunas */
   .feed-receitas {
     grid-template-columns: repeat(2, 1fr);
     gap: 0.5rem;
   }
 
-  /* 4. Popups */
-  .popup, .popup-editar {
+  /* Popups em tela cheia (quase) */
+  .popup, .popup-editar, .card-cadastro {
     width: 100%;
-    border-radius: 15px; /* Borda arredondada no topo */
+    padding: 1.5rem;
+    border-radius: 12px;
+  }
+  
+  /* Botões ficam grandes para o dedo */
+  .btn-salvar, .btn-logout, .btn-excluir {
+    padding: 14px;
   }
 }

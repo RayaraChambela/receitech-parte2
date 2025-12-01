@@ -1,5 +1,5 @@
 /* =========================
-   VARIÁVEIS GLOBAIS
+   1. VARIÁVEIS GLOBAIS
 ========================= */
 :root {
   --bg-color: #FFE3CD;
@@ -20,14 +20,25 @@
 }
 
 /* =========================
-   RESET BÁSICO
+   2. RESET & CONFIGURAÇÕES BASE
 ========================= */
+/* CRÍTICO: Garante que padding e bordas não estourem a largura */
+*, *::before, *::after {
+  box-sizing: border-box; 
+}
+
 body, input, select, textarea, button {
   font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%; /* Garante altura para overlays */
 }
 
 /* =========================
-   ESTRUTURA DO MODAL (OVERLAY)
+   3. ESTRUTURA DO MODAL (OVERLAY)
 ========================= */
 .overlay {
   position: fixed;
@@ -35,21 +46,23 @@ body, input, select, textarea, button {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Um pouco mais escuro para foco */
-  z-index: 1000; /* Garante que fique acima de tudo */
+  background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro transparente */
+  z-index: 1000;
   
-  /* Configuração para SCROLL quando o modal for alto */
+  /* Centralização Flexbox */
   display: flex;
-  align-items: center; /* Centraliza verticalmente se couber */
   justify-content: center;
-  padding: 1rem;
-  overflow-y: auto; /* Permite rolar se o modal for maior que a tela */
+  align-items: center; 
+  padding: 1rem; /* Margem de segurança nas bordas */
+  
+  /* Permite scroll se a tela for muito pequena */
+  overflow-y: auto; 
 }
 
-/* Se o conteúdo for maior que a altura da tela, alinha ao topo */
+/* Ajuste para telas baixas (Modo paisagem ou laptops pequenos) */
 @media (max-height: 800px) {
   .overlay {
-    align-items: flex-start;
+    align-items: flex-start; /* Alinha ao topo para não cortar conteúdo */
     padding-top: 2rem;
     padding-bottom: 2rem;
   }
@@ -59,11 +72,13 @@ body, input, select, textarea, button {
   background-color: var(--bg-color);
   border-radius: 12px;
   width: 100%;
-  max-width: 600px;
+  max-width: 600px; /* Largura máxima em PC */
   position: relative;
-  overflow: hidden; /* Mantém o header dentro das bordas arredondadas */
+  overflow: hidden;
   box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-  margin: auto; /* Ajuda na centralização com flexbox */
+  margin: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .card-cadastro > .conteudo {
@@ -71,44 +86,54 @@ body, input, select, textarea, button {
 }
 
 /* =========================
-   HEADER DO MODAL
+   4. HEADER DO CARD
 ========================= */
 .header-card {
   background-color: var(--navbar-color);
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem;
+  padding: 1rem 3rem 1rem 1rem;
   color: var(--text-color);
   font-size: var(--font-regular);
   font-weight: 700;
   position: relative;
+  min-height: 60px;
 }
 
 .header-card p {
   margin: 0;
   text-align: center;
+  line-height: 1.4;
 }
 
 .fechar {
   cursor: pointer;
-  font-size: 1.5rem;
-  color: var(--text-color); /* Melhor contraste */
+  font-size: 1.8rem;
+  color: var(--text-color);
   position: absolute;
-  right: 1.2rem;
+  right: 1rem;
   top: 50%;
   transform: translateY(-50%);
-  padding: 5px; /* Área de clique melhor */
+  padding: 10px; /* Área de toque maior */
   line-height: 1;
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fechar:hover {
+  color: #000;
 }
 
 /* =========================
-   BARRA DE PROGRESSO
+   5. BARRA DE PROGRESSO
 ========================= */
 .custom-progress {
   position: relative;
-  height: 8px; /* Levemente mais alta */
-  background-color: #fff; /* Fundo branco destaca mais no bege */
+  height: 8px;
+  background-color: #fff;
   border-radius: 4px;
   margin: 0 0 1.5rem 0;
   width: 100%;
@@ -131,7 +156,7 @@ body, input, select, textarea, button {
   width: 16px;
   height: 16px;
   background-color: var(--bolinha-color);
-  border: 2px solid #fff; /* Borda branca para destacar */
+  border: 2px solid #fff;
   border-radius: 50%;
   transition: left 0.4s ease;
   z-index: 2;
@@ -139,27 +164,28 @@ body, input, select, textarea, button {
 }
 
 /* =========================
-   FORMULÁRIOS
+   6. FORMULÁRIOS (GERAL)
 ========================= */
 label {
   display: block;
   margin-top: 1.2rem;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.5rem;
   color: var(--text-color);
   font-size: 0.95rem;
   font-weight: 600;
 }
 
-input, select, textarea {
+input, textarea {
   width: 100%;
-  padding: 0.75rem; /* Mais espaço interno */
-  border: 1px solid transparent; /* Prepara para hover/focus */
-  border-radius: 8px;
+  padding: 0.8rem; /* Padding confortável */
+  border: 1px solid transparent;
+  border-radius: 10px;
   background-color: var(--search-bg);
   font-size: 1rem; /* 16px evita zoom no iOS */
   color: var(--text-color);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
   transition: all 0.2s;
+  -webkit-appearance: none;
 }
 
 textarea {
@@ -167,12 +193,57 @@ textarea {
   min-height: 80px;
 }
 
-input:focus, select:focus, textarea:focus {
+input:focus, textarea:focus {
   outline: none;
-  border-color: var(--navbar-color);
   background-color: #fff;
+  border-color: var(--navbar-color);
 }
 
+/* =========================
+   7. SELECT (CATEGORIA) - O NOVO DESIGN
+========================= */
+select {
+  /* Remove estilo padrão feio do navegador */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  width: 100%;
+  padding: 0.8rem 2.5rem 0.8rem 1rem; /* Espaço extra na direita para a seta */
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background-color: var(--search-bg);
+  font-size: 1rem;
+  color: var(--text-color);
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s;
+
+  /* Seta SVG Personalizada (Cinza Escuro) */
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235B5B5B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1rem;
+}
+
+/* Hover e Focus no Select */
+select:hover {
+  background-color: #fff;
+  border: 1px solid var(--navbar-color);
+}
+
+select:focus {
+  outline: none;
+  background-color: #fff;
+  border-color: var(--navbar-color);
+  /* Glow Laranja Suave */
+  box-shadow: 0 0 0 4px rgba(254, 200, 154, 0.3);
+}
+
+/* =========================
+   8. CAMPOS ESPECÍFICOS & BOTÕES
+========================= */
 .linha-dupla {
   display: flex;
   gap: 1rem;
@@ -180,6 +251,7 @@ input:focus, select:focus, textarea:focus {
 
 .linha-dupla .campo {
   flex: 1;
+  min-width: 0;
 }
 
 /* Inputs de listas dinâmicas */
@@ -197,15 +269,14 @@ input:focus, select:focus, textarea:focus {
   color: var(--text-color);
   font-weight: 600;
   font-size: var(--font-small);
+  padding: 5px 0;
 }
 
 .inserir:hover {
   color: var(--hover);
 }
 
-/* =========================
-   BOTÕES
-========================= */
+/* Container de Botões */
 .botoes {
   display: flex;
   justify-content: space-between;
@@ -220,17 +291,19 @@ input:focus, select:focus, textarea:focus {
   gap: 1rem;
 }
 
+/* Estilo dos Botões */
 button {
   background-color: var(--navbar-color);
   border: none;
-  padding: 0.7rem 2rem;
-  border-radius: 25px; /* Mais arredondado */
+  padding: 0.8rem 2rem;
+  border-radius: 50px; /* Redondo moderno */
   cursor: pointer;
   font-size: var(--font-navbar);
   font-weight: 600;
   color: var(--text-color);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s, background-color 0.2s;
+  white-space: nowrap;
 }
 
 button:hover:not(.btn-voltar) {
@@ -254,52 +327,66 @@ button:hover:not(.btn-voltar) {
 }
 
 /* =========================
-   RESPONSIVIDADE (MEDIA QUERIES)
+   9. RESPONSIVIDADE (MEDIA QUERIES)
 ========================= */
 
-/* Celulares e Tablets pequenos (até 600px) */
-@media (max-width: 600px) {
-  
+/* Tablets e Celulares Grandes (até 768px) */
+@media (max-width: 768px) {
   .card-cadastro {
-    width: 100%;
-    border-radius: 10px;
+    max-width: 100%;
+    margin: 0;
   }
 
   .card-cadastro > .conteudo {
-    padding: 1.5rem 1rem;
+    padding: 1.5rem;
   }
 
-  /* Faz campos duplos (lado a lado) ficarem um embaixo do outro */
+  /* Campos ficam um embaixo do outro */
   .linha-dupla {
     flex-direction: column;
     gap: 0;
   }
   
-  /* Organização dos botões no mobile */
+  /* Botões empilhados (UX Mobile) */
   .botoes {
-    flex-direction: column-reverse; /* Coloca o 'Voltar' embaixo */
-    gap: 1rem;
+    flex-direction: column-reverse; /* Voltar embaixo */
+    align-items: stretch;
+  }
+
+  .botoes-direita {
+    flex-direction: column;
     width: 100%;
   }
 
-  .botoes-direita, 
-  .botoes-esquerda {
+  .botoes-direita button, 
+  .botoes-esquerda button {
     width: 100%;
-    display: flex;
-    justify-content: center;
+    margin-bottom: 0.5rem;
   }
 
-  button, .btn-voltar {
+  .btn-voltar {
     width: 100%;
-    padding: 0.8rem; /* Botão mais alto para o dedo */
+    text-align: center;
+    padding: 1rem;
+  }
+}
+
+/* Celulares Pequenos (até 380px) */
+@media (max-width: 380px) {
+  .card-cadastro > .conteudo {
+    padding: 1rem 0.8rem;
   }
 
-  /* Ajuste título header */
   .header-card {
-    padding: 1rem 2.5rem 1rem 1rem; /* Espaço na direita pro X não ficar em cima do texto */
+    padding: 0.8rem 2.5rem 0.8rem 0.8rem;
+    font-size: 0.9rem;
   }
-  
-  .fechar {
-    right: 1rem;
+
+  label {
+    font-size: 0.85rem;
+  }
+
+  input, select, textarea {
+    padding: 0.6rem;
   }
 }
