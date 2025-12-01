@@ -1,13 +1,25 @@
 # receitech-parte2
 
-A aplicação é um site de receitas completo, onde usuários podem criar contas, publicar receitas com imagem, editar, excluir, comentar e navegar por categorias. O projeto segue arquitetura MVC, usa Node.js, Express, EJS e MySQL, além de incluir autenticação baseada em sessão, upload de imagens e frontend totalmente responsivo. O objetivo é demonstrar um CRUD completo na prática, integrando interface moderna com um backend estruturado e banco relacional.
+📌 Descrição do Projeto
 
-Instruções de instalação e execução: https://docs.google.com/document/d/1fCLrHfHRODl5mpBL5hWQajqdIZ6AfmsTWg1AmvJdShs/edit?usp=sharing
+A aplicação é um site de receitas completo, onde usuários podem criar contas, publicar receitas com imagem, editar, excluir, comentar e navegar por categorias. O projeto segue arquitetura MVC, utiliza Node.js, Express, EJS e MySQL, além de incluir autenticação baseada em sessão, upload de imagens e frontend totalmente responsivo. O objetivo é demonstrar um CRUD completo na prática, integrando uma interface moderna com um backend estruturado e banco de dados relacional.
 
-O arquivo com o layout do projeto (Figma) e a documentação com o conteúdo das receitas para realização de testes estão disponíveis no Google Drive.
+⚙️ Instruções de Instalação e Execução
 
-Optamos por manter esses arquivos no Drive pois, devido ao tamanho, não é conseguimos versioná-los diretamente no Git.
+O passo a passo completo está disponível no documento abaixo:
+👉 https://docs.google.com/document/d/1fCLrHfHRODl5mpBL5hWQajqdIZ6AfmsTWg1AmvJdShs/edit?usp=sharing
 
-Acesse os documentos: https://drive.google.com/drive/folders/1YA4o5hlG7nCh0t-49X7lMNrR460LvKH9?usp=drive_link
+🎨 Layout (Figma) e Documentação com Receitas
 
-Integrantes: Rayara Chambela, Igor Mazeti, Lívia Mendes
+O arquivo do layout da aplicação e o documento contendo as receitas utilizadas nos testes estão disponíveis no Google Drive.
+
+Como esses arquivos são grandes, optamos por mantê-los fora do repositório.
+
+👉 Acessar arquivos:
+https://drive.google.com/drive/folders/1YA4o5hlG7nCh0t-49X7lMNrR460LvKH9?usp=drive_link
+
+👥 Integrantes do Projeto
+
+Rayara Chambela
+Igor Mazeti
+Lívia Mendes
