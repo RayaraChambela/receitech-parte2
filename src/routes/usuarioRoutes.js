@@ -7,7 +7,7 @@ const upload = require('../config/multer');
 const User = require('../models/User');
 const fs = require('fs');
 const path = require('path');
-const { Recipe } = require('../db'); // já importa aqui
+const { Recipe } = require('../db');
 
 // ==========================
 // FUNÇÃO AUXILIAR: apagar arquivo antigo, se existir
@@ -33,6 +33,11 @@ function deleteAvatarFile(avatarUrl) {
 // EXCLUIR CONTA
 // ==========================
 router.delete('/excluir', usuarioController.excluirConta);
+
+// ==========================
+// ATUALIZAR PERFIL (POST /usuario/editar)
+// ==========================
+router.post('/editar', usuarioController.atualizarPerfil);
 
 // ==========================
 // SALVAR / ATUALIZAR AVATAR (POST /usuario/avatar)
@@ -136,7 +141,7 @@ router.get('/:id', async (req, res) => {
 
     return res.render('perfil-publico', {
       title: publicUser.name,
-      publicUser,   // 🔹 nome bate com o que o EJS espera
+      publicUser,
       recipes,
     });
   } catch (err) {

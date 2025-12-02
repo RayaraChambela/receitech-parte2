@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const formData = new FormData();
     formData.append('avatar', file);
-    formData.append('email', usuario.email); 
+    formData.append('email', usuario.email);
 
     try {
       const res = await fetch('/usuario/avatar', {
@@ -171,9 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // POPUP EDITAR PERFIL
   // ==============================
   const popupEditar = document.getElementById('popup-editar');
-  const btnOpenEditar =
-    document.getElementById('edit-perfil-link') ||
-    document.getElementById('edit-perfil');
+  const btnOpenEditar = document.getElementById('btn-open-editar');
   const btnCloseEditar = document.getElementById('close-editar');
   const formEditar = document.getElementById('form-editar-perfil');
   const inputNome = document.getElementById('nome');
@@ -185,8 +183,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function abrirPopupEditar() {
     if (!popupEditar) return;
     popupEditar.style.display = 'flex';
-    if (inputNome) inputNome.value = usuario.name;
-    if (inputEmail) inputEmail.value = usuario.email;
+    if (inputNome) inputNome.value = usuario.name || '';
+    if (inputEmail) inputEmail.value = usuario.email || '';
     if (inputSenha) inputSenha.value = '';
   }
 
@@ -208,23 +206,75 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.target === popupEditar) fecharPopupEditar();
   });
 
-  formEditar?.addEventListener('submit', (e) => {
+  // --------- EDITAR PERFIL (SALVA NO BANCO) ----------
+  formEditar?.addEventListener('submit', async (e) => {
     e.preventDefault();
+
+    if (!usuario.id) {
+      console.error('Usuário no localStorage está sem ID:', usuario);
+      alert('Erro: usuário sem ID. Faça login novamente.');
+      return;
+    }
 
     const novoNome = inputNome ? inputNome.value.trim() : '';
     const novoEmail = inputEmail ? inputEmail.value.trim() : '';
     const novaSenha = inputSenha ? inputSenha.value.trim() : '';
 
-    if (novoNome) usuario.name = novoNome;
-    if (novoEmail) usuario.email = novoEmail;
-    if (novaSenha) usuario.password = novaSenha;
+    const payload = {
+      id: usuario.id,
+      name: novoNome || usuario.name,
+      email: novoEmail || usuario.email,
+    };
 
-    localStorage.setItem('usuario', JSON.stringify(usuario));
+    if (novaSenha) {
+      payload.senha = novaSenha;
+    }
 
-    if (nomeUsuarioEl) nomeUsuarioEl.textContent = usuario.name;
-    if (emailUsuarioEl) emailUsuarioEl.textContent = usuario.email;
+    console.log('Enviando atualização de perfil:', payload);
 
-    fecharPopupEditar();
+    try {
+      const res = await fetch('/usuario/editar', {
+        method: 'POST', // usamos POST pra evitar treta com PUT
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const textoBruto = await res.text();
+      console.log('Status resposta /usuario/editar:', res.status, textoBruto);
+
+      let data = {};
+      try {
+        data = JSON.parse(textoBruto);
+      } catch (e) {
+        // resposta não é JSON
+      }
+
+      if (!res.ok) {
+        console.error('Erro ao atualizar perfil (HTTP):', data);
+        alert(data.error || 'Erro ao atualizar perfil.');
+        return;
+      }
+
+      if (!data.user) {
+        console.error('Resposta sem user:', data);
+        alert('Erro ao atualizar perfil.');
+        return;
+      }
+
+      // atualiza usuário local com o que voltou do back
+      usuario = data.user;
+      localStorage.setItem('usuario', JSON.stringify(usuario));
+
+      if (nomeUsuarioEl) nomeUsuarioEl.textContent = usuario.name;
+      if (emailUsuarioEl) emailUsuarioEl.textContent = usuario.email;
+
+      fecharPopupEditar();
+    } catch (err) {
+      console.error('Erro ao salvar perfil (fetch falhou):', err);
+      alert('Erro ao salvar perfil.');
+    }
   });
 
   // ==============================
@@ -302,7 +352,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const receitas = data.recipes || data.receitas || [];
 
       if (!receitas.length) {
-        feedContainer.innerHTML = '<p>Você ainda não publicou nenhuma receita.</p>';
+        feedContainer.innerHTML =
+          '<p>Você ainda não publicou nenhuma receita.</p>';
         return;
       }
 
@@ -328,8 +379,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   carregarReceitasUsuario();
-
-
 
   // ==============================
   // BOTÃO "NOVO POST" → nova receita
