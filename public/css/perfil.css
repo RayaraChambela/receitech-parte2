@@ -54,42 +54,43 @@ p {
 }
 
 /* =========================
-   3. BANNER E FOTO DE PERFIL
+   3. BANNER E FOTO DE PERFIL (CORRIGIDO)
 ========================= */
 .perfil-container {
   position: relative;
   width: 100%;
-  height: 200px;
+  /* Removemos a altura fixa do container para ele não travar o layout */
+  display: flex;
+  flex-direction: column;
   margin-top: 0;
   padding-top: 0;
   margin-bottom: 0;
 }
 
 .perfil-banner {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100vw;
-  height: 100%;
+  position: relative; /* Mudamos de absolute para relative */
+  width: 100%; /* Mudamos de 100vw para 100% para não estourar a tela */
+  height: 250px; /* A altura fixa fica no banner agora */
   background-color: #ccc;
-  z-index: 1;
+  overflow: hidden;
+  /* Removemos left: 50% e transform que estavam quebrando o layout */
 }
 
 #banner {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   display: block;
 }
 
 .perfil-foto {
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: relative; /* Mudamos de absolute para relative */
+  /* Removemos top, left e transform */
   width: 180px;
   height: 180px;
+  margin: 0 auto; /* Centraliza horizontalmente */
+  margin-top: -90px; /* Puxa a foto para cima (metade da altura) */
   z-index: 10;
 }
 
@@ -131,10 +132,11 @@ p {
 }
 
 /* =========================
-   4. INFORMAÇÕES DO USUÁRIO
+   4. INFORMAÇÕES DO USUÁRIO (CORRIGIDO)
 ========================= */
 .perfil-info {
-  margin-top: 100px;
+  /* Diminuímos a margem pois a foto agora ocupa espaço real */
+  margin-top: 15px; 
   text-align: center;
   padding: 0 1rem;
   position: relative;
@@ -147,6 +149,7 @@ p {
   justify-content: center;
   gap: 10px;
   margin-bottom: 0.5rem;
+  flex-wrap: wrap;
 }
 
 #nome-usuario {
@@ -444,10 +447,10 @@ select option {
 }
 
 /* =========================
-   8. MEDIA QUERIES (RESPONSIVIDADE)
+   8. MEDIA QUERIES (RESPONSIVIDADE - AJUSTADO)
 ========================= */
 @media (max-width: 992px) {
-  .perfil-container,
+  /* Alteramos o alvo para .perfil-banner, não container */
   .perfil-banner {
     height: 160px;
   }
@@ -455,15 +458,15 @@ select option {
   .perfil-foto {
     width: 150px;
     height: 150px;
+    margin-top: -75px; /* Ajuste da metade da nova altura */
   }
   
   .perfil-info {
-    margin-top: 85px;
+    margin-top: 15px; /* Mantém espaço pequeno */
   }
 }
 
 @media (max-width: 576px) {
-  .perfil-container,
   .perfil-banner {
     height: 130px;
   }
@@ -471,10 +474,11 @@ select option {
   .perfil-foto {
     width: 130px;
     height: 130px;
+    margin-top: -65px; /* Ajuste da metade */
   }
   
   .perfil-info {
-    margin-top: 75px; 
+    margin-top: 10px; 
   }
 
   #nome-usuario {
