@@ -25,7 +25,7 @@
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box; /* Essencial para responsividade */
+  box-sizing: border-box;
   font-family: 'Montserrat', sans-serif;
 }
 
@@ -39,13 +39,13 @@ body {
   color: var(--text-color);
   display: flex;
   flex-direction: column;
-  overflow-x: hidden; /* Evita rolagem horizontal indesejada */
+  overflow-x: hidden;
 }
 
 main {
   flex: 1;
   width: 100%;
-  margin-top: 0; /* Garante que não haja espaço acima do main */
+  margin-top: 0;
   padding-top: 0;
 }
 
@@ -59,19 +59,18 @@ p {
 .perfil-container {
   position: relative;
   width: 100%;
-  height: 200px; /* Altura do banner no Desktop */
+  height: 200px;
   margin-top: 0;
   padding-top: 0;
   margin-bottom: 0;
 }
 
-/* Banner Grudado na Navbar */
 .perfil-banner {
   position: absolute;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 100vw; /* Garante largura total da tela */
+  width: 100vw;
   height: 100%;
   background-color: #ccc;
   z-index: 1;
@@ -84,10 +83,9 @@ p {
   display: block;
 }
 
-/* Foto de Perfil */
 .perfil-foto {
   position: absolute;
-  top: 100%; /* Posiciona exatamente na linha inferior do banner */
+  top: 100%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 180px;
@@ -136,7 +134,7 @@ p {
    4. INFORMAÇÕES DO USUÁRIO
 ========================= */
 .perfil-info {
-  margin-top: 100px; /* Espaço para a foto que vazou do banner */
+  margin-top: 100px;
   text-align: center;
   padding: 0 1rem;
   position: relative;
@@ -236,10 +234,7 @@ p {
 
 /* =========================
    6. ESTILIZAÇÃO DE FORMULÁRIOS & SELECTS
-   (Design bonito e moderno)
 ========================= */
-
-/* Inputs de Texto */
 input[type="text"], 
 input[type="email"], 
 input[type="password"], 
@@ -260,15 +255,14 @@ input:focus, textarea:focus {
   border-color: var(--navbar-color);
 }
 
-/* SELECT CUSTOMIZADO (COM SETA SVG) */
+/* SELECT CUSTOMIZADO */
 select {
-  /* Remove estilo padrão feio */
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
 
   width: 100%;
-  padding: 12px 40px 12px 15px; /* Espaço extra na direita para seta */
+  padding: 12px 40px 12px 15px;
   border-radius: 10px;
   border: 1px solid transparent;
   background-color: var(--search-bg);
@@ -277,7 +271,6 @@ select {
   color: var(--text-color);
   cursor: pointer;
   
-  /* Seta SVG Personalizada */
   background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235B5B5B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
   background-repeat: no-repeat;
   background-position: right 15px center;
@@ -298,7 +291,6 @@ select:focus {
   box-shadow: 0 0 0 4px rgba(254, 200, 154, 0.3);
 }
 
-/* Ajuste das Opções da Lista (Cores) */
 select option {
   background-color: var(--search-bg);
   color: var(--text-color);
@@ -317,21 +309,17 @@ select option {
   height: 100%;
   background: rgba(0, 0, 0, 0.6);
   z-index: 1000;
-  
-  /* Centralização com Scroll */
-  display: none; /* JS controla o display flex */
+  display: none;
   justify-content: center;
   align-items: center;
   padding: 1rem;
   overflow-y: auto;
 }
 
-/* Classe auxiliar para exibir overlay via JS */
 .popup-overlay.ativo {
   display: flex;
 }
 
-/* Ajuste para telas paisagem/baixas */
 @media (max-height: 700px) {
   .popup-overlay, .overlay {
     align-items: flex-start;
@@ -382,7 +370,7 @@ select option {
 
 /* Botões do Popup */
 .btn-salvar, #salvar, .btn-principal {
-  background-color: #4CAF50; /* Verde sucesso */
+  background-color: #4CAF50;
   color: white;
   padding: 12px;
   border: none;
@@ -400,7 +388,6 @@ select option {
   filter: brightness(0.95);
 }
 
-/* Botões Secundários */
 .btn-logout, .btn-excluir {
   background: transparent;
   padding: 10px;
@@ -425,6 +412,7 @@ select option {
 /* Upload de Imagem no Popup */
 .label-imagem {
   display: block;
+  width: 100%;
   text-align: center;
   background-color: var(--navbar-color);
   color: #fff;
@@ -433,6 +421,11 @@ select option {
   cursor: pointer;
   margin-top: 10px;
   font-weight: 600;
+}
+
+/* esconde input nativo de arquivo */
+.input-arquivo {
+  display: none;
 }
 
 .preview-wrapper {
@@ -453,8 +446,6 @@ select option {
 /* =========================
    8. MEDIA QUERIES (RESPONSIVIDADE)
 ========================= */
-
-/* Tablets (até 992px) */
 @media (max-width: 992px) {
   .perfil-container,
   .perfil-banner {
@@ -471,9 +462,7 @@ select option {
   }
 }
 
-/* Celulares (até 576px) */
 @media (max-width: 576px) {
-  /* Banner e Foto menores */
   .perfil-container,
   .perfil-banner {
     height: 130px;
@@ -492,20 +481,17 @@ select option {
     font-size: 1.5rem;
   }
 
-  /* Grid vira 2 colunas */
   .feed-receitas {
     grid-template-columns: repeat(2, 1fr);
     gap: 0.5rem;
   }
 
-  /* Popups em tela cheia (quase) */
   .popup, .popup-editar, .card-cadastro {
     width: 100%;
     padding: 1.5rem;
     border-radius: 12px;
   }
   
-  /* Botões ficam grandes para o dedo */
   .btn-salvar, .btn-logout, .btn-excluir {
     padding: 14px;
   }
